@@ -1,0 +1,16 @@
+D:\codes\YunWeiTools\NetworkWatchDog\NetworkWatchDog\bin\Debug\net6.0-windows\NetworkWatchDog.exe
+D:\codes\YunWeiTools\NetworkWatchDog\NetworkWatchDog\bin\Debug\net6.0-windows\NetworkWatchDog.deps.json
+D:\codes\YunWeiTools\NetworkWatchDog\NetworkWatchDog\bin\Debug\net6.0-windows\NetworkWatchDog.runtimeconfig.json
+D:\codes\YunWeiTools\NetworkWatchDog\NetworkWatchDog\bin\Debug\net6.0-windows\NetworkWatchDog.dll
+D:\codes\YunWeiTools\NetworkWatchDog\NetworkWatchDog\bin\Debug\net6.0-windows\NetworkWatchDog.pdb
+D:\codes\YunWeiTools\NetworkWatchDog\NetworkWatchDog\obj\Debug\net6.0-windows\NetworkWatchDog.Form1.resources
+D:\codes\YunWeiTools\NetworkWatchDog\NetworkWatchDog\obj\Debug\net6.0-windows\NetworkWatchDog.csproj.GenerateResource.cache
+D:\codes\YunWeiTools\NetworkWatchDog\NetworkWatchDog\obj\Debug\net6.0-windows\NetworkWatchDog.GeneratedMSBuildEditorConfig.editorconfig
+D:\codes\YunWeiTools\NetworkWatchDog\NetworkWatchDog\obj\Debug\net6.0-windows\NetworkWatchDog.AssemblyInfoInputs.cache
+D:\codes\YunWeiTools\NetworkWatchDog\NetworkWatchDog\obj\Debug\net6.0-windows\NetworkWatchDog.AssemblyInfo.cs
+D:\codes\YunWeiTools\NetworkWatchDog\NetworkWatchDog\obj\Debug\net6.0-windows\NetworkWatchDog.csproj.CoreCompileInputs.cache
+D:\codes\YunWeiTools\NetworkWatchDog\NetworkWatchDog\obj\Debug\net6.0-windows\NetworkWatchDog.dll
+D:\codes\YunWeiTools\NetworkWatchDog\NetworkWatchDog\obj\Debug\net6.0-windows\refint\NetworkWatchDog.dll
+D:\codes\YunWeiTools\NetworkWatchDog\NetworkWatchDog\obj\Debug\net6.0-windows\NetworkWatchDog.pdb
+D:\codes\YunWeiTools\NetworkWatchDog\NetworkWatchDog\obj\Debug\net6.0-windows\NetworkWatchDog.genruntimeconfig.cache
+D:\codes\YunWeiTools\NetworkWatchDog\NetworkWatchDog\obj\Debug\net6.0-windows\ref\NetworkWatchDog.dll
