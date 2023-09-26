@@ -2,6 +2,8 @@ using System.Net.NetworkInformation;
 
 namespace NetworkWatchDog
 {
+    //todo ip和对应页面的绑定关系
+    //todo 长连接的保持
     public partial class Form1:Form
     {
         private List<IpAddress> ips = new List<IpAddress>();
@@ -10,7 +12,6 @@ namespace NetworkWatchDog
         {
             InitializeComponent();
 
-            ips.Add(new IpAddress("192.168.0.1"));
             ips.Add(new IpAddress("192.168.10.214"));
             ips.Add(new IpAddress("www.baidu.com"));
 
@@ -18,7 +19,7 @@ namespace NetworkWatchDog
 
             this.tabControl1.Controls.Clear();
 
-            TabPageInit();
+            //TabPageInit();
         }
 
         private void TabPageInit()
@@ -35,30 +36,16 @@ namespace NetworkWatchDog
                 tb.Controls.Add(rtb);
                 tabControl1.Controls.Add(tb);
 
-                while(true)
-                {
-                    p.SendAsync(a.Ip,1000); // 发送ping请求
-                    // 等待1秒
-                    System.Threading.Thread.Sleep(1000);
-                }
-
+                // while(true)
+                // {
+                p.SendAsync(a.Ip,1000); // 发送ping请求
+                // }
             }
         }
 
         private void timer1_Tick(object sender,EventArgs e)
         {
-            foreach(IpAddress ip in ips)
-            {
-                try
-                {
-                    //存在不同ip阻塞线程的问题  threadpool进行管理
-                    ip.rtb.AppendText(ip.GetCheck(timetrip));
-                }
-                catch
-                {
-                    //未配置对应ip
-                }
-            }
+
         }
 
         public void PingCompletedCallback(object sender,PingCompletedEventArgs e)
@@ -75,10 +62,14 @@ namespace NetworkWatchDog
             {
                 PingReply reply = e.Reply;
                 var a = ips.FindLast(x => x.Ip==reply.Address.ToString());
-                a.rtb.AppendText(a.GetCheck(1));
+                a.rtb.AppendText(a.GetCheck(100));
             }
         }
 
+        private void 开启pingToolStripMenuItem_Click(object sender,EventArgs e)
+        {
+            TabPageInit();
+        }
     }
 
     public class IpAddress
