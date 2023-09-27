@@ -1,14 +1,14 @@
+using System.Collections;
 using System.Data;
 using System.Globalization;
-
-using OfficeOpenXml;
+using System.Text;
 
 namespace GetPayMessageByALi
 {
+    //todo 拆分文件的错序问题
     public partial class Form1:Form
     {
         DateTime startDate = new DateTime(2023,1,1);
-        DateTime endDate = new DateTime(2023,12,31);
         DateTime firstDayOfWeek;
         DateTime lastDayOfWeek;
         public Form1()
@@ -22,7 +22,7 @@ namespace GetPayMessageByALi
             }
         }
 
-        DataTable dt = new DataTable();
+        System.Data.DataTable dt = new();
 
         private void Form1_DragEnter(object sender,DragEventArgs e)
         {
@@ -47,42 +47,86 @@ namespace GetPayMessageByALi
             string filePath = files[0];
 
             // 读取Excel文件并将其转换为DataTable
-            DataTable dataTable = ReadExcelToDataTable(filePath);
+            DataTable dataTable = new();
+            ArrayList al = new();
+            ReadCSV(filePath,out dataTable,out al);
             if(dt.Columns.Count<dataTable.Columns.Count)
             {
                 dt.Columns.Clear();
                 foreach(DataColumn dr in dataTable.Columns)
                 {
-                    dt.Columns.Add(dr);
+                    dt.Columns.Add(dr.ColumnName);
                 }
             }
-            dt.Rows.Add(dataTable.Rows);
+            foreach(DataRow dr in dataTable.Rows)
+            {
+                dt.Rows.Add(dr.ItemArray);
+            }
+
+            TotalInformation();
         }
 
-        private DataTable ReadExcelToDataTable(string filePath)
+        private void TotalInformation()
         {
-            using(ExcelPackage package = new ExcelPackage(new FileInfo(filePath)))
+            this.Text=$"当前读取到的数据总共{dt.Rows.Count}条,最早的结束时间为{0},最晚的结束时间为{0}";
+        }
+
+        /// <summary>
+        /// 读取CSV文件
+        /// </summary>
+        /// <param name="filePath">文件路径 eg：D:\A.csv</param>
+        /// <param name="dt">数据（无标题）</param>
+        /// <param name="csvTitles">标题</param>
+        public static bool ReadCSV(string filePath,out DataTable dt,out ArrayList csvTitles)
+        {
+            dt=new DataTable();
+            csvTitles=new ArrayList();
+            try
             {
-                ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
-                DataTable dataTable = new DataTable();
-
-                for(int col = 1;col<=worksheet.Dimension.Columns;col++)
+                FileStream fs = new FileStream(filePath,FileMode.Open,FileAccess.Read);
+                StreamReader sr = new StreamReader(fs,Encoding.GetEncoding("utf-8"));
+                //记录每次读取的一行记录
+                string strLine = null;
+                //记录每行记录中的各字段内容
+                string[] arrayLine = null;
+                //分隔符
+                string[] separators = { "," };
+                //表头标志位（若是第一次，建立表头）
+                bool isFirst = true;
+                //逐行读取CSV文件
+                while((strLine=sr.ReadLine())!=null)
                 {
-                    string columnName = worksheet.Cells[1,col].Value.ToString();
-                    dataTable.Columns.Add(columnName);
-                }
-
-                for(int row = 2;row<=worksheet.Dimension.Rows;row++)
-                {
-                    DataRow dataRow = dataTable.NewRow();
-                    for(int col = 1;col<=worksheet.Dimension.Columns;col++)
+                    //去除头尾空格
+                    strLine=strLine.Trim();
+                    //分隔字符串，返回数组
+                    arrayLine=strLine.Split(separators,StringSplitOptions.RemoveEmptyEntries);
+                    //建立表头
+                    if(isFirst)
                     {
-                        dataRow[col-1]=worksheet.Cells[row,col].Value;
+                        for(int i = 0;i<arrayLine.Length;i++)
+                        {
+                            dt.Columns.Add(arrayLine[i]);//每一列名称
+                            csvTitles.Add(arrayLine[i]);
+                        }
+                        isFirst=false;
                     }
-                    dataTable.Rows.Add(dataRow);
+                    else   //表内容
+                    {
+                        DataRow dataRow = dt.NewRow();//新建一行
+                        for(int j = 0;j<arrayLine.Length;j++)
+                        {
+                            dataRow[j]=arrayLine[j];
+                        }
+                        dt.Rows.Add(dataRow);//添加一行
+                    }
                 }
-
-                return dataTable;
+                sr.Close();
+                fs.Close();
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
 
@@ -116,6 +160,84 @@ namespace GetPayMessageByALi
         {
             DateTime lastDayOfWeek = firstDayOfWeek.AddDays(6);
             return lastDayOfWeek;
+        }
+
+        private void button1_Click(object sender,EventArgs e)
+        {
+            var 采购 = from row in dt.AsEnumerable()
+                     where Checktime(row.Field<string>("消费时间"))
+                     select row;
+
+            var 买量 = from row in dt.AsEnumerable()
+                     where Checktime(row.Field<string>("账单结束时间"))
+                     where CheckPrice(row.Field<string>("现金支付"))
+                     select row;
+
+            var finaldt = new DataTable();
+            finaldt=dt.Copy();
+            finaldt.Rows.Clear();
+            foreach(var row in 采购)
+            {
+                finaldt.Rows.Add(row.ItemArray);
+                var a = row.ItemArray;
+                a[2]="备注";
+                finaldt.Rows.Add(a);
+            }
+            foreach(var row in 买量)
+            {
+                finaldt.Rows.Add(row.ItemArray);
+            }
+            dataGridView1.DataSource=finaldt;
+
+            this.Text=$"当前读取到周期内的数据总共{买量.Count()+采购.Count()}条";
+        }
+
+        private bool Checktime(string time)
+        {
+            if(time.Equals("-"))
+            {
+                return false;
+            }
+            //2023/9/25 7:00
+            string[] times = time.Split(" ");
+            try
+            {
+                DateTime ti = new DateTime(
+                   int.Parse(times[0].Split("/")[0]),
+                   int.Parse(times[0].Split("/")[1]),
+                   int.Parse(times[0].Split("/")[2]),
+                   int.Parse(times[1].Split(":")[0]),
+                   int.Parse(times[1].Split(":")[1]),
+                    0);
+                if(ti>=firstDayOfWeek&&ti<=lastDayOfWeek)
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+            return false;
+        }
+
+        private bool CheckPrice(string num)
+        {
+            try
+            {
+                Double i = Double.Parse(num);
+                if(i>0)
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+
+            return false;
+
         }
     }
 }
