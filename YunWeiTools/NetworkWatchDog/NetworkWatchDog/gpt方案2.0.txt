@@ -1,0 +1,97 @@
+﻿在`Ping_PingCompleted`回调函数中，无法在判断`Cancelled`之前获取`UserState`的值。因为`Cancelled`和`Error`属性是在异步操作完成后才能判断的，而在异步操作完成之前，无法获取到`UserState`的值。
+
+如果您需要在取消和出错的情况下判断是哪个IP地址的回调，可以考虑使用另一种方法。您可以为每个异步操作创建一个自定义的`PingState`对象，该对象包含IP地址和回调函数。然后，您可以在回调函数中获取`PingState`对象，并从中获取IP地址。
+
+以下是修改后的示例代码：
+
+```csharp
+using System;
+using System.Collections.Generic;
+using System.Net.NetworkInformation;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace PingApp
+{
+    public partial class MainForm : Form
+    {
+        private Dictionary<string, RichTextBox> ipTextBoxes;
+        private Timer timer;
+
+        public MainForm()
+        {
+            InitializeComponent();
+            ipTextBoxes = new Dictionary<string, RichTextBox>();
+            timer = new Timer();
+            timer.Interval = 5000; // 设置定时器间隔为5秒
+            timer.Tick += Timer_Tick;
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            string[] ipAddresses = { "192.168.0.1", "8.8.8.8", "10.0.0.1" };
+
+            foreach (string ipAddress in ipAddresses)
+            {
+                TabPage tabPage = new TabPage(ipAddress);
+                RichTextBox richTextBox = new RichTextBox();
+                richTextBox.Dock = DockStyle.Fill;
+                tabPage.Controls.Add(richTextBox);
+                tabControl1.TabPages.Add(tabPage);
+                ipTextBoxes[ipAddress] = richTextBox;
+            }
+
+            timer.Start(); // 启动定时器
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            foreach (string ipAddress in ipTextBoxes.Keys)
+            {
+                PingState pingState = new PingState(ipAddress, Ping_PingCompleted);
+                Ping ping = new Ping();
+                ping.SendAsync(ipAddress, 5000, pingState);
+            }
+        }
+
+        private void Ping_PingCompleted(object sender, PingCompletedEventArgs e)
+        {
+            PingState pingState = (PingState)e.UserState; // 获取传递的PingState对象
+            string ipAddress = pingState.IpAddress; // 获取IP地址
+
+            if (e.Cancelled)
+            {
+                // 使用ipAddress进行处理
+                RichTextBox richTextBox = ipTextBoxes[ipAddress];
+                richTextBox.AppendText($"Ping to {ipAddress} cancelled.\n");
+            }
+            else if (e.Error != null)
+            {
+                // 使用ipAddress进行处理
+                RichTextBox richTextBox = ipTextBoxes[ipAddress];
+                richTextBox.AppendText($"Ping to {ipAddress} failed. Error: {e.Error.Message}\n");
+            }
+            else
+            {
+                // 使用ipAddress进行处理
+                RichTextBox richTextBox = ipTextBoxes[ipAddress];
+                richTextBox.AppendText($"Ping to {ipAddress} successful. Roundtrip time: {e.Reply.RoundtripTime}ms\n");
+            }
+        }
+    }
+
+    public class PingState
+    {
+        public string IpAddress { get; set; }
+        public Action<object, PingCompletedEventArgs> Callback { get; set; }
+
+        public PingState(string ipAddress, Action<object, PingCompletedEventArgs> callback)
+        {
+            IpAddress = ipAddress;
+            Callback = callback;
+        }
+    }
+}
+```
+
+在`Ping_PingCompleted`回调函数中，通过获取`PingState`对象，您可以获得IP地址，并使用该IP地址进行后续处理。 -

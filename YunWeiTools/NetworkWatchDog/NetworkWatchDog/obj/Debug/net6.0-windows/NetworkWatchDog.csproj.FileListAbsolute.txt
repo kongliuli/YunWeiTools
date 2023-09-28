@@ -30,3 +30,17 @@ D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\obj\Debug\net6.
 D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\obj\Debug\net6.0-windows\NetworkWatchDog.pdb
 D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\obj\Debug\net6.0-windows\NetworkWatchDog.genruntimeconfig.cache
 D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\obj\Debug\net6.0-windows\ref\NetworkWatchDog.dll
+D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\bin\Debug\net6.0-windows\Microsoft.Extensions.Configuration.dll
+D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\bin\Debug\net6.0-windows\Microsoft.Extensions.Configuration.Abstractions.dll
+D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\bin\Debug\net6.0-windows\Microsoft.Extensions.Configuration.FileExtensions.dll
+D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\bin\Debug\net6.0-windows\Microsoft.Extensions.Configuration.Json.dll
+D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\bin\Debug\net6.0-windows\Microsoft.Extensions.FileProviders.Abstractions.dll
+D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\bin\Debug\net6.0-windows\Microsoft.Extensions.FileProviders.Physical.dll
+D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\bin\Debug\net6.0-windows\Microsoft.Extensions.FileSystemGlobbing.dll
+D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\bin\Debug\net6.0-windows\Microsoft.Extensions.Primitives.dll
+D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\bin\Debug\net6.0-windows\System.Text.Encodings.Web.dll
+D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\bin\Debug\net6.0-windows\System.Text.Json.dll
+D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\bin\Debug\net6.0-windows\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
+D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\obj\Debug\net6.0-windows\NetworkWatchDog.csproj.AssemblyReference.cache
+D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\obj\Debug\net6.0-windows\NetworkWatchDog.csproj.CopyComplete
+D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\bin\Debug\net6.0-windows\config.json

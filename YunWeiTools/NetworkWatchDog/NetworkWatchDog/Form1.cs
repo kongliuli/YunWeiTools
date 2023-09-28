@@ -1,137 +1,131 @@
 using System.Net.NetworkInformation;
 
+using Microsoft.Extensions.Configuration;
+
+using Timer = System.Windows.Forms.Timer;
 namespace NetworkWatchDog
 {
     //todo ip和对应页面的绑定关系
     //todo 长连接的保持
     public partial class Form1:Form
     {
-        private List<IpAddress> ips = new List<IpAddress>();
-        int timetrip = 100;
+        private Dictionary<string,RichTextBox> ipTextBoxes;
+        private Timer timer;
+        int RoundtripTime = 0;
+
         public Form1()
         {
             InitializeComponent();
+            ipTextBoxes=new Dictionary<string,RichTextBox>();
+            timer=new Timer();
+            timer.Interval=1000; // 设置定时器间隔为5秒
+            timer.Tick+=Timer_Tick;
+        }
+        private void MainForm_Load(object sender,EventArgs e)
+        {
+            var configBuilder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("config.json",optional: true,reloadOnChange: true);
+            var config = configBuilder.Build();
+            var ipGroupSection = config.GetSection("ipgroup");
+            var ipGroupChildren = ipGroupSection.GetChildren();
+            string[] ipAddresses = ipGroupChildren.Select(x => x.Value).ToArray();
+            RoundtripTime=int.Parse(config.GetSection("RoundtripTime").Value);
 
-            ips.Add(new IpAddress("192.168.10.214"));
-            ips.Add(new IpAddress("www.baidu.com"));
+            tabControl1.TabPages.Clear();
 
-            this.Text=$"已开始对ip组的实时监控,当前规则是大于{timetrip}ms";
+            foreach(string ipAddress in ipAddresses)
+            {
+                TabPage tabPage = new(ipAddress);
+                RichTextBox richTextBox = new();
+                richTextBox.Dock=DockStyle.Fill;
+                richTextBox.SelectionStart=richTextBox.Text.Length;
+                richTextBox.ScrollToCaret();
+                tabPage.Controls.Add(richTextBox);
+                tabControl1.TabPages.Add(tabPage);
+                ipTextBoxes[ipAddress]=richTextBox;
+            }
+            timer.Start(); // 启动定时器
 
-            this.tabControl1.Controls.Clear();
-
-            //TabPageInit();
         }
 
-        private void TabPageInit()
+        private void Timer_Tick(object sender,EventArgs e)
         {
-            foreach(var a in ips)
+            foreach(string ipAddress in ipTextBoxes.Keys)
             {
-                TabPage tb = new();
-                tb.Text=a.Ip;
-                var rtb = new RichTextBox() { Name=a.Ip,Dock=DockStyle.Fill };
-                a.rtb=rtb;
-                Ping p = new Ping();
-                p.PingCompleted+=PingCompletedCallback; // 设置回调函数
-
-                tb.Controls.Add(rtb);
-                tabControl1.Controls.Add(tb);
-
-                // while(true)
-                // {
-                p.SendAsync(a.Ip,1000); // 发送ping请求
-                // }
+                PingState pingState = new PingState(ipAddress,Ping_PingCompleted);
+                Ping ping = new Ping();
+                ping.PingCompleted+=Ping_PingCompleted;
+                ping.SendAsync(ipAddress,5000,pingState);
             }
         }
 
-        private void timer1_Tick(object sender,EventArgs e)
+        private void Ping_PingCompleted(object sender,PingCompletedEventArgs e)
         {
+            PingState pingState = (PingState)e.UserState; // 获取传递的PingState对象
+            string ipAddress = pingState.IpAddress; // 获取IP地址
 
-        }
-
-        public void PingCompletedCallback(object sender,PingCompletedEventArgs e)
-        {
-            if(e.Error!=null)
+            if(e.Cancelled)
             {
-                Console.WriteLine("Ping failed: "+e.Error.Message);
+                // 使用ipAddress进行处理
+                RichTextBox richTextBox = ipTextBoxes[ipAddress];
+                richTextBox.AppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}  {ipAddress} 连接被取消");
             }
-            else if(e.Cancelled)
+            else if(e.Error!=null)
             {
-                Console.WriteLine("Ping cancelled.");
+                // 使用ipAddress进行处理
+                RichTextBox richTextBox = ipTextBoxes[ipAddress];
+                richTextBox.AppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}  {ipAddress} 连接失败: {e.Error.Message}\n");
             }
             else
             {
-                PingReply reply = e.Reply;
-                var a = ips.FindLast(x => x.Ip==reply.Address.ToString());
-                a.rtb.AppendText(a.GetCheck(100));
+                // 使用ipAddress进行处理
+                RichTextBox richTextBox = ipTextBoxes[ipAddress];
+                if(RoundtripTime<e.Reply.RoundtripTime)
+                {
+                    richTextBox.AppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}  {ipAddress} 延迟: {e.Reply.RoundtripTime}ms\n");
+                }
             }
         }
 
-        private void 开启pingToolStripMenuItem_Click(object sender,EventArgs e)
+        private void 过滤10ms以内的消息ToolStripMenuItem_Click(object sender,EventArgs e)
         {
-            TabPageInit();
+            RoundtripTime=10;
+        }
+
+        private void 过滤100ms以内的消息ToolStripMenuItem_Click(object sender,EventArgs e)
+        {
+            RoundtripTime=100;
+        }
+
+        private void 中断ping请求ToolStripMenuItem_Click(object sender,EventArgs e)
+        {
+            timer1.Stop();
+        }
+
+        private void 清空所有记录ToolStripMenuItem_Click(object sender,EventArgs e)
+        {
+            foreach(var a in ipTextBoxes)
+            {
+                a.Value.Text="";
+            }
         }
     }
-
-    public class IpAddress
+    public class PingState
     {
-        public IpAddress(string ip,int? port)
+        public string IpAddress
         {
-            Ip=ip;
-            Port=port;
+            get; set;
         }
-        public IpAddress(string ip)
-        {
-            Ip=ip;
-        }
-        public RichTextBox rtb
+        public Action<object,PingCompletedEventArgs> Callback
         {
             get; set;
         }
 
-        public string GetCheck(int timetrip)
+        public PingState(string ipAddress,Action<object,PingCompletedEventArgs> callback)
         {
-            string host = string.Empty;
-            host=Ip;
-            if(Port!=null)
-            {
-                host+=":"+Port;
-            }
-
-            Ping pingSender = new();
-            PingReply reply = pingSender.Send(host);
-            pingSender.Dispose();
-
-            if(reply.Status==IPStatus.Success)
-            {
-                if(reply.RoundtripTime<=timetrip)
-                {
-                    return "";// $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss    ")}ping成功,延迟为{reply.RoundtripTime}ms\r\n";
-                }
-                else
-                {
-                    return DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss    ")+$"Ping成功,延迟过高,超过{timetrip}ms  为{reply.RoundtripTime}ms "+"\r\n";
-                }
-            }
-            else
-            {
-                return DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss    ")+"Ping失败。"+"\r\n";
-            }
+            IpAddress=ipAddress;
+            Callback=callback;
         }
-
-
-        public string Ip
-        {
-            get; set;
-        }
-
-        public int? Port
-        {
-            get; set;
-        }
-
-        public bool Status
-        {
-            get; set;
-        } = false;
     }
 }
