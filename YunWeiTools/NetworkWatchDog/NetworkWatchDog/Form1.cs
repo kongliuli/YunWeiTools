@@ -46,7 +46,7 @@ namespace NetworkWatchDog
                 ipTextBoxes[ipAddress]=richTextBox;
             }
             timer.Start(); // 启动定时器
-
+            this.Text=$"网络连接监视器 -计时器开启 -{RoundtripTime}ms";
         }
 
         private void Timer_Tick(object sender,EventArgs e)
@@ -91,16 +91,19 @@ namespace NetworkWatchDog
         private void 过滤10ms以内的消息ToolStripMenuItem_Click(object sender,EventArgs e)
         {
             RoundtripTime=10;
+            this.Text=$"网络连接监视器 -计时器开启 -{RoundtripTime}ms";
         }
 
         private void 过滤100ms以内的消息ToolStripMenuItem_Click(object sender,EventArgs e)
         {
             RoundtripTime=100;
+            this.Text=$"网络连接监视器 -计时器开启 -{RoundtripTime}ms";
         }
 
         private void 中断ping请求ToolStripMenuItem_Click(object sender,EventArgs e)
         {
             timer1.Stop();
+            this.Text=$"网络连接监视器 -计时器关闭 -{RoundtripTime}ms";
         }
 
         private void 清空所有记录ToolStripMenuItem_Click(object sender,EventArgs e)

@@ -29,17 +29,21 @@
         private void InitializeComponent()
         {
             panel1=new Panel();
+            button2=new Button();
             button1=new Button();
             weeks=new Label();
             label1=new Label();
             comboBox1=new ComboBox();
             dataGridView1=new DataGridView();
+            button3=new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // panel1
             // 
+            panel1.Controls.Add(button3);
+            panel1.Controls.Add(button2);
             panel1.Controls.Add(button1);
             panel1.Controls.Add(weeks);
             panel1.Controls.Add(label1);
@@ -47,12 +51,22 @@
             panel1.Dock=DockStyle.Top;
             panel1.Location=new Point(0,0);
             panel1.Name="panel1";
-            panel1.Size=new Size(653,95);
+            panel1.Size=new Size(685,136);
             panel1.TabIndex=0;
+            // 
+            // button2
+            // 
+            button2.Location=new Point(481,44);
+            button2.Name="button2";
+            button2.Size=new Size(75,23);
+            button2.TabIndex=4;
+            button2.Text="计算费用";
+            button2.UseVisualStyleBackColor=true;
+            button2.Click+=button2_Click;
             // 
             // button1
             // 
-            button1.Location=new Point(566,15);
+            button1.Location=new Point(481,15);
             button1.Name="button1";
             button1.Size=new Size(75,23);
             button1.TabIndex=3;
@@ -91,18 +105,27 @@
             // 
             dataGridView1.ColumnHeadersHeightSizeMode=DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Dock=DockStyle.Fill;
-            dataGridView1.Location=new Point(0,95);
+            dataGridView1.Location=new Point(0,136);
             dataGridView1.Name="dataGridView1";
             dataGridView1.RowTemplate.Height=25;
-            dataGridView1.Size=new Size(653,260);
+            dataGridView1.Size=new Size(685,307);
             dataGridView1.TabIndex=1;
+            // 
+            // button3
+            // 
+            button3.Location=new Point(573,15);
+            button3.Name="button3";
+            button3.Size=new Size(75,23);
+            button3.TabIndex=5;
+            button3.Text="导出数据";
+            button3.UseVisualStyleBackColor=true;
             // 
             // Form1
             // 
             AllowDrop=true;
             AutoScaleDimensions=new SizeF(7F,17F);
             AutoScaleMode=AutoScaleMode.Font;
-            ClientSize=new Size(653,355);
+            ClientSize=new Size(685,443);
             Controls.Add(dataGridView1);
             Controls.Add(panel1);
             Name="Form1";
@@ -123,5 +146,7 @@
         private ComboBox comboBox1;
         private Button button1;
         private DataGridView dataGridView1;
+        private Button button2;
+        private Button button3;
     }
 }

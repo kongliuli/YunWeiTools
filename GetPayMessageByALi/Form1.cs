@@ -5,7 +5,6 @@ using System.Text;
 
 namespace GetPayMessageByALi
 {
-    //todo 拆分文件的错序问题
     public partial class Form1:Form
     {
         DateTime startDate = new DateTime(2023,1,1);
@@ -99,7 +98,7 @@ namespace GetPayMessageByALi
                     //去除头尾空格
                     strLine=strLine.Trim();
                     //分隔字符串，返回数组
-                    arrayLine=strLine.Split(separators,StringSplitOptions.RemoveEmptyEntries);
+                    arrayLine=strLine.Split(separators,StringSplitOptions.TrimEntries);
                     //建立表头
                     if(isFirst)
                     {
@@ -166,6 +165,7 @@ namespace GetPayMessageByALi
         {
             var 采购 = from row in dt.AsEnumerable()
                      where Checktime(row.Field<string>("消费时间"))
+                     where CheckPrice(row.Field<string>("现金支付"))
                      select row;
 
             var 买量 = from row in dt.AsEnumerable()
@@ -238,6 +238,25 @@ namespace GetPayMessageByALi
 
             return false;
 
+        }
+
+        private void button2_Click(object sender,EventArgs e)
+        {
+            //结果汇总
+            var 采购 = from row in dt.AsEnumerable()
+                     where Checktime(row.Field<string>("消费时间"))
+                     where CheckPrice(row.Field<string>("现金支付"))
+                     select row;
+
+            var 买量 = from row in dt.AsEnumerable()
+                     where Checktime(row.Field<string>("账单结束时间"))
+                     where CheckPrice(row.Field<string>("现金支付"))
+                     select row;
+
+            var a = 采购.Sum(x => decimal.Parse(x.Field<string>("现金支付")));
+            var b = 买量.Sum(x => decimal.Parse(x.Field<string>("现金支付")));
+
+            MessageBox.Show($"当前计算,第{comboBox1.SelectedItem}周({firstDayOfWeek:yyyy-MM-dd}-{lastDayOfWeek:yyyy-MM-dd})采购费用为{a}元,买量费用为{b}元");
         }
     }
 }
