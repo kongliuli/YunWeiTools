@@ -3,6 +3,8 @@ using System.Data;
 using System.Globalization;
 using System.Text;
 
+using OfficeOpenXml;
+
 namespace GetPayMessageByALi
 {
     public partial class Form1:Form
@@ -46,7 +48,7 @@ namespace GetPayMessageByALi
             string filePath = files[0];
 
             // 读取Excel文件并将其转换为DataTable
-            DataTable dataTable = new();
+            System.Data.DataTable dataTable = new();
             ArrayList al = new();
             ReadCSV(filePath,out dataTable,out al);
             if(dt.Columns.Count<dataTable.Columns.Count)
@@ -76,9 +78,9 @@ namespace GetPayMessageByALi
         /// <param name="filePath">文件路径 eg：D:\A.csv</param>
         /// <param name="dt">数据（无标题）</param>
         /// <param name="csvTitles">标题</param>
-        public static bool ReadCSV(string filePath,out DataTable dt,out ArrayList csvTitles)
+        public static bool ReadCSV(string filePath,out System.Data.DataTable dt,out ArrayList csvTitles)
         {
-            dt=new DataTable();
+            dt=new System.Data.DataTable();
             csvTitles=new ArrayList();
             try
             {
@@ -173,7 +175,7 @@ namespace GetPayMessageByALi
                      where CheckPrice(row.Field<string>("现金支付"))
                      select row;
 
-            var finaldt = new DataTable();
+            var finaldt = new System.Data.DataTable();
             finaldt=dt.Copy();
             finaldt.Rows.Clear();
             foreach(var row in 采购)
@@ -198,14 +200,15 @@ namespace GetPayMessageByALi
             {
                 return false;
             }
-            //2023/9/25 7:00
+            //2023/9/25 7:00 ?
+            //2023-10-1 10:30:00
             string[] times = time.Split(" ");
             try
             {
                 DateTime ti = new DateTime(
-                   int.Parse(times[0].Split("/")[0]),
-                   int.Parse(times[0].Split("/")[1]),
-                   int.Parse(times[0].Split("/")[2]),
+                   int.Parse(times[0].Split("-")[0]),
+                   int.Parse(times[0].Split("-")[1]),
+                   int.Parse(times[0].Split("-")[2]),
                    int.Parse(times[1].Split(":")[0]),
                    int.Parse(times[1].Split(":")[1]),
                     0);
@@ -257,6 +260,39 @@ namespace GetPayMessageByALi
             var b = 买量.Sum(x => decimal.Parse(x.Field<string>("现金支付")));
 
             MessageBox.Show($"当前计算,第{comboBox1.SelectedItem}周({firstDayOfWeek:yyyy-MM-dd}-{lastDayOfWeek:yyyy-MM-dd})采购费用为{a}元,买量费用为{b}元");
+        }
+
+        private void button3_Click(object sender,EventArgs e)
+        {
+            SaveFileDialog ofd = new();
+            var db = dataGridView1.DataSource as DataTable;
+            if(ofd.ShowDialog()==DialogResult.OK)
+            {
+                //ofd.Filter=ofd.FileName;
+                if(dataGridView1.DataSource!=null)
+                {
+                    ExcelPackage.LicenseContext=LicenseContext.NonCommercial;
+                    // 创建一个新的Excel包
+                    using(ExcelPackage excelPackage = new())
+                    {
+                        // 添加一个新的工作表
+                        ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Sheet1");
+
+                        // 将DataTable的数据写入Excel工作表
+                        for(int i = 0;i<db.Rows.Count;i++)
+                        {
+                            for(int j = 0;j<db.Columns.Count;j++)
+                            {
+                                worksheet.Cells[i+1,j+1].Value=db.Rows[i][j];
+                            }
+                        }
+
+                        // 保存Excel文件
+                        FileInfo excelFile = new FileInfo(ofd.FileName);
+                        excelPackage.SaveAs(excelFile);
+                    }
+                }
+            }
         }
     }
 }

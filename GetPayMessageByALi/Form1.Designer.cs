@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             panel1=new Panel();
+            button3=new Button();
             button2=new Button();
             button1=new Button();
             weeks=new Label();
             label1=new Label();
             comboBox1=new ComboBox();
             dataGridView1=new DataGridView();
-            button3=new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
@@ -54,9 +54,19 @@
             panel1.Size=new Size(685,136);
             panel1.TabIndex=0;
             // 
+            // button3
+            // 
+            button3.Location=new Point(594,59);
+            button3.Name="button3";
+            button3.Size=new Size(75,23);
+            button3.TabIndex=5;
+            button3.Text="导出数据";
+            button3.UseVisualStyleBackColor=true;
+            button3.Click+=button3_Click;
+            // 
             // button2
             // 
-            button2.Location=new Point(481,44);
+            button2.Location=new Point(502,88);
             button2.Name="button2";
             button2.Size=new Size(75,23);
             button2.TabIndex=4;
@@ -66,7 +76,7 @@
             // 
             // button1
             // 
-            button1.Location=new Point(481,15);
+            button1.Location=new Point(502,59);
             button1.Name="button1";
             button1.Size=new Size(75,23);
             button1.TabIndex=3;
@@ -110,15 +120,6 @@
             dataGridView1.RowTemplate.Height=25;
             dataGridView1.Size=new Size(685,307);
             dataGridView1.TabIndex=1;
-            // 
-            // button3
-            // 
-            button3.Location=new Point(573,15);
-            button3.Name="button3";
-            button3.Size=new Size(75,23);
-            button3.TabIndex=5;
-            button3.Text="导出数据";
-            button3.UseVisualStyleBackColor=true;
             // 
             // Form1
             // 

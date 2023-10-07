@@ -1,10 +1,6 @@
 {
   "ipgroup": [
-    "192.168.0.1",
-    "www.baidu.com",
-    "192.168.0.21",
-    "github.com",
-    "192.168.11.29"
+    "192.168.0.1"
   ],
-  "RoundtripTime": 33
+  "RoundtripTime": 100
 }
