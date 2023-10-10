@@ -39,6 +39,7 @@ namespace GetPayMessageByALi
                 {
                     e.Effect=DragDropEffects.Copy;
                 }
+                comboBox1.Enabled=false;
             }
         }
 
@@ -196,6 +197,10 @@ namespace GetPayMessageByALi
 
         private bool Checktime(string time)
         {
+            if(string.IsNullOrEmpty(time))
+            {
+                return false;
+            }
             if(time.Equals("-"))
             {
                 return false;
@@ -226,6 +231,10 @@ namespace GetPayMessageByALi
 
         private bool CheckPrice(string num)
         {
+            if(string.IsNullOrEmpty(num))
+            {
+                return false;
+            }
             try
             {
                 Double i = Double.Parse(num);
@@ -264,35 +273,70 @@ namespace GetPayMessageByALi
 
         private void button3_Click(object sender,EventArgs e)
         {
-            SaveFileDialog ofd = new();
+            var path = Directory.GetCurrentDirectory();
+            path+="//统计数据//";
             var db = dataGridView1.DataSource as DataTable;
-            if(ofd.ShowDialog()==DialogResult.OK)
+
+            if(dataGridView1.DataSource!=null)
             {
-                //ofd.Filter=ofd.FileName;
-                if(dataGridView1.DataSource!=null)
+                ExcelPackage.LicenseContext=LicenseContext.NonCommercial;
+                // 创建一个新的Excel包
+                using(ExcelPackage excelPackage = new())
                 {
-                    ExcelPackage.LicenseContext=LicenseContext.NonCommercial;
-                    // 创建一个新的Excel包
-                    using(ExcelPackage excelPackage = new())
+                    // 添加一个新的工作表
+                    ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Sheet1");
+
+                    for(int i = 0;i<db.Columns.Count;i++)
                     {
-                        // 添加一个新的工作表
-                        ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Sheet1");
-
-                        // 将DataTable的数据写入Excel工作表
-                        for(int i = 0;i<db.Rows.Count;i++)
-                        {
-                            for(int j = 0;j<db.Columns.Count;j++)
-                            {
-                                worksheet.Cells[i+1,j+1].Value=db.Rows[i][j];
-                            }
-                        }
-
-                        // 保存Excel文件
-                        FileInfo excelFile = new FileInfo(ofd.FileName);
-                        excelPackage.SaveAs(excelFile);
+                        worksheet.Cells[1,i+1].Value=db.Columns[i].ColumnName;
                     }
+
+                    // 将DataTable的数据写入Excel工作表
+                    for(int i = 1;i<db.Rows.Count;i++)
+                    {
+                        for(int j = 0;j<db.Columns.Count;j++)
+                        {
+                            worksheet.Cells[i+1,j+1].Value=db.Rows[i][j];
+                        }
+                    }
+
+                    // 保存Excel文件
+                    FileInfo excelFile = new FileInfo($"{path}第{comboBox1.SelectedItem}周原始数据.xlsx");
+                    excelPackage.SaveAs(excelFile);
                 }
             }
+        }
+
+        private void button4_Click(object sender,EventArgs e)
+        {
+            #region 原始数据清洗
+            var 采购 = from row in dt.AsEnumerable()
+                     where Checktime(row.Field<string>("消费时间"))
+                     where CheckPrice(row.Field<string>("现金支付"))
+                     select row;
+
+            var 买量 = from row in dt.AsEnumerable()
+                     where Checktime(row.Field<string>("账单结束时间"))
+                     where CheckPrice(row.Field<string>("现金支付"))
+                     select row;
+            List<EnumerableRowCollection<DataRow>?> alldata = new()
+            {
+                买量,
+                采购
+            };
+            #endregion
+
+            #region 分类数据拆分
+
+            #endregion
+
+            #region 数据汇总
+            #endregion
+
+            #region 成表导出
+            #endregion
+
+            comboBox1.Enabled=true;
         }
     }
 }
