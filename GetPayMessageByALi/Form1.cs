@@ -328,6 +328,13 @@ namespace GetPayMessageByALi
 
             #region 分类数据拆分
 
+            foreach(var data in alldata)
+            {
+
+            }
+
+
+
             #endregion
 
             #region 数据汇总
