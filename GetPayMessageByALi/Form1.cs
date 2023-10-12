@@ -211,9 +211,9 @@ namespace GetPayMessageByALi
             try
             {
                 DateTime ti = new DateTime(
-                   int.Parse(times[0].Split("-")[0]),
-                   int.Parse(times[0].Split("-")[1]),
-                   int.Parse(times[0].Split("-")[2]),
+                   int.Parse(times[0].Split("/")[0]),
+                   int.Parse(times[0].Split("/")[1]),
+                   int.Parse(times[0].Split("/")[2]),
                    int.Parse(times[1].Split(":")[0]),
                    int.Parse(times[1].Split(":")[1]),
                     0);
@@ -281,34 +281,34 @@ namespace GetPayMessageByALi
             {
                 ExcelPackage.LicenseContext=LicenseContext.NonCommercial;
                 // 创建一个新的Excel包
-                using(ExcelPackage excelPackage = new())
+                using ExcelPackage excelPackage = new();
+                // 添加一个新的工作表
+                ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Sheet1");
+
+                for(int i = 0;i<db.Columns.Count;i++)
                 {
-                    // 添加一个新的工作表
-                    ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Sheet1");
-
-                    for(int i = 0;i<db.Columns.Count;i++)
-                    {
-                        worksheet.Cells[1,i+1].Value=db.Columns[i].ColumnName;
-                    }
-
-                    // 将DataTable的数据写入Excel工作表
-                    for(int i = 1;i<db.Rows.Count;i++)
-                    {
-                        for(int j = 0;j<db.Columns.Count;j++)
-                        {
-                            worksheet.Cells[i+1,j+1].Value=db.Rows[i][j];
-                        }
-                    }
-
-                    // 保存Excel文件
-                    FileInfo excelFile = new FileInfo($"{path}第{comboBox1.SelectedItem}周原始数据.xlsx");
-                    excelPackage.SaveAs(excelFile);
+                    worksheet.Cells[1,i+1].Value=db.Columns[i].ColumnName;
                 }
+
+                // 将DataTable的数据写入Excel工作表
+                for(int i = 1;i<db.Rows.Count;i++)
+                {
+                    for(int j = 0;j<db.Columns.Count;j++)
+                    {
+                        worksheet.Cells[i+1,j+1].Value=db.Rows[i][j];
+                    }
+                }
+
+                // 保存Excel文件
+                FileInfo excelFile = new FileInfo($"{path}第{comboBox1.SelectedItem}周原始数据.xlsx");
+                excelPackage.SaveAs(excelFile);
             }
         }
 
         private void button4_Click(object sender,EventArgs e)
         {
+            ExcelPackage.LicenseContext=LicenseContext.NonCommercial;
+
             #region 原始数据清洗
             var 采购 = from row in dt.AsEnumerable()
                      where Checktime(row.Field<string>("消费时间"))
@@ -319,31 +319,169 @@ namespace GetPayMessageByALi
                      where Checktime(row.Field<string>("账单结束时间"))
                      where CheckPrice(row.Field<string>("现金支付"))
                      select row;
-            List<EnumerableRowCollection<DataRow>?> alldata = new()
-            {
-                买量,
-                采购
-            };
             #endregion
 
             #region 分类数据拆分
-
-            foreach(var data in alldata)
+            List<aLiCloudData> groupdata = new();
+            foreach(var data in 买量)
             {
+                string username = data["账号"].ToString();
+                string itemname = data["产品"].ToString();
+                string type = "买量";
 
+                if(groupdata.Any(x => x.Username==username&&x.Itemname==itemname&&x.PriceType==type))
+                {
+                    var g = groupdata.FindAll(x => x.Username==username&&x.Itemname==itemname&&x.PriceType==type).First();
+                    g?.dataRows.Add(data);
+                }
+                else
+                {
+                    aLiCloudData g = new()
+                    {
+                        Username=username,
+                        Itemname=itemname,
+                        PriceType=type,
+                        price=decimal.Parse(data["现金支付"].ToString()),
+                        dataRows=new()
+                    };
+                    g.dataRows.Add(data);
+                    groupdata.Add(g);
+                }
             }
+            foreach(var data in 采购)
+            {
+                string username = data["账号"].ToString();
+                string itemname = data["产品"].ToString();
+                string type = "采购";
 
-
-
+                if(groupdata.Any(x => x.Username==username&&x.Itemname==itemname&&x.PriceType==type))
+                {
+                    var g = groupdata.FindAll(x => x.Username==username&&x.Itemname==itemname&&x.PriceType==type).First();
+                    g?.dataRows.Add(data);
+                }
+                else
+                {
+                    aLiCloudData g = new()
+                    {
+                        Username=username,
+                        Itemname=itemname,
+                        PriceType=type,
+                        price=decimal.Parse(data["现金支付"].ToString())
+                    };
+                    g.dataRows.Add(data);
+                    groupdata.Add(g);
+                }
+            }
             #endregion
 
             #region 数据汇总
+            //间断测试
+            MessageBox.Show($"data集总共有{groupdata.Count}种");
+
+            foreach(var data in groupdata)
+            {
+                data.Match();
+            }
+
+            DataTable dt1 = new();
+            dt1.Columns.Add("序号");
+            dt1.Columns.Add("账号");
+            dt1.Columns.Add("产品名称");
+            dt1.Columns.Add("消费类型");
+            dt1.Columns.Add("消费金额");
+            dt1.Columns.Add("账单总数");
+
+            for(int i = 0;i<groupdata.Count;i++)
+            {
+                var row = new object[6];
+                row[0]=i;
+                row[1]=groupdata[i].Username;
+                row[2]=groupdata[i].Itemname;
+                row[3]=groupdata[i].PriceType;
+                row[4]=groupdata[i].price;
+                row[5]=groupdata[i].dataRows.Count;
+
+                dt1.Rows.Add(row);
+            }
             #endregion
 
             #region 成表导出
+            //将数据源编排成各种格式的excel文件
+            using ExcelPackage excelPackage = new();
+            //定义数据表
+            ExcelWorksheet database = excelPackage.Workbook.Worksheets.Add("database");
+            //database.cells需要初始化
+            database.InsertRow(0,55);
+
+
+            //合并单元格
+            database.Cells[0,0,2,6].Merge=true;
+
+            int merge1 = groupdata.FindAll(x => x.PriceType=="买量").Count;
+            int merge2 = groupdata.FindAll(x => x.PriceType=="采购").Count;
+            database.Cells[3,0,merge1+2+2,0].Merge=true;
+            database.Cells[7+merge1,0,7+merge1+merge2+1,0].Merge=true;
+            database.Cells[merge2+merge1+2+1+3,0,merge1+merge2+6+2,0].Merge=true;
+
+            //固定标题注入
+            database.Cells[0,0].Value=$"第num周阿里云资费统计(time1至time2)";
+            //database.Cells[""].Value="按量费用";
+            //database.Cells[""].Value="采购费用";
+            //database.Cells[""].Value="总计(元)";
+            //database.Cells[""].Value="云服务产品";
+            //database.Cells[""].Value="kujiang";
+            //database.Cells[""].Value="花苼书城1";
+            //database.Cells[""].Value="花苼书城2";
+            //database.Cells[""].Value="总计(元)";
+            //database.Cells[""].Value="备注";
+
+            //数值插入
+
+            //计算
+
+            //待做,从配置文件读取待做图表格式
+            if(false)
+            {
+                ExcelWorksheet image = excelPackage.Workbook.Worksheets.Add("展示图表");
+            }
+
             #endregion
 
             comboBox1.Enabled=true;
         }
+    }
+
+    public class aLiCloudData
+    {
+        public string Username
+        {
+            get; set;
+        }
+        public string Itemname
+        {
+            get; set;
+        }
+        public string PriceType
+        {
+            get; set;
+        }
+
+        public List<DataRow> dataRows
+        {
+            get; set;
+        }
+        public decimal price
+        {
+            get; set;
+        } = 0m;
+
+        public void Match()
+        {
+            foreach(var row in dataRows)
+            {
+
+            }
+        }
+
     }
 }

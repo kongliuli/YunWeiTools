@@ -1,0 +1,240 @@
+﻿使用winform实现一个根据excel文件自动生成结果报表的程序.
+本地提供多个相关联的excel文件,winform要可以以他们为数据源进行数据的读取.
+读取以后将他们根据配置文件configuration.json中的配置进行关联,类似于数据库的关联方式
+再根据关联完成的数据源,以configuration.json中配置的方式进行绘图,包括但是不限于折线图,柱状图,饼图,面积图,散点图等等
+将所有的图和处理过的数据源全部导出到指定的文件夹下.
+哦对了,处理的操作尽可能的异步,而且有进度条显示.
+还有就是图表也尽可能的美观一点
+以下是一个基本的WinForm应用程序的示例，用于根据Excel文件生成结果报表：
+
+创建一个WinForm应用程序，并在窗体上添加一个按钮和一个进度条控件。
+
+在项目中添加Newtonsoft.Json NuGet包，用于处理JSON配置文件。
+
+创建一个名为Configuration的类，用于读取和解析configuration.json配置文件：
+
+using Newtonsoft.Json;
+using System.Collections.Generic;
+
+public class Configuration
+{
+    public List<DataSourceConfig> DataSources { get; set; }
+    public List<ChartConfig> Charts { get; set; }
+}
+
+public class DataSourceConfig
+{
+    public string Name { get; set; }
+    public string FilePath { get; set; }
+}
+
+public class ChartConfig
+{
+    public string Name { get; set; }
+    public string Type { get; set; }
+    public List<string> DataSources { get; set; }
+}
+在窗体的代码中，添加以下事件处理程序：
+using System;
+using System.Data;
+using System.Data.OleDb;
+using System.Drawing;
+using System.IO;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using Newtonsoft.Json;
+
+public partial class MainForm : Form
+{
+    private Configuration configuration;
+    private string outputFolderPath = "C:\\Output";
+
+    public MainForm()
+    {
+        InitializeComponent();
+    }
+
+    private void btnGenerateReport_Click(object sender, EventArgs e)
+    {
+        // 读取配置文件
+        string configJson = File.ReadAllText("configuration.json");
+        configuration = JsonConvert.DeserializeObject<Configuration>(configJson);
+
+        // 异步处理数据和图表
+        Task.Run(() => GenerateReport());
+    }
+
+    private void GenerateReport()
+    {
+        // 初始化进度条
+        progressBar.Invoke((MethodInvoker)(() => progressBar.Value = 0));
+        progressBar.Invoke((MethodInvoker)(() => progressBar.Maximum = configuration.DataSources.Count + configuration.Charts.Count));
+
+        // 处理数据源
+        foreach (var dataSource in configuration.DataSources)
+        {
+            ProcessDataSource(dataSource);
+            progressBar.Invoke((MethodInvoker)(() => progressBar.Value++));
+        }
+
+        // 绘制图表
+        foreach (var chart in configuration.Charts)
+        {
+            DrawChart(chart);
+            progressBar.Invoke((MethodInvoker)(() => progressBar.Value++));
+        }
+
+        // 导出结果
+        ExportResults();
+
+        // 完成后更新进度条
+        progressBar.Invoke((MethodInvoker)(() => progressBar.Value = progressBar.Maximum));
+    }
+
+    private void ProcessDataSource(DataSourceConfig dataSource)
+    {
+        string connectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + dataSource.FilePath + ";Extended Properties=\"Excel 12.0;HDR=YES;IMEX=1;\"";
+        using (OleDbConnection connection = new OleDbConnection(connectionString))
+        {
+            connection.Open();
+            OleDbCommand command = new OleDbCommand("SELECT * FROM [Sheet1$]", connection);
+            OleDbDataAdapter adapter = new OleDbDataAdapter(command);
+            DataTable dataTable = new DataTable();
+            adapter.Fill(dataTable);
+            connection.Close();
+
+            // 处理数据源，例如关联、计算等操作
+            // ...
+
+            // 将处理后的数据源保存到指定位置
+            string outputFilePath = Path.Combine(outputFolderPath, dataSource.Name + ".csv");
+            dataTable.ToCSV(outputFilePath);
+        }
+    }
+
+    private void DrawChart(ChartConfig chart)
+    {
+        // 根据图表配置从已处理的数据源中获取数据
+        // ...
+
+        // 绘制图表，例如折线图、柱状图、饼图等
+        // ...
+
+        // 保存图表到指定位置
+        string outputFilePath = Path.Combine(outputFolderPath, chart.Name + ".png");
+        chartImage.Save(outputFilePath);
+    }
+
+    private void ExportResults()
+    {
+        // 将所有结果文件打包导出到指定文件夹
+        // ...
+    }
+}
+
+public static class DataTableExtensions
+{
+    public static void ToCSV(this DataTable dataTable, string filePath)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        IEnumerable<string> columnNames = dataTable.Columns.Cast<DataColumn>().Select(column => column.ColumnName);
+        sb.AppendLine(string.Join(",", columnNames));
+
+        foreach (DataRow row in dataTable.Rows)
+        {
+            IEnumerable<string> fields = row.ItemArray.Select(field => field.ToString());
+            sb.AppendLine(string.Join(",", fields));
+        }
+
+        File.WriteAllText(filePath, sb.ToString());
+    }
+}
+请注意，上述代码中的ProcessDataSource方法和DrawChart方法需要根据实际需求进行实现。
+
+此外，您还需要添加适当的图表库（例如System.Windows.Forms.DataVisualization.Charting）以实现美观的图表绘制。您可以根据需要选择适合的图表库，并根据图表库的文档和示例进行图表绘制的实现。
+
+最后，您还需要实现ExportResults方法以将所有结果文件打包导出到指定文件夹。您可以使用.NET中的System.IO.Compression.ZipFile类来创建和管理ZIP文件。
+
+希望这个示例能帮助到您实现您的需求。
+
+详细描述一下
+// 根据图表配置从已处理的数据源中获取数据
+        // ...
+
+        // 绘制图表，例如折线图、柱状图、饼图等
+        // ...
+的实现
+根据图表配置从已处理的数据源中获取数据的实现可以根据具体的需求来处理。一种常见的方式是使用LINQ查询语句从数据源中筛选和处理数据。以下是一个示例：
+
+private DataTable GetDataFromDataSource(ChartConfig chart)
+{
+    DataTable dataTable = new DataTable();
+
+    // 根据图表配置从已处理的数据源中获取数据
+    foreach (string dataSourceName in chart.DataSources)
+    {
+        string dataSourceFilePath = Path.Combine(outputFolderPath, dataSourceName + ".csv");
+        DataTable sourceDataTable = LoadCSV(dataSourceFilePath);
+
+        // 将数据源表格中的数据合并到结果表格中
+        dataTable.Merge(sourceDataTable);
+    }
+
+    return dataTable;
+}
+
+private DataTable LoadCSV(string filePath)
+{
+    DataTable dataTable = new DataTable();
+
+    // 读取CSV文件的每一行
+    string[] lines = File.ReadAllLines(filePath);
+
+    // 解析CSV文件的列名
+    string[] columnNames = lines[0].Split(',');
+    foreach (string columnName in columnNames)
+    {
+        dataTable.Columns.Add(columnName);
+    }
+
+    // 解析CSV文件的数据行
+    for (int i = 1; i < lines.Length; i++)
+    {
+        string[] fields = lines[i].Split(',');
+        dataTable.Rows.Add(fields);
+    }
+
+    return dataTable;
+}
+在上述代码中，GetDataFromDataSource方法根据图表配置从已处理的数据源中获取数据，并将数据合并到一个结果表格中。这里使用了一个LoadCSV方法来加载CSV文件并将其转换为DataTable对象。
+
+绘制图表的实现可以根据您选择的图表库来进行。以下是一个使用System.Windows.Forms.DataVisualization.Charting库绘制柱状图的示例：
+
+private void DrawBarChart(ChartConfig chart, DataTable dataTable)
+{
+    // 创建一个柱状图对象
+    Chart barChart = new Chart();
+
+    // 设置柱状图的标题
+    barChart.Titles.Add(chart.Name);
+
+    // 创建一个柱状图的区域
+    ChartArea chartArea = new ChartArea();
+    barChart.ChartAreas.Add(chartArea);
+
+    // 创建一个柱状图的系列
+    Series series = new Series();
+    series.ChartType = SeriesChartType.Bar;
+    barChart.Series.Add(series);
+
+    // 将数据绑定到柱状图的系列中
+    series.Points.DataBind(dataTable.DefaultView, "XValue", "YValue", "");
+
+    // 保存图表到指定位置
+    string outputFilePath = Path.Combine(outputFolderPath, chart.Name + ".png");
+    barChart.SaveImage(outputFilePath, ChartImageFormat.Png);
+}
+在上述代码中，DrawBarChart方法创建了一个柱状图对象，并设置了标题、区域和系列。然后，它将数据绑定到系列中，并将图表保存为PNG格式的图像文件。
+
+根据需要，您可以根据图表配置的类型和其他要求来选择适当的图表类型和样式，并使用相应的方法来绘制图表。
