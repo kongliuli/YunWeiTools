@@ -366,7 +366,8 @@ namespace GetPayMessageByALi
                         Username=username,
                         Itemname=itemname,
                         PriceType=type,
-                        price=decimal.Parse(data["现金支付"].ToString())
+                        price=decimal.Parse(data["现金支付"].ToString()),
+                        dataRows=new()
                     };
                     g.dataRows.Add(data);
                     groupdata.Add(g);
@@ -410,34 +411,108 @@ namespace GetPayMessageByALi
             using ExcelPackage excelPackage = new();
             //定义数据表
             ExcelWorksheet database = excelPackage.Workbook.Worksheets.Add("database");
-            //database.cells需要初始化
-            database.InsertRow(0,55);
+
+            #region 初始化  字号设置以及居中
+            database.Cells.AutoFitColumns();
+            database.Cells.Style.HorizontalAlignment=OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+            database.Cells.Style.VerticalAlignment=OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+            database.Cells.Style.Font.Size=12;
+            int merge1 = groupdata.FindAll(x => x.PriceType=="买量").Count+2;
+            int merge2 = groupdata.FindAll(x => x.PriceType=="采购").Count+1;
+            #endregion
+
+            #region 标题行的初始化设置
+            //固定前3行7列为标题行,合并单元格,字号20,加粗并且居中
+            database.Cells[1,1,3,7].Merge=true;
+            database.Cells[1,1].Value=$"第{comboBox1.SelectedItem}周阿里云资费统计({firstDayOfWeek:yyyy-MM-dd}至{lastDayOfWeek:yyyy-MM-dd})";
+            database.Cells[1,1].Style.Font.Size=20;
+            database.Cells[1,1].Style.Font.Bold=true;
+
+            //首列合并标题,字号20加粗居中
+            database.Cells[4,1,merge1+4,1].Merge=true;
+            database.Cells[4,1].Value="买量费用";
+            database.Cells[4,1].Style.Font.Bold=true;
+
+            database.Cells[merge1+4,2].Value="总计(元)";//买量列总计
+            database.Cells[merge1+4,2].Style.Font.Bold=true;
+
+            database.Cells[merge1+5,1,merge1+merge2+5,1].Merge=true;
+            database.Cells[merge1+5,1].Value="采购费用";
+            database.Cells[merge1+5,1].Style.Font.Bold=true;
+
+            database.Cells[merge1+merge2+5,2].Value="总计(元)";//采购列总计
+            database.Cells[merge1+merge2+5,2].Style.Font.Bold=true;
+
+            database.Cells[merge1+merge2+6,1,merge1+merge2+7,1].Merge=true;
+            database.Cells[merge1+merge2+6,1].Value="总计(元)";//全体总计
+            database.Cells[merge1+merge2+6,1].Style.Font.Bold=true;
+
+            //次标题加粗
+            database.Cells[4,2].Value="云服务产品";
+            database.Cells[4,2].Style.Font.Bold=true;
+            database.Cells[4,3].Value="地平线";
+            database.Cells[4,3].Style.Font.Bold=true;
+            database.Cells[4,4].Value="花苼书城1";
+            database.Cells[4,4].Style.Font.Bold=true;
+            database.Cells[4,5].Value="花苼书城2";
+            database.Cells[4,5].Style.Font.Bold=true;
+            database.Cells[4,6].Value="总计(元)";//行总计
+            database.Cells[4,6].Style.Font.Bold=true;
+            database.Cells[4,7].Value="备注";
+            database.Cells[4,7].Style.Font.Bold=true;
+            #endregion
+
+            #region 数值插入
+            #region 子标题插入
+            var data01 = (from dataRow in groupdata.FindAll(x => x.PriceType=="买量")
+                          select dataRow.Itemname).ToList();
+            if(data01.Count==merge1-2)
+            {
+                for(int i = 5;i<data01.Count+5;i++)
+                {
+                    database.Cells[i,2].Value=data01[i-5];
+                }
+            }
+            var data02 = (from dataRow in groupdata.FindAll(x => x.PriceType=="采购")
+                          select dataRow.Itemname).ToList();
+            if(data01.Count==merge2-1)
+            {
+                for(int i = 4+merge1;i<data02.Count+4+merge1;i++)
+                {
+                    database.Cells[i,2].Value=data02[i-4-merge1];
+                }
+            }
+            #endregion
 
 
-            //合并单元格
-            database.Cells[0,0,2,6].Merge=true;
+            //插值计算
 
-            int merge1 = groupdata.FindAll(x => x.PriceType=="买量").Count;
-            int merge2 = groupdata.FindAll(x => x.PriceType=="采购").Count;
-            database.Cells[3,0,merge1+2+2,0].Merge=true;
-            database.Cells[7+merge1,0,7+merge1+merge2+1,0].Merge=true;
-            database.Cells[merge2+merge1+2+1+3,0,merge1+merge2+6+2,0].Merge=true;
+            /*
+             int j = 0;
+                    var data = groupdata.Find(x => x.Itemname==b[i-5]);
+                    if(data!=null)
+                    {
+                        switch(data.Username)
+                        {
+                            case "zh@kujiangcom\r\n":
+                            j=3;
+                            break;
+                            case "南京花笙书城1\r\n":
+                            j=4;
+                            break;
+                            case "南京花笙书城2\r\n":
+                            j=5;
+                            break;
+                        }
+                    }
+                    if(j==0)
+                    {
+                        //errorreport
+                        break;
+                    }
+             */
 
-            //固定标题注入
-            database.Cells[0,0].Value=$"第num周阿里云资费统计(time1至time2)";
-            //database.Cells[""].Value="按量费用";
-            //database.Cells[""].Value="采购费用";
-            //database.Cells[""].Value="总计(元)";
-            //database.Cells[""].Value="云服务产品";
-            //database.Cells[""].Value="kujiang";
-            //database.Cells[""].Value="花苼书城1";
-            //database.Cells[""].Value="花苼书城2";
-            //database.Cells[""].Value="总计(元)";
-            //database.Cells[""].Value="备注";
-
-            //数值插入
-
-            //计算
+            #endregion
 
             //待做,从配置文件读取待做图表格式
             if(false)
@@ -445,6 +520,8 @@ namespace GetPayMessageByALi
                 ExcelWorksheet image = excelPackage.Workbook.Worksheets.Add("展示图表");
             }
 
+            FileInfo excelFile = new FileInfo($"第{comboBox1.SelectedItem}周计算数据.xlsx");
+            excelPackage.SaveAs(excelFile);
             #endregion
 
             comboBox1.Enabled=true;
@@ -477,8 +554,11 @@ namespace GetPayMessageByALi
 
         public void Match()
         {
+            price=0;
             foreach(var row in dataRows)
             {
+                var p = decimal.Parse(row[20].ToString());
+                price+=p;
 
             }
         }
