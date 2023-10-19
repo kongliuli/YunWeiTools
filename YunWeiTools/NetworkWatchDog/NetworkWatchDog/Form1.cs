@@ -1,26 +1,35 @@
 using System.Net.NetworkInformation;
 
 using Microsoft.Extensions.Configuration;
-
-using Timer = System.Windows.Forms.Timer;
 namespace NetworkWatchDog
 {
-    //todo ip和对应页面的绑定关系
-    //todo 长连接的保持
     public partial class Form1:Form
     {
+        private const int MaxThreads = 100; // 最大线程数
         private Dictionary<string,RichTextBox> ipTextBoxes;
-        private Timer timer;
+
         int RoundtripTime = 0;
 
         public Form1()
         {
             InitializeComponent();
             ipTextBoxes=new Dictionary<string,RichTextBox>();
-            timer=new Timer();
-            timer.Interval=1000; // 设置定时器间隔为5秒
-            timer.Tick+=Timer_Tick;
         }
+
+        private void pingConnecting()
+        {
+            // 创建线程池
+            ThreadPool.SetMaxThreads(MaxThreads,MaxThreads);
+
+            // 启动ping线程
+            foreach(var ipAddress in ipTextBoxes)
+            {
+                Thread thread = new(() => Ping_PingCompleted(ipAddress.Key));
+                thread.Start();
+                //ThreadPool.QueueUserWorkItem(Ping_PingCompleted,ipAddress.Key);
+            }
+        }
+
         private void MainForm_Load(object sender,EventArgs e)
         {
             var configBuilder = new ConfigurationBuilder()
@@ -32,61 +41,71 @@ namespace NetworkWatchDog
             string[] ipAddresses = ipGroupChildren.Select(x => x.Value).ToArray();
             RoundtripTime=int.Parse(config.GetSection("RoundtripTime").Value);
 
-            tabControl1.TabPages.Clear();
 
             foreach(string ipAddress in ipAddresses)
             {
-                TabPage tabPage = new(ipAddress);
-                RichTextBox richTextBox = new();
-                richTextBox.Dock=DockStyle.Fill;
-                richTextBox.SelectionStart=richTextBox.Text.Length;
-                richTextBox.ScrollToCaret();
-                tabPage.Controls.Add(richTextBox);
-                tabControl1.TabPages.Add(tabPage);
-                ipTextBoxes[ipAddress]=richTextBox;
+                ipTextBoxes[ipAddress]=null;
             }
-            timer.Start(); // 启动定时器
-            this.Text=$"网络连接监视器 -计时器开启 -{RoundtripTime}ms";
+
+            this.Text=$"网络连接监视器 -{RoundtripTime}ms";
+
+            pingConnecting();
         }
 
-        private void Timer_Tick(object sender,EventArgs e)
+        private void Ping_PingCompleted(object ipadress)
         {
-            foreach(string ipAddress in ipTextBoxes.Keys)
+            while(true)
             {
-                PingState pingState = new PingState(ipAddress,Ping_PingCompleted);
-                Ping ping = new Ping();
-                ping.PingCompleted+=Ping_PingCompleted;
-                ping.SendAsync(ipAddress,5000,pingState);
+                string ip = (string)ipadress;
+                Ping ping = new();
+
+                try
+                {
+                    PingReply reply = ping.Send(ip,5000);
+
+                    if(reply.Status==IPStatus.Success)
+                    {
+                        var str = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} --来自 {ip} 的回复: 字节={reply.Buffer.Length} 时间={reply.RoundtripTime}ms TTL={reply.Options.Ttl}";
+
+                        UpdateUI(str,reply.RoundtripTime);
+                    }
+                    else
+                    {
+                        var str = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} --来自 {ip} 的回复: {reply.Status}";
+                        // 主机不可达
+                        UpdateUI(str,-1);
+                    }
+                }
+                catch(Exception ex)
+                {
+                    var str = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} --来自 {ip} 的回复: {ex.Message}";
+                    // 主机不可达
+                    UpdateUI(str,-1);
+                }
+                Thread.Sleep(1000); // 等待1秒后再次执行ping命令
             }
         }
 
-        private void Ping_PingCompleted(object sender,PingCompletedEventArgs e)
+        private void UpdateUI(string message,long outtime)
         {
-            PingState pingState = (PingState)e.UserState; // 获取传递的PingState对象
-            string ipAddress = pingState.IpAddress; // 获取IP地址
 
-            if(e.Cancelled)
+            if(InvokeRequired)
             {
-                // 使用ipAddress进行处理
-                RichTextBox richTextBox = ipTextBoxes[ipAddress];
-                richTextBox.AppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}  {ipAddress} 连接被取消");
-            }
-            else if(e.Error!=null)
-            {
-                // 使用ipAddress进行处理
-                RichTextBox richTextBox = ipTextBoxes[ipAddress];
-                richTextBox.AppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}  {ipAddress} 连接失败: {e.Error.Message}\n");
+                Invoke(new Action<string,long>(UpdateUI),message,outtime);
             }
             else
             {
-                // 使用ipAddress进行处理
-                RichTextBox richTextBox = ipTextBoxes[ipAddress];
-                if(RoundtripTime<e.Reply.RoundtripTime)
+                if(outtime>=RoundtripTime)
                 {
-                    richTextBox.AppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}  {ipAddress} 延迟: {e.Reply.RoundtripTime}ms\n");
+                    richTextBox1.AppendText("Connect   "+message+Environment.NewLine);
+                }
+                if(outtime==-1)
+                {
+                    richTextBox1.AppendText("ERROR     "+message+Environment.NewLine);
                 }
             }
         }
+
 
         private void 过滤10ms以内的消息ToolStripMenuItem_Click(object sender,EventArgs e)
         {

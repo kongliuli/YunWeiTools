@@ -211,9 +211,9 @@ namespace GetPayMessageByALi
             try
             {
                 DateTime ti = new DateTime(
-                   int.Parse(times[0].Split("/")[0]),
-                   int.Parse(times[0].Split("/")[1]),
-                   int.Parse(times[0].Split("/")[2]),
+                   int.Parse(times[0].Split("-")[0]),
+                   int.Parse(times[0].Split("-")[1]),
+                   int.Parse(times[0].Split("-")[2]),
                    int.Parse(times[1].Split(":")[0]),
                    int.Parse(times[1].Split(":")[1]),
                     0);
@@ -274,7 +274,7 @@ namespace GetPayMessageByALi
         private void button3_Click(object sender,EventArgs e)
         {
             var path = Directory.GetCurrentDirectory();
-            path+="//统计数据//";
+            //path+="//统计数据//";
             var db = dataGridView1.DataSource as DataTable;
 
             if(dataGridView1.DataSource!=null)
@@ -465,7 +465,10 @@ namespace GetPayMessageByALi
             #region 数值插入
             #region 子标题插入
             var data01 = (from dataRow in groupdata.FindAll(x => x.PriceType=="买量")
-                          select dataRow.Itemname).ToList();
+                          select dataRow).ToList();
+            List<string> name = new List<string>();
+
+
             if(data01.Count==merge1-2)
             {
                 for(int i = 5;i<data01.Count+5;i++)
