@@ -11,11 +11,13 @@ namespace NetworkWatchDog
 
         private List<string> ListiningIP;
         int RoundtripTime = 0;
+        int timeout = 5000;//ms
 
         public Form1()
         {
             InitializeComponent();
             ipTextBoxes=new List<string>();
+            ListiningIP=new();
         }
 
         private void pingConnecting()
@@ -49,8 +51,12 @@ namespace NetworkWatchDog
                 var config = configBuilder.Build();
                 var ipGroupSection = config.GetSection("ipgroup");
                 var ipGroupChildren = ipGroupSection.GetChildren();
+
+#nullable disable //trycatch 判断是否为空
                 string[] ipAddresses = ipGroupChildren.Select(x => x.Value).ToArray();
                 RoundtripTime=int.Parse(config.GetSection("RoundtripTime").Value);
+                timeout=int.Parse(config.GetSection("TimeOut").Value);
+#nullable enable
 
                 ipTextBoxes=ipAddresses.ToList();
                 listBox1.Items.Clear();
@@ -64,7 +70,7 @@ namespace NetworkWatchDog
             }
             catch
             {
-                MessageBox.Show("config文件缺失");
+                MessageBox.Show(Directory.GetCurrentDirectory()+"config文件缺失");
             }
         }
 
@@ -77,24 +83,24 @@ namespace NetworkWatchDog
 
                 try
                 {
-                    PingReply reply = ping.Send(ip,5000);
+                    PingReply reply = ping.Send(ip,timeout);
 
                     if(reply.Status==IPStatus.Success)
                     {
-                        var str = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} --来自 {ip} 的回复: 字节={reply.Buffer.Length} 时间={reply.RoundtripTime}ms TTL={reply.Options.Ttl}";
+                        var str = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} --{ip}: 字节={reply.Buffer.Length} 时间={reply.RoundtripTime}ms TTL={reply.Options?.Ttl}";
 
                         UpdateUI(str,reply.RoundtripTime);
                     }
                     else
                     {
-                        var str = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} --来自 {ip} 的回复: {reply.Status}";
+                        var str = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} --{ip}: {reply.Status}";
                         // 主机不可达
                         UpdateUI(str,-1);
                     }
                 }
                 catch(Exception ex)
                 {
-                    var str = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} --来自 {ip} 的回复: {ex.Message}";
+                    var str = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} --{ip}: {ex.Message}";
                     // 主机不可达
                     UpdateUI(str,-1);
                 }
@@ -130,23 +136,6 @@ namespace NetworkWatchDog
         private void ReReadIpConfigToolStripMenuItem_Click(object sender,EventArgs e)
         {
             MainForm_Load(null,null);
-        }
-    }
-    public class PingState
-    {
-        public string IpAddress
-        {
-            get; set;
-        }
-        public Action<object,PingCompletedEventArgs> Callback
-        {
-            get; set;
-        }
-
-        public PingState(string ipAddress,Action<object,PingCompletedEventArgs> callback)
-        {
-            IpAddress=ipAddress;
-            Callback=callback;
         }
     }
 }
