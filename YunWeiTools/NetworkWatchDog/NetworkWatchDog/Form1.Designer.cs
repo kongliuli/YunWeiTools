@@ -31,50 +31,40 @@
             components=new System.ComponentModel.Container();
             timer1=new System.Windows.Forms.Timer(components);
             menuStrip1=new MenuStrip();
-            中断ping请求ToolStripMenuItem=new ToolStripMenuItem();
-            过滤10ms以内的消息ToolStripMenuItem=new ToolStripMenuItem();
-            过滤100ms以内的消息ToolStripMenuItem=new ToolStripMenuItem();
             重新读取IP地址组ToolStripMenuItem=new ToolStripMenuItem();
             清空所有记录ToolStripMenuItem=new ToolStripMenuItem();
+            splitContainer1=new SplitContainer();
+            listBox1=new ListBox();
+            tabcontrol1=new TabControl();
+            tabPage1=new TabPage();
+            richTextBox2=new RichTextBox();
+            tabPage2=new TabPage();
             richTextBox1=new RichTextBox();
             menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
+            splitContainer1.Panel1.SuspendLayout();
+            splitContainer1.Panel2.SuspendLayout();
+            splitContainer1.SuspendLayout();
+            tabcontrol1.SuspendLayout();
+            tabPage1.SuspendLayout();
+            tabPage2.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { 中断ping请求ToolStripMenuItem,过滤10ms以内的消息ToolStripMenuItem,过滤100ms以内的消息ToolStripMenuItem,重新读取IP地址组ToolStripMenuItem,清空所有记录ToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { 重新读取IP地址组ToolStripMenuItem,清空所有记录ToolStripMenuItem });
             menuStrip1.Location=new Point(0,0);
             menuStrip1.Name="menuStrip1";
-            menuStrip1.Size=new Size(652,25);
+            menuStrip1.Size=new Size(1023,25);
             menuStrip1.TabIndex=0;
             menuStrip1.Text="menuStrip1";
-            // 
-            // 中断ping请求ToolStripMenuItem
-            // 
-            中断ping请求ToolStripMenuItem.Name="中断ping请求ToolStripMenuItem";
-            中断ping请求ToolStripMenuItem.Size=new Size(94,21);
-            中断ping请求ToolStripMenuItem.Text="中断ping请求";
-            中断ping请求ToolStripMenuItem.Click+=中断ping请求ToolStripMenuItem_Click;
-            // 
-            // 过滤10ms以内的消息ToolStripMenuItem
-            // 
-            过滤10ms以内的消息ToolStripMenuItem.Name="过滤10ms以内的消息ToolStripMenuItem";
-            过滤10ms以内的消息ToolStripMenuItem.Size=new Size(135,21);
-            过滤10ms以内的消息ToolStripMenuItem.Text="过滤10ms以内的消息";
-            过滤10ms以内的消息ToolStripMenuItem.Click+=过滤10ms以内的消息ToolStripMenuItem_Click;
-            // 
-            // 过滤100ms以内的消息ToolStripMenuItem
-            // 
-            过滤100ms以内的消息ToolStripMenuItem.Name="过滤100ms以内的消息ToolStripMenuItem";
-            过滤100ms以内的消息ToolStripMenuItem.Size=new Size(142,21);
-            过滤100ms以内的消息ToolStripMenuItem.Text="过滤100ms以内的消息";
-            过滤100ms以内的消息ToolStripMenuItem.Click+=过滤100ms以内的消息ToolStripMenuItem_Click;
             // 
             // 重新读取IP地址组ToolStripMenuItem
             // 
             重新读取IP地址组ToolStripMenuItem.Name="重新读取IP地址组ToolStripMenuItem";
-            重新读取IP地址组ToolStripMenuItem.Size=new Size(115,21);
-            重新读取IP地址组ToolStripMenuItem.Text="重新读取IP地址组";
+            重新读取IP地址组ToolStripMenuItem.Size=new Size(116,21);
+            重新读取IP地址组ToolStripMenuItem.Text="重新读取配置文件";
+            重新读取IP地址组ToolStripMenuItem.Click+=ReReadIpConfigToolStripMenuItem_Click;
             // 
             // 清空所有记录ToolStripMenuItem
             // 
@@ -83,21 +73,90 @@
             清空所有记录ToolStripMenuItem.Text="清空所有记录";
             清空所有记录ToolStripMenuItem.Click+=清空所有记录ToolStripMenuItem_Click;
             // 
+            // splitContainer1
+            // 
+            splitContainer1.Dock=DockStyle.Fill;
+            splitContainer1.Location=new Point(0,25);
+            splitContainer1.Name="splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            splitContainer1.Panel1.Controls.Add(listBox1);
+            // 
+            // splitContainer1.Panel2
+            // 
+            splitContainer1.Panel2.Controls.Add(tabcontrol1);
+            splitContainer1.Size=new Size(1023,453);
+            splitContainer1.SplitterDistance=157;
+            splitContainer1.TabIndex=2;
+            // 
+            // listBox1
+            // 
+            listBox1.Dock=DockStyle.Fill;
+            listBox1.FormattingEnabled=true;
+            listBox1.ItemHeight=17;
+            listBox1.Location=new Point(0,0);
+            listBox1.Name="listBox1";
+            listBox1.Size=new Size(157,453);
+            listBox1.TabIndex=0;
+            // 
+            // tabcontrol1
+            // 
+            tabcontrol1.Controls.Add(tabPage1);
+            tabcontrol1.Controls.Add(tabPage2);
+            tabcontrol1.Dock=DockStyle.Fill;
+            tabcontrol1.Location=new Point(0,0);
+            tabcontrol1.Name="tabcontrol1";
+            tabcontrol1.SelectedIndex=0;
+            tabcontrol1.Size=new Size(862,453);
+            tabcontrol1.TabIndex=1;
+            // 
+            // tabPage1
+            // 
+            tabPage1.Controls.Add(richTextBox2);
+            tabPage1.Location=new Point(4,26);
+            tabPage1.Name="tabPage1";
+            tabPage1.Padding=new Padding(3);
+            tabPage1.Size=new Size(854,423);
+            tabPage1.TabIndex=0;
+            tabPage1.Text="实时连接信息";
+            tabPage1.UseVisualStyleBackColor=true;
+            // 
+            // richTextBox2
+            // 
+            richTextBox2.Dock=DockStyle.Fill;
+            richTextBox2.Location=new Point(3,3);
+            richTextBox2.Name="richTextBox2";
+            richTextBox2.Size=new Size(848,417);
+            richTextBox2.TabIndex=0;
+            richTextBox2.Text="";
+            // 
+            // tabPage2
+            // 
+            tabPage2.Controls.Add(richTextBox1);
+            tabPage2.Location=new Point(4,26);
+            tabPage2.Name="tabPage2";
+            tabPage2.Padding=new Padding(3);
+            tabPage2.Size=new Size(854,423);
+            tabPage2.TabIndex=1;
+            tabPage2.Text="异常信息";
+            tabPage2.UseVisualStyleBackColor=true;
+            // 
             // richTextBox1
             // 
             richTextBox1.Dock=DockStyle.Fill;
-            richTextBox1.Location=new Point(0,25);
+            richTextBox1.Location=new Point(3,3);
             richTextBox1.Name="richTextBox1";
-            richTextBox1.Size=new Size(652,343);
-            richTextBox1.TabIndex=1;
+            richTextBox1.Size=new Size(848,417);
+            richTextBox1.TabIndex=0;
             richTextBox1.Text="";
             // 
             // Form1
             // 
             AutoScaleDimensions=new SizeF(7F,17F);
             AutoScaleMode=AutoScaleMode.Font;
-            ClientSize=new Size(652,368);
-            Controls.Add(richTextBox1);
+            ClientSize=new Size(1023,478);
+            Controls.Add(splitContainer1);
             Controls.Add(menuStrip1);
             MainMenuStrip=menuStrip1;
             Name="Form1";
@@ -105,6 +164,13 @@
             Load+=MainForm_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
+            splitContainer1.Panel1.ResumeLayout(false);
+            splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
+            splitContainer1.ResumeLayout(false);
+            tabcontrol1.ResumeLayout(false);
+            tabPage1.ResumeLayout(false);
+            tabPage2.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -112,11 +178,14 @@
         #endregion
         private System.Windows.Forms.Timer timer1;
         private MenuStrip menuStrip1;
-        private ToolStripMenuItem 中断ping请求ToolStripMenuItem;
-        private ToolStripMenuItem 过滤10ms以内的消息ToolStripMenuItem;
-        private ToolStripMenuItem 过滤100ms以内的消息ToolStripMenuItem;
         private ToolStripMenuItem 重新读取IP地址组ToolStripMenuItem;
         private ToolStripMenuItem 清空所有记录ToolStripMenuItem;
+        private SplitContainer splitContainer1;
+        private ListBox listBox1;
         private RichTextBox richTextBox1;
+        private TabControl tabcontrol1;
+        private TabPage tabPage1;
+        private RichTextBox richTextBox2;
+        private TabPage tabPage2;
     }
 }
