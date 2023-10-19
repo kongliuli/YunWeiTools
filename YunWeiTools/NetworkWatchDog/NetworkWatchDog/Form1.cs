@@ -11,7 +11,7 @@ namespace NetworkWatchDog
 
         private List<Ipaddress> ListiningIP;
         int IntranettripTime = 10, ExternaltripTime = 150;
-        int PingTimer = 10, BuffurMaxLine = 10000;
+        int PingTimer = 1000, BuffurMaxLine = 10000;
         int timeout = 5000;//ms
 
         public Form1()
