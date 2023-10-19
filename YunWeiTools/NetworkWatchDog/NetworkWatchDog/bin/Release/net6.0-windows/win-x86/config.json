@@ -1,12 +1,25 @@
 {
-  "ipgroup": [
+  //内网ip组
+  "IntranetGroup": [
     "192.168.0.1",
     "192.168.0.23",
     "192.168.0.24",
     "192.168.0.25",
-    "192.168.0.21",
-    "192.168.0.245"
+    "192.168.0.21"
   ],
-  "show": "error",
-  "RoundtripTime": 10
+  //内网延迟/ms
+  "IntranettripTime": 10,
+  //外网ip组
+  "ExternalNetworkGroup": [
+    "www.baidu.com",
+    "www.google.com"
+  ],
+  //外网延迟/ms
+  "ExternaltripTime": 150,
+  //访问超时判断条件 默认值为5000ms
+  "TimeOut": 5000,
+  //重复ping命令间隔时间 ,默认值为1000ms
+  "PingTimer": 1000,
+  //展示界面超过指定行数,则每次增加删除最早100行,默认值为10000条
+  "BuffurMaxLine": 10000
 }

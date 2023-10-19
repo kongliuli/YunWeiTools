@@ -5,15 +5,13 @@
     "192.168.0.23",
     "192.168.0.24",
     "192.168.0.25",
-    "192.168.0.21",
-    "192.168.0.245"
+    "192.168.0.21"
   ],
   //内网延迟/ms
   "IntranettripTime": 10,
   //外网ip组
   "ExternalNetworkGroup": [
-    "www.baidu.com",
-    "www.google.com"
+    "www.baidu.com"
   ],
   //外网延迟/ms
   "ExternaltripTime": 150,

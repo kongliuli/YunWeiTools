@@ -129,9 +129,9 @@ namespace NetworkWatchDog
             else
             {
                 int triptime = istra ? IntranettripTime : ExternaltripTime;
-                if(richTextBox1.TextLength>BuffurMaxLine)
+                if(richTextBox1.Lines.Count()>BuffurMaxLine)
                     richTextBox1.Text=richTextBox1.Text.Remove(0,100);
-                if(richTextBox2.TextLength>BuffurMaxLine)
+                if(richTextBox2.Lines.Count()>BuffurMaxLine)
                     richTextBox2.Text=richTextBox2.Text.Remove(0,100);
                 if(outtime>=triptime||outtime==-1)
                 {
