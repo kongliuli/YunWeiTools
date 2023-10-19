@@ -1,134 +1,169 @@
 using System.Net.NetworkInformation;
 
 using Microsoft.Extensions.Configuration;
-
-using Timer = System.Windows.Forms.Timer;
 namespace NetworkWatchDog
 {
-    //todo ip和对应页面的绑定关系
-    //todo 长连接的保持
+    //todo api报警
     public partial class Form1:Form
     {
-        private Dictionary<string,RichTextBox> ipTextBoxes;
-        private Timer timer;
-        int RoundtripTime = 0;
+        private const int MaxThreads = 100; // 最大线程数
+        private List<Ipaddress> ipTextBoxes;
+
+        private List<Ipaddress> ListiningIP;
+        int IntranettripTime = 10, ExternaltripTime = 150;
+        int PingTimer = 1000, BuffurMaxLine = 10000;
+        int timeout = 5000;//ms
 
         public Form1()
         {
             InitializeComponent();
-            ipTextBoxes=new Dictionary<string,RichTextBox>();
-            timer=new Timer();
-            timer.Interval=1000; // 设置定时器间隔为5秒
-            timer.Tick+=Timer_Tick;
-        }
-        private void MainForm_Load(object sender,EventArgs e)
-        {
-            var configBuilder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("config.json",optional: true,reloadOnChange: true);
-            var config = configBuilder.Build();
-            var ipGroupSection = config.GetSection("ipgroup");
-            var ipGroupChildren = ipGroupSection.GetChildren();
-            string[] ipAddresses = ipGroupChildren.Select(x => x.Value).ToArray();
-            RoundtripTime=int.Parse(config.GetSection("RoundtripTime").Value);
-
-            tabControl1.TabPages.Clear();
-
-            foreach(string ipAddress in ipAddresses)
-            {
-                TabPage tabPage = new(ipAddress);
-                RichTextBox richTextBox = new();
-                richTextBox.Dock=DockStyle.Fill;
-                richTextBox.SelectionStart=richTextBox.Text.Length;
-                richTextBox.ScrollToCaret();
-                tabPage.Controls.Add(richTextBox);
-                tabControl1.TabPages.Add(tabPage);
-                ipTextBoxes[ipAddress]=richTextBox;
-            }
-            timer.Start(); // 启动定时器
-            this.Text=$"网络连接监视器 -计时器开启 -{RoundtripTime}ms";
+            ipTextBoxes=new List<Ipaddress>();
+            ListiningIP=new();
         }
 
-        private void Timer_Tick(object sender,EventArgs e)
+        private void pingConnecting()
         {
-            foreach(string ipAddress in ipTextBoxes.Keys)
-            {
-                PingState pingState = new PingState(ipAddress,Ping_PingCompleted);
-                Ping ping = new Ping();
-                ping.PingCompleted+=Ping_PingCompleted;
-                ping.SendAsync(ipAddress,5000,pingState);
-            }
-        }
+            // 创建线程池
+            ThreadPool.SetMaxThreads(MaxThreads,MaxThreads);
 
-        private void Ping_PingCompleted(object sender,PingCompletedEventArgs e)
-        {
-            PingState pingState = (PingState)e.UserState; // 获取传递的PingState对象
-            string ipAddress = pingState.IpAddress; // 获取IP地址
-
-            if(e.Cancelled)
+            // 启动ping线程
+            foreach(Ipaddress ipAddress in ipTextBoxes)
             {
-                // 使用ipAddress进行处理
-                RichTextBox richTextBox = ipTextBoxes[ipAddress];
-                richTextBox.AppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}  {ipAddress} 连接被取消");
-            }
-            else if(e.Error!=null)
-            {
-                // 使用ipAddress进行处理
-                RichTextBox richTextBox = ipTextBoxes[ipAddress];
-                richTextBox.AppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}  {ipAddress} 连接失败: {e.Error.Message}\n");
-            }
-            else
-            {
-                // 使用ipAddress进行处理
-                RichTextBox richTextBox = ipTextBoxes[ipAddress];
-                if(RoundtripTime<e.Reply.RoundtripTime)
+                if(ListiningIP.Contains(ipAddress))
                 {
-                    richTextBox.AppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}  {ipAddress} 延迟: {e.Reply.RoundtripTime}ms\n");
+
+                }
+                else
+                {
+                    ListiningIP.Add(ipAddress);
+                    Thread thread = new(() => Ping_PingCompleted(ipAddress));
+                    thread.Start();
                 }
             }
         }
 
-        private void 过滤10ms以内的消息ToolStripMenuItem_Click(object sender,EventArgs e)
+        private void MainForm_Load(object sender,EventArgs e)
         {
-            RoundtripTime=10;
-            this.Text=$"网络连接监视器 -计时器开启 -{RoundtripTime}ms";
+            try
+            {
+                var configBuilder = new ConfigurationBuilder()
+               .SetBasePath(Directory.GetCurrentDirectory())
+               .AddJsonFile("config.json",optional: true,reloadOnChange: true);
+
+                var config = configBuilder.Build();
+                var IntranetGroup = config.GetSection("IntranetGroup");
+                var IntranetGroupChildren = IntranetGroup.GetChildren();
+
+                var ExternalNetworkGroup = config.GetSection("ExternalNetworkGroup");
+                var ExternalNetworkChildren = ExternalNetworkGroup.GetChildren();
+
+#nullable disable //trycatch 判断是否为空
+                string[] IntranetAddress = IntranetGroupChildren.Select(x => x.Value).ToArray();
+                string[] ExternalNetworkAddresses = ExternalNetworkChildren.Select(x => x.Value).ToArray();
+                IntranettripTime=int.Parse(config.GetSection("IntranettripTime").Value);
+                ExternaltripTime=int.Parse(config.GetSection("ExternaltripTime").Value);
+                timeout=int.Parse(config.GetSection("TimeOut").Value);
+
+
+                PingTimer=int.Parse(config.GetSection("PingTimer").Value);
+                BuffurMaxLine=int.Parse(config.GetSection("BuffurMaxLine").Value);
+#nullable enable
+
+                ipTextBoxes.Clear();
+                ipTextBoxes=(from ip in IntranetAddress select new Ipaddress() { ipinfo=ip.ToString(),isintra=true }).ToList();
+                ipTextBoxes.AddRange((from ip in ExternalNetworkAddresses select new Ipaddress() { ipinfo=ip.ToLower(),isintra=false }).ToList());
+
+
+                listBox1.Items.Clear();
+                foreach(var ip in ipTextBoxes)
+                {
+                    listBox1.Items.Add(ip.ipinfo);
+                }
+
+
+                this.Text=$"网络连接监视器 --内/外网ip延迟 --{IntranettripTime}/{ExternaltripTime}ms";
+
+                pingConnecting();
+            }
+            catch
+            {
+                MessageBox.Show(Directory.GetCurrentDirectory()+"config文件缺失");
+            }
         }
 
-        private void 过滤100ms以内的消息ToolStripMenuItem_Click(object sender,EventArgs e)
+        private void Ping_PingCompleted(object ipadress)
         {
-            RoundtripTime=100;
-            this.Text=$"网络连接监视器 -计时器开启 -{RoundtripTime}ms";
+            while(true)
+            {
+                Ipaddress ip = (Ipaddress)ipadress;
+                Ping ping = new();
+
+                try
+                {
+                    PingReply reply = ping.Send(ip.ipinfo,timeout);
+                    if(reply.Status==IPStatus.Success)
+                    {
+                        UpdateUI($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} --{ip.ipinfo}: 字节={reply.Buffer.Length} 时间={reply.RoundtripTime}ms TTL={reply.Options?.Ttl}",reply.RoundtripTime,ip.isintra);
+                    }
+                    else
+                    {
+                        //不成功汇总
+                        UpdateUI($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} --{ip.ipinfo}: {reply.Status}",-1);
+                    }
+                }
+                catch(Exception ex)
+                {
+                    //异常报告
+                    UpdateUI($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} --{ip.ipinfo}: {ex.Message}",-1);
+                }
+                Thread.Sleep(PingTimer); // 等待1秒后再次执行ping命令
+            }
         }
 
-        private void 中断ping请求ToolStripMenuItem_Click(object sender,EventArgs e)
+        private void UpdateUI(string message,long outtime,bool istra = true)
         {
-            timer1.Stop();
-            this.Text=$"网络连接监视器 -计时器关闭 -{RoundtripTime}ms";
+            if(InvokeRequired)
+            {
+                Invoke(new Action<string,long,bool>(UpdateUI),message,outtime,istra);
+            }
+            else
+            {
+                int triptime = istra ? IntranettripTime : ExternaltripTime;
+                if(richTextBox1.Lines.Count()>BuffurMaxLine)
+                    richTextBox1.Text=richTextBox1.Text.Remove(0,100);
+                if(richTextBox2.Lines.Count()>BuffurMaxLine)
+                    richTextBox2.Text=richTextBox2.Text.Remove(0,100);
+                if(outtime>=triptime||outtime==-1)
+                {
+                    richTextBox1.AppendText(message+Environment.NewLine);
+                    File.AppendAllText(Directory.GetCurrentDirectory()+"/error.log",message+"\r\n");
+                }
+                richTextBox2.AppendText(message+Environment.NewLine);
+            }
         }
 
         private void 清空所有记录ToolStripMenuItem_Click(object sender,EventArgs e)
         {
-            foreach(var a in ipTextBoxes)
-            {
-                a.Value.Text="";
-            }
+            richTextBox1.Text="";
+            richTextBox2.Text="";
+        }
+
+        private void ReReadIpConfigToolStripMenuItem_Click(object sender,EventArgs e)
+        {
+            MainForm_Load(null,null);
         }
     }
-    public class PingState
+
+    public class Ipaddress
     {
-        public string IpAddress
-        {
-            get; set;
-        }
-        public Action<object,PingCompletedEventArgs> Callback
+        public string ipinfo
         {
             get; set;
         }
 
-        public PingState(string ipAddress,Action<object,PingCompletedEventArgs> callback)
+        public bool isintra
         {
-            IpAddress=ipAddress;
-            Callback=callback;
+            get; set;
         }
     }
 }

@@ -36,12 +36,14 @@
             label1=new Label();
             comboBox1=new ComboBox();
             dataGridView1=new DataGridView();
+            button4=new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // panel1
             // 
+            panel1.Controls.Add(button4);
             panel1.Controls.Add(button3);
             panel1.Controls.Add(button2);
             panel1.Controls.Add(button1);
@@ -56,7 +58,7 @@
             // 
             // button3
             // 
-            button3.Location=new Point(594,59);
+            button3.Location=new Point(544,59);
             button3.Name="button3";
             button3.Size=new Size(75,23);
             button3.TabIndex=5;
@@ -66,7 +68,7 @@
             // 
             // button2
             // 
-            button2.Location=new Point(502,88);
+            button2.Location=new Point(452,88);
             button2.Name="button2";
             button2.Size=new Size(75,23);
             button2.TabIndex=4;
@@ -76,7 +78,7 @@
             // 
             // button1
             // 
-            button1.Location=new Point(502,59);
+            button1.Location=new Point(452,59);
             button1.Name="button1";
             button1.Size=new Size(75,23);
             button1.TabIndex=3;
@@ -121,6 +123,16 @@
             dataGridView1.Size=new Size(685,307);
             dataGridView1.TabIndex=1;
             // 
+            // button4
+            // 
+            button4.Location=new Point(544,88);
+            button4.Name="button4";
+            button4.Size=new Size(75,42);
+            button4.TabIndex=6;
+            button4.Text="导出统计表";
+            button4.UseVisualStyleBackColor=true;
+            button4.Click+=button4_Click;
+            // 
             // Form1
             // 
             AllowDrop=true;
@@ -130,7 +142,7 @@
             Controls.Add(dataGridView1);
             Controls.Add(panel1);
             Name="Form1";
-            Text="Form1";
+            Text="费用计算器";
             DragDrop+=Form1_DragDrop;
             DragEnter+=Form1_DragEnter;
             panel1.ResumeLayout(false);
@@ -149,5 +161,6 @@
         private DataGridView dataGridView1;
         private Button button2;
         private Button button3;
+        private Button button4;
     }
 }
