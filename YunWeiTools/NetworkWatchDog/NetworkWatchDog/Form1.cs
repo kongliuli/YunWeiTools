@@ -3,13 +3,13 @@ using System.Net.NetworkInformation;
 using Microsoft.Extensions.Configuration;
 namespace NetworkWatchDog
 {
-
     //todo api报警
     public partial class Form1:Form
     {
         private const int MaxThreads = 100; // 最大线程数
         private List<string> ipTextBoxes;
 
+        private List<string> ListiningIP;
         int RoundtripTime = 0;
 
         public Form1()
@@ -24,33 +24,48 @@ namespace NetworkWatchDog
             ThreadPool.SetMaxThreads(MaxThreads,MaxThreads);
 
             // 启动ping线程
-            foreach(var ipAddress in ipTextBoxes)
+            foreach(string ipAddress in ipTextBoxes)
             {
-                Thread thread = new(() => Ping_PingCompleted(ipAddress));
-                thread.Start();
+                if(ListiningIP.Contains(ipAddress))
+                {
+
+                }
+                else
+                {
+                    ListiningIP.Add(ipAddress);
+                    Thread thread = new(() => Ping_PingCompleted(ipAddress));
+                    thread.Start();
+                }
             }
         }
 
         private void MainForm_Load(object sender,EventArgs e)
         {
-            var configBuilder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("config.json",optional: true,reloadOnChange: true);
-            var config = configBuilder.Build();
-            var ipGroupSection = config.GetSection("ipgroup");
-            var ipGroupChildren = ipGroupSection.GetChildren();
-            string[] ipAddresses = ipGroupChildren.Select(x => x.Value).ToArray();
-            RoundtripTime=int.Parse(config.GetSection("RoundtripTime").Value);
-
-            ipTextBoxes=ipAddresses.ToList();
-            listBox1.Items.Clear();
-            foreach(var ipAddress in ipTextBoxes)
+            try
             {
-                listBox1.Items.Add(ipAddress);
-            }
-            this.Text=$"网络连接监视器 -{RoundtripTime}ms";
+                var configBuilder = new ConfigurationBuilder()
+               .SetBasePath(Directory.GetCurrentDirectory())
+               .AddJsonFile("config.json",optional: true,reloadOnChange: true);
+                var config = configBuilder.Build();
+                var ipGroupSection = config.GetSection("ipgroup");
+                var ipGroupChildren = ipGroupSection.GetChildren();
+                string[] ipAddresses = ipGroupChildren.Select(x => x.Value).ToArray();
+                RoundtripTime=int.Parse(config.GetSection("RoundtripTime").Value);
 
-            pingConnecting();
+                ipTextBoxes=ipAddresses.ToList();
+                listBox1.Items.Clear();
+                foreach(var ipAddress in ipTextBoxes)
+                {
+                    listBox1.Items.Add(ipAddress);
+                }
+                this.Text=$"网络连接监视器 -{RoundtripTime}ms";
+
+                pingConnecting();
+            }
+            catch
+            {
+                MessageBox.Show("config文件缺失");
+            }
         }
 
         private void Ping_PingCompleted(object ipadress)
@@ -95,20 +110,16 @@ namespace NetworkWatchDog
             }
             else
             {
-                if(outtime>=RoundtripTime)
+                if(outtime>=RoundtripTime||outtime==-1)
                 {
-                    richTextBox1.AppendText("Connect "+message+Environment.NewLine);
+                    richTextBox1.AppendText(message+Environment.NewLine);
                     File.AppendAllText(Directory.GetCurrentDirectory()+"/error.log",message+"\r\n");
-                }
-                if(outtime==-1)
-                {
-                    richTextBox1.AppendText("ERROR "+message+Environment.NewLine);
-                    File.AppendAllText(Directory.GetCurrentDirectory()+"/error.log",message+"\r\n");
+
+                    //url report
                 }
                 richTextBox2.AppendText(message+Environment.NewLine);
             }
         }
-
 
         private void 清空所有记录ToolStripMenuItem_Click(object sender,EventArgs e)
         {
@@ -118,22 +129,7 @@ namespace NetworkWatchDog
 
         private void ReReadIpConfigToolStripMenuItem_Click(object sender,EventArgs e)
         {
-            var configBuilder = new ConfigurationBuilder()
-               .SetBasePath(Directory.GetCurrentDirectory())
-               .AddJsonFile("config.json",optional: true,reloadOnChange: true);
-            var config = configBuilder.Build();
-            var ipGroupSection = config.GetSection("ipgroup");
-            var ipGroupChildren = ipGroupSection.GetChildren();
-            string[] ipAddresses = ipGroupChildren.Select(x => x.Value).ToArray();
-            RoundtripTime=int.Parse(config.GetSection("RoundtripTime").Value);
-
-            ipTextBoxes=ipAddresses.ToList();
-            listBox1.Items.Clear();
-            foreach(var ipAddress in ipTextBoxes)
-            {
-                listBox1.Items.Add(ipAddress);
-            }
-            this.Text=$"网络连接监视器 -{RoundtripTime}ms";
+            MainForm_Load(null,null);
         }
     }
     public class PingState
