@@ -11,8 +11,7 @@
   "IntranettripTime": 10,
   //外网ip组
   "ExternalNetworkGroup": [
-    "www.baidu.com",
-    "www.google.com"
+    "www.baidu.com"
   ],
   //外网延迟/ms
   "ExternaltripTime": 150,

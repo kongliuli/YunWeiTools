@@ -55,7 +55,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { 重新读取IP地址组ToolStripMenuItem,清空所有记录ToolStripMenuItem });
             menuStrip1.Location=new Point(0,0);
             menuStrip1.Name="menuStrip1";
-            menuStrip1.Size=new Size(1023,25);
+            menuStrip1.Size=new Size(664,25);
             menuStrip1.TabIndex=0;
             menuStrip1.Text="menuStrip1";
             // 
@@ -86,8 +86,8 @@
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.Controls.Add(tabcontrol1);
-            splitContainer1.Size=new Size(1023,453);
-            splitContainer1.SplitterDistance=157;
+            splitContainer1.Size=new Size(664,437);
+            splitContainer1.SplitterDistance=101;
             splitContainer1.TabIndex=2;
             // 
             // listBox1
@@ -97,7 +97,7 @@
             listBox1.ItemHeight=17;
             listBox1.Location=new Point(0,0);
             listBox1.Name="listBox1";
-            listBox1.Size=new Size(157,453);
+            listBox1.Size=new Size(101,437);
             listBox1.TabIndex=0;
             // 
             // tabcontrol1
@@ -108,7 +108,7 @@
             tabcontrol1.Location=new Point(0,0);
             tabcontrol1.Name="tabcontrol1";
             tabcontrol1.SelectedIndex=0;
-            tabcontrol1.Size=new Size(862,453);
+            tabcontrol1.Size=new Size(559,437);
             tabcontrol1.TabIndex=1;
             // 
             // tabPage1
@@ -117,7 +117,7 @@
             tabPage1.Location=new Point(4,26);
             tabPage1.Name="tabPage1";
             tabPage1.Padding=new Padding(3);
-            tabPage1.Size=new Size(854,423);
+            tabPage1.Size=new Size(551,407);
             tabPage1.TabIndex=0;
             tabPage1.Text="实时连接信息";
             tabPage1.UseVisualStyleBackColor=true;
@@ -127,7 +127,7 @@
             richTextBox2.Dock=DockStyle.Fill;
             richTextBox2.Location=new Point(3,3);
             richTextBox2.Name="richTextBox2";
-            richTextBox2.Size=new Size(848,417);
+            richTextBox2.Size=new Size(545,401);
             richTextBox2.TabIndex=0;
             richTextBox2.Text="";
             // 
@@ -155,7 +155,7 @@
             // 
             AutoScaleDimensions=new SizeF(7F,17F);
             AutoScaleMode=AutoScaleMode.Font;
-            ClientSize=new Size(1023,478);
+            ClientSize=new Size(664,462);
             Controls.Add(splitContainer1);
             Controls.Add(menuStrip1);
             MainMenuStrip=menuStrip1;

@@ -1,44 +1,33 @@
 using System.Net.NetworkInformation;
 
 using Microsoft.Extensions.Configuration;
+
 namespace NetworkWatchDog
 {
     //todo api报警
     public partial class Form1:Form
     {
-        private const int MaxThreads = 100; // 最大线程数
         private List<Ipaddress> ipTextBoxes;
-
         private List<Ipaddress> ListiningIP;
         int IntranettripTime = 10, ExternaltripTime = 150;
         int PingTimer = 1000, BuffurMaxLine = 10000;
-        int timeout = 5000;//ms
+        int timeout = 5000;
 
         public Form1()
         {
             InitializeComponent();
+
             ipTextBoxes=new List<Ipaddress>();
             ListiningIP=new();
         }
 
         private void pingConnecting()
         {
-            // 创建线程池
-            ThreadPool.SetMaxThreads(MaxThreads,MaxThreads);
-
-            // 启动ping线程
-            foreach(Ipaddress ipAddress in ipTextBoxes)
+            foreach(var ipAddress in ipTextBoxes.Where(ipAddress => !ListiningIP.Contains(ipAddress)))
             {
-                if(ListiningIP.Contains(ipAddress))
-                {
-
-                }
-                else
-                {
-                    ListiningIP.Add(ipAddress);
-                    Thread thread = new(() => Ping_PingCompleted(ipAddress));
-                    thread.Start();
-                }
+                // 启动ping线程
+                ListiningIP.Add(ipAddress);
+                new Thread(() => Ping_PingCompleted(ipAddress)).Start();
             }
         }
 
@@ -116,6 +105,7 @@ namespace NetworkWatchDog
                     //异常报告
                     UpdateUI($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} --{ip.ipinfo}: {ex.Message}",-1);
                 }
+                ping.Dispose();
                 Thread.Sleep(PingTimer); // 等待1秒后再次执行ping命令
             }
         }
@@ -150,7 +140,9 @@ namespace NetworkWatchDog
 
         private void ReReadIpConfigToolStripMenuItem_Click(object sender,EventArgs e)
         {
+#nullable disable //load重调用
             MainForm_Load(null,null);
+#nullable enable        
         }
     }
 
@@ -159,7 +151,7 @@ namespace NetworkWatchDog
         public string ipinfo
         {
             get; set;
-        }
+        } = "";
 
         public bool isintra
         {
