@@ -120,15 +120,36 @@ namespace NetworkWatchDog
             {
                 int triptime = istra ? IntranettripTime : ExternaltripTime;
                 if(richTextBox1.Lines.Count()>BuffurMaxLine)
-                    richTextBox1.Text=richTextBox1.Text.Remove(0,100);
-                if(richTextBox2.Lines.Count()>BuffurMaxLine)
-                    richTextBox2.Text=richTextBox2.Text.Remove(0,100);
-                if(outtime>=triptime||outtime==-1)
                 {
-                    richTextBox1.AppendText(message+Environment.NewLine);
-                    File.AppendAllText(Directory.GetCurrentDirectory()+"/error.log",message+"\r\n");
+                    var a = richTextBox1.Text.Remove(richTextBox1.GetFirstCharIndexFromLine(100));
+
+                    richTextBox1.Text=a;
+                    richTextBox1.Refresh();
                 }
-                richTextBox2.AppendText(message+Environment.NewLine);
+                if(richTextBox2.Lines.Count()>BuffurMaxLine)
+                {
+                    var a = richTextBox2.Text.Remove(0,richTextBox2.GetFirstCharIndexFromLine(100));
+
+                    richTextBox2.Text=a;
+                    richTextBox2.Refresh();
+                }
+                Task.Run(() =>
+                {
+                    // 执行长时间运行的操作
+                    if(outtime>=triptime||outtime==-1)
+                    {
+                        Invoke((Action)(() =>
+                        {
+                            richTextBox1.AppendText(message+Environment.NewLine);
+                            File.AppendAllText(Directory.GetCurrentDirectory()+"/error.log",message+"\r\n");
+                        }));
+                    }
+
+                    Invoke((Action)(() =>
+                    {
+                        richTextBox2.AppendText(message+Environment.NewLine);
+                    }));
+                });
             }
         }
 
