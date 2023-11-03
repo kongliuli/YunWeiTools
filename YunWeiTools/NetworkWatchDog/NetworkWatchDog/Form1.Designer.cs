@@ -40,6 +40,8 @@
             richTextBox2=new RichTextBox();
             tabPage2=new TabPage();
             richTextBox1=new RichTextBox();
+            tabPage3=new TabPage();
+            richTextBox3=new RichTextBox();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
@@ -48,6 +50,7 @@
             tabcontrol1.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
+            tabPage3.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
@@ -104,6 +107,7 @@
             // 
             tabcontrol1.Controls.Add(tabPage1);
             tabcontrol1.Controls.Add(tabPage2);
+            tabcontrol1.Controls.Add(tabPage3);
             tabcontrol1.Dock=DockStyle.Fill;
             tabcontrol1.Location=new Point(0,0);
             tabcontrol1.Name="tabcontrol1";
@@ -137,7 +141,7 @@
             tabPage2.Location=new Point(4,26);
             tabPage2.Name="tabPage2";
             tabPage2.Padding=new Padding(3);
-            tabPage2.Size=new Size(854,423);
+            tabPage2.Size=new Size(551,407);
             tabPage2.TabIndex=1;
             tabPage2.Text="异常信息";
             tabPage2.UseVisualStyleBackColor=true;
@@ -147,9 +151,29 @@
             richTextBox1.Dock=DockStyle.Fill;
             richTextBox1.Location=new Point(3,3);
             richTextBox1.Name="richTextBox1";
-            richTextBox1.Size=new Size(848,417);
+            richTextBox1.Size=new Size(545,401);
             richTextBox1.TabIndex=0;
             richTextBox1.Text="";
+            // 
+            // tabPage3
+            // 
+            tabPage3.Controls.Add(richTextBox3);
+            tabPage3.Location=new Point(4,26);
+            tabPage3.Name="tabPage3";
+            tabPage3.Padding=new Padding(3);
+            tabPage3.Size=new Size(551,407);
+            tabPage3.TabIndex=2;
+            tabPage3.Text="信息展示";
+            tabPage3.UseVisualStyleBackColor=true;
+            // 
+            // richTextBox3
+            // 
+            richTextBox3.Dock=DockStyle.Fill;
+            richTextBox3.Location=new Point(3,3);
+            richTextBox3.Name="richTextBox3";
+            richTextBox3.Size=new Size(545,401);
+            richTextBox3.TabIndex=0;
+            richTextBox3.Text="";
             // 
             // Form1
             // 
@@ -171,6 +195,7 @@
             tabcontrol1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
+            tabPage3.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -187,5 +212,7 @@
         private TabPage tabPage1;
         private RichTextBox richTextBox2;
         private TabPage tabPage2;
+        private TabPage tabPage3;
+        private RichTextBox richTextBox3;
     }
 }
