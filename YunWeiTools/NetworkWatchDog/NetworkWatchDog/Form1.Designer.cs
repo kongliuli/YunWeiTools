@@ -36,21 +36,18 @@
             splitContainer1=new SplitContainer();
             listBox1=new ListBox();
             tabcontrol1=new TabControl();
-            tabPage1=new TabPage();
-            richTextBox2=new RichTextBox();
             tabPage2=new TabPage();
             richTextBox1=new RichTextBox();
-            tabPage3=new TabPage();
-            richTextBox3=new RichTextBox();
+            tabPage1=new TabPage();
+            richTextBox2=new RichTextBox();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
             tabcontrol1.SuspendLayout();
-            tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
-            tabPage3.SuspendLayout();
+            tabPage1.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
@@ -107,33 +104,12 @@
             // 
             tabcontrol1.Controls.Add(tabPage1);
             tabcontrol1.Controls.Add(tabPage2);
-            tabcontrol1.Controls.Add(tabPage3);
             tabcontrol1.Dock=DockStyle.Fill;
             tabcontrol1.Location=new Point(0,0);
             tabcontrol1.Name="tabcontrol1";
             tabcontrol1.SelectedIndex=0;
             tabcontrol1.Size=new Size(559,437);
             tabcontrol1.TabIndex=1;
-            // 
-            // tabPage1
-            // 
-            tabPage1.Controls.Add(richTextBox2);
-            tabPage1.Location=new Point(4,26);
-            tabPage1.Name="tabPage1";
-            tabPage1.Padding=new Padding(3);
-            tabPage1.Size=new Size(551,407);
-            tabPage1.TabIndex=0;
-            tabPage1.Text="实时连接信息";
-            tabPage1.UseVisualStyleBackColor=true;
-            // 
-            // richTextBox2
-            // 
-            richTextBox2.Dock=DockStyle.Fill;
-            richTextBox2.Location=new Point(3,3);
-            richTextBox2.Name="richTextBox2";
-            richTextBox2.Size=new Size(545,401);
-            richTextBox2.TabIndex=0;
-            richTextBox2.Text="";
             // 
             // tabPage2
             // 
@@ -155,25 +131,25 @@
             richTextBox1.TabIndex=0;
             richTextBox1.Text="";
             // 
-            // tabPage3
+            // tabPage1
             // 
-            tabPage3.Controls.Add(richTextBox3);
-            tabPage3.Location=new Point(4,26);
-            tabPage3.Name="tabPage3";
-            tabPage3.Padding=new Padding(3);
-            tabPage3.Size=new Size(551,407);
-            tabPage3.TabIndex=2;
-            tabPage3.Text="信息展示";
-            tabPage3.UseVisualStyleBackColor=true;
+            tabPage1.Controls.Add(richTextBox2);
+            tabPage1.Location=new Point(4,26);
+            tabPage1.Name="tabPage1";
+            tabPage1.Padding=new Padding(3);
+            tabPage1.Size=new Size(551,407);
+            tabPage1.TabIndex=0;
+            tabPage1.Text="实时连接信息";
+            tabPage1.UseVisualStyleBackColor=true;
             // 
-            // richTextBox3
+            // richTextBox2
             // 
-            richTextBox3.Dock=DockStyle.Fill;
-            richTextBox3.Location=new Point(3,3);
-            richTextBox3.Name="richTextBox3";
-            richTextBox3.Size=new Size(545,401);
-            richTextBox3.TabIndex=0;
-            richTextBox3.Text="";
+            richTextBox2.Dock=DockStyle.Fill;
+            richTextBox2.Location=new Point(3,3);
+            richTextBox2.Name="richTextBox2";
+            richTextBox2.Size=new Size(545,401);
+            richTextBox2.TabIndex=0;
+            richTextBox2.Text="";
             // 
             // Form1
             // 
@@ -193,9 +169,8 @@
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
             tabcontrol1.ResumeLayout(false);
-            tabPage1.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
-            tabPage3.ResumeLayout(false);
+            tabPage1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -209,10 +184,8 @@
         private ListBox listBox1;
         private RichTextBox richTextBox1;
         private TabControl tabcontrol1;
+        private TabPage tabPage2;
         private TabPage tabPage1;
         private RichTextBox richTextBox2;
-        private TabPage tabPage2;
-        private TabPage tabPage3;
-        private RichTextBox richTextBox3;
     }
 }

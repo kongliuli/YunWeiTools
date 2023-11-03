@@ -281,7 +281,6 @@ D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\bin\Release\net
 D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\bin\Release\net6.0-windows\win-x86\hostfxr.dll
 D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\bin\Release\net6.0-windows\win-x86\hostpolicy.dll
 D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\bin\Release\net6.0-windows\win-x86\mscordaccore.dll
-D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\bin\Release\net6.0-windows\win-x86\mscordaccore_x86_x86_6.0.2123.36311.dll
 D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\bin\Release\net6.0-windows\win-x86\mscordbi.dll
 D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\bin\Release\net6.0-windows\win-x86\mscorrc.dll
 D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\bin\Release\net6.0-windows\win-x86\msquic.dll
@@ -525,3 +524,5 @@ D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\obj\Release\net
 D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\obj\Release\net6.0-windows\win-x86\NetworkWatchDog.pdb
 D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\obj\Release\net6.0-windows\win-x86\NetworkWatchDog.genruntimeconfig.cache
 D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\obj\Release\net6.0-windows\win-x86\ref\NetworkWatchDog.dll
+D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\bin\Release\net6.0-windows\win-x86\Newtonsoft.Json.dll
+D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\bin\Release\net6.0-windows\win-x86\mscordaccore_x86_x86_6.0.2423.51814.dll

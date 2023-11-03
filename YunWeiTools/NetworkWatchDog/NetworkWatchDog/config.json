@@ -11,12 +11,11 @@
         "MachineLocation": "",
         //内外网标识
         "isintra": true
-      },
-      {
+      },{
         "Ipconfig": "192.168.0.14",
         "isMachine": true,
         "IpName": "35-1",
-        "MachineInfo": "6223",
+        "MachineInfo": "913",
         "MachineLocation": "",
         "isintra": true
       },
@@ -24,7 +23,7 @@
         "Ipconfig": "192.168.0.15",
         "isMachine": true,
         "IpName": "35-2",
-        "MachineInfo": "6223",
+        "MachineInfo": "913",
         "MachineLocation": "",
         "isintra": true
       },
@@ -32,6 +31,102 @@
         "Ipconfig": "192.168.0.16",
         "isMachine": true,
         "IpName": "35-3",
+        "MachineInfo": "913",
+        "MachineLocation": "",
+        "isintra": true
+      },
+      {
+        "Ipconfig": "192.168.0.17",
+        "isMachine": true,
+        "IpName": "35-4",
+        "MachineInfo": "913",
+        "MachineLocation": "",
+        "isintra": true
+      },
+      {
+        "Ipconfig": "192.168.0.18",
+        "isMachine": true,
+        "IpName": "35-5",
+        "MachineInfo": "913",
+        "MachineLocation": "",
+        "isintra": true
+      },
+      {
+        "Ipconfig": "192.168.0.19",
+        "isMachine": true,
+        "IpName": "35-6",
+        "MachineInfo": "913",
+        "MachineLocation": "",
+        "isintra": true
+      },
+      {
+        "Ipconfig": "192.168.0.20",
+        "isMachine": true,
+        "IpName": "35-7",
+        "MachineInfo": "913",
+        "MachineLocation": "",
+        "isintra": true
+      },
+      {
+        "Ipconfig": "192.168.0.21",
+        "isMachine": true,
+        "IpName": "35-8",
+        "MachineInfo": "6223",
+        "MachineLocation": "",
+        "isintra": true
+      },
+      {
+        "Ipconfig": "192.168.0.22",
+        "isMachine": true,
+        "IpName": "35-9",
+        "MachineInfo": "6223",
+        "MachineLocation": "",
+        "isintra": true
+      },
+      {
+        "Ipconfig": "192.168.0.23",
+        "isMachine": true,
+        "IpName": "35-10",
+        "MachineInfo": "6223",
+        "MachineLocation": "",
+        "isintra": true
+      },
+      {
+        "Ipconfig": "192.168.0.24",
+        "isMachine": true,
+        "IpName": "35-11",
+        "MachineInfo": "6223",
+        "MachineLocation": "",
+        "isintra": true
+      },
+      {
+        "Ipconfig": "192.168.0.25",
+        "isMachine": true,
+        "IpName": "35-12",
+        "MachineInfo": "913",
+        "MachineLocation": "",
+        "isintra": true
+      },
+      {
+        "Ipconfig": "192.168.0.26",
+        "isMachine": true,
+        "IpName": "35-13",
+        "MachineInfo": "6223",
+        "MachineLocation": "",
+        "isintra": true
+      },
+      {
+        "Ipconfig": "192.168.0.27",
+        "isMachine": true,
+        "IpName": "35-6A",
+        "MachineInfo": "6223",
+        "MachineLocation": "",
+        "isintra": true
+      },
+      {
+        "Ipconfig": "192.168.0.28",
+        "isMachine": true,
+        "IpName": "35-6B",
         "MachineInfo": "6223",
         "MachineLocation": "",
         "isintra": true

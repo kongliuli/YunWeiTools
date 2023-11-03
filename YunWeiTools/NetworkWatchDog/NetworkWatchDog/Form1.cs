@@ -139,18 +139,6 @@ namespace NetworkWatchDog
                 int timespan = group.isintra ? configura.baseSetting.IntranettripTime : configura.baseSetting.ExternaltripTime;
 
 
-                string showvalue = group.GetDoneInfo().ErrorReportContent;
-
-                Invoke((() =>
-                {
-                    if(!group.GetDoneInfo().isSuccess)
-                    {
-                        richTextBox1.AppendText(showvalue+Environment.NewLine);
-                        File.AppendAllText(Directory.GetCurrentDirectory()+"/error.log",showvalue+"\r\n");
-                    }
-                    richTextBox2.AppendText(showvalue+Environment.NewLine);
-                }));
-
                 if(configura.errorReport.isReportError)
                 {
                     group.GetReply(reply,timespan).TryReport(out string reportvalue,configura.errorReport.ReportMinTimes,configura.errorReport.SkipTime);
@@ -161,6 +149,27 @@ namespace NetworkWatchDog
 
                         MessageBox.Show(reportvalue);
                     }
+                }
+
+                string showvalue = group.GetDoneInfo().ErrorReportContent;
+
+                if(showvalue.Length>0)
+                {
+                    Invoke((() =>
+                    {
+                        if(!group.GetDoneInfo().isSuccess)
+                        {
+                            richTextBox1.AppendText(showvalue+Environment.NewLine);
+
+                            var path = Directory.GetCurrentDirectory()+$"/{DateTime.Now:MM-dd}";
+                            if(!Directory.Exists(path))
+                            {
+                                Directory.CreateDirectory(path);
+                            }
+                            File.AppendAllText(path+"/error.log",showvalue+"\r\n");
+                        }
+                        richTextBox2.AppendText(showvalue+Environment.NewLine);
+                    }));
                 }
             }
         }

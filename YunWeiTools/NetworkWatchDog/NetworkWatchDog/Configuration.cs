@@ -13,6 +13,7 @@ namespace NetworkWatchDog
         {
             get; set;
         } = new();
+
     }
 
     public class BaseSetting
@@ -98,7 +99,7 @@ namespace NetworkWatchDog
                 ErrorTime=DateTime.Now
             };
 
-            string message = $"{DateTime.Now:yyyy-MM-mm HH:mm:ss} {Ipconfig}";
+            string message = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} {Ipconfig}";
             if(pr!=null)
             {
                 if(pr.Status==IPStatus.Success)
@@ -177,6 +178,22 @@ namespace NetworkWatchDog
             get; set;
         } = false;
         public string ErrorReportContent
+        {
+            get; set;
+        } = "";
+    }
+
+    public class ReportRule
+    {
+        public string reportGroup
+        {
+            get; set;
+        } = "";
+        public string reportUser
+        {
+            get; set;
+        } = "";
+        public string reportUri
         {
             get; set;
         } = "";

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "W62gYpaI3m7uynkrr3PxJLe9djODR1GiTK6r6uXkLH6cjMDagECxIR9BYJCJ1oq3zX+hJjMpLE5OS4Igo/NRJA==",
+  "dgSpecHash": "vlj1rJaVvVaPuj/yKTfvgvA8icXdBNepGFEMfvAqyCBMBosPUL3+JDlXuAopr48+RKOLMgsmjkhNbqdwyJfWNA==",
   "success": true,
   "projectFilePath": "D:\\codes\\YunWeiTools\\YunWeiTools\\NetworkWatchDog\\NetworkWatchDog\\NetworkWatchDog.csproj",
   "expectedPackageFiles": [
@@ -12,12 +12,13 @@
     "C:\\Users\\HP\\.nuget\\packages\\microsoft.extensions.fileproviders.physical\\7.0.0\\microsoft.extensions.fileproviders.physical.7.0.0.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\microsoft.extensions.filesystemglobbing\\7.0.0\\microsoft.extensions.filesystemglobbing.7.0.0.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0\\microsoft.extensions.primitives.7.0.0.nupkg.sha512",
+    "C:\\Users\\HP\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\system.text.encodings.web\\7.0.0\\system.text.encodings.web.7.0.0.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\system.text.json\\7.0.0\\system.text.json.7.0.0.nupkg.sha512",
-    "C:\\Users\\HP\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x86\\6.0.21\\microsoft.netcore.app.runtime.win-x86.6.0.21.nupkg.sha512",
-    "C:\\Users\\HP\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x86\\6.0.21\\microsoft.windowsdesktop.app.runtime.win-x86.6.0.21.nupkg.sha512",
-    "C:\\Users\\HP\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x86\\6.0.21\\microsoft.aspnetcore.app.runtime.win-x86.6.0.21.nupkg.sha512"
+    "C:\\Users\\HP\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x86\\6.0.24\\microsoft.netcore.app.runtime.win-x86.6.0.24.nupkg.sha512",
+    "C:\\Users\\HP\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x86\\6.0.24\\microsoft.windowsdesktop.app.runtime.win-x86.6.0.24.nupkg.sha512",
+    "C:\\Users\\HP\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x86\\6.0.24\\microsoft.aspnetcore.app.runtime.win-x86.6.0.24.nupkg.sha512"
   ],
   "logs": []
 }
