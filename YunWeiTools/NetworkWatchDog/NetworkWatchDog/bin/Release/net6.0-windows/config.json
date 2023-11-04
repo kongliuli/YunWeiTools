@@ -1,25 +1,72 @@
 {
-  //内网ip组
-  "IntranetGroup": [
-    "192.168.0.1",
-    "192.168.0.23",
-    "192.168.0.24",
-    "192.168.0.25",
-    "192.168.0.21"
-  ],
-  //内网延迟/ms
-  "IntranettripTime": 10,
-  //外网ip组
-  "ExternalNetworkGroup": [
-    "www.baidu.com",
-    "www.google.com"
-  ],
-  //外网延迟/ms
-  "ExternaltripTime": 150,
-  //访问超时判断条件 默认值为5000ms
-  "TimeOut": 5000,
-  //重复ping命令间隔时间 ,默认值为1000ms
-  "PingTimer": 1000,
-  //展示界面超过指定行数,则每次增加删除最早100行,默认值为10000条
-  "BuffurMaxLine": 10000
+  //基础设置
+  "baseSetting": {
+    //ip组 key value 是否为ap,ap属性[名称,型号,位置备注]
+    "NetworkGroup": [
+      {
+        "Ipconfig": "192.168.0.1",
+        "isMachine": true,
+        "IpName": "网关",
+        "MachineInfo": "",
+        "MachineLocation": "",
+        //内外网标识
+        "isintra": true
+      },
+      {
+        "Ipconfig": "192.168.0.14",
+        "isMachine": true,
+        "IpName": "35-1",
+        "MachineInfo": "6223",
+        "MachineLocation": "",
+        "isintra": true
+      },
+      {
+        "Ipconfig": "192.168.0.15",
+        "isMachine": true,
+        "IpName": "35-2",
+        "MachineInfo": "6223",
+        "MachineLocation": "",
+        "isintra": true
+      },
+      {
+        "Ipconfig": "192.168.0.16",
+        "isMachine": true,
+        "IpName": "35-3",
+        "MachineInfo": "6223",
+        "MachineLocation": "",
+        "isintra": true
+      },
+      {
+        "Ipconfig": "www.baidu.com",
+        "isMachine": false,
+        "IpName": "百度官网",
+        "MachineInfo": "",
+        "MachineLocation": "",
+        "isintra": false
+      }
+    ],
+    //内网延迟/ms
+    "IntranettripTime": 500,
+    //外网延迟/ms
+    "ExternaltripTime": 1000,
+    //访问超时判断条件 默认值为5000ms
+    "TimeOut": 4000,
+    //重复ping命令间隔时间 ,默认值为1000ms
+    "PingTimer": 1000,
+    //展示界面超过指定行数,则每次增加删除最早100行,默认值为10000条
+    "BuffurMaxLine": 10000
+  },
+  "errorReport": {
+    //是否启用错误报告
+    "isReportError": true,
+    //报警触发最小次数
+    "ReportMinTimes": 10,
+    //触发报警后缓冲时间(分钟)
+    "SkipTime": 20
+  },
+  "reportRule": {
+    "reportGroup": "xitongzu",
+    "reportUser": "18751936236,17361914131",
+    "reportUri": "https://www.kujiang.com/Tool/dingding"
+  }
 }

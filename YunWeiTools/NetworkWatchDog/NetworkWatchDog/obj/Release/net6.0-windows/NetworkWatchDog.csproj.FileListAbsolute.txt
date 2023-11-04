@@ -28,3 +28,4 @@ D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\obj\Release\net
 D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\obj\Release\net6.0-windows\NetworkWatchDog.pdb
 D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\obj\Release\net6.0-windows\NetworkWatchDog.genruntimeconfig.cache
 D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\obj\Release\net6.0-windows\ref\NetworkWatchDog.dll
+D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\bin\Release\net6.0-windows\Newtonsoft.Json.dll

@@ -36,18 +36,18 @@
             splitContainer1=new SplitContainer();
             listBox1=new ListBox();
             tabcontrol1=new TabControl();
-            tabPage1=new TabPage();
-            richTextBox2=new RichTextBox();
             tabPage2=new TabPage();
             richTextBox1=new RichTextBox();
+            tabPage1=new TabPage();
+            richTextBox2=new RichTextBox();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
             tabcontrol1.SuspendLayout();
-            tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
+            tabPage1.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
@@ -55,7 +55,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { 重新读取IP地址组ToolStripMenuItem,清空所有记录ToolStripMenuItem });
             menuStrip1.Location=new Point(0,0);
             menuStrip1.Name="menuStrip1";
-            menuStrip1.Size=new Size(1023,25);
+            menuStrip1.Size=new Size(664,25);
             menuStrip1.TabIndex=0;
             menuStrip1.Text="menuStrip1";
             // 
@@ -86,8 +86,8 @@
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.Controls.Add(tabcontrol1);
-            splitContainer1.Size=new Size(1023,453);
-            splitContainer1.SplitterDistance=157;
+            splitContainer1.Size=new Size(664,437);
+            splitContainer1.SplitterDistance=101;
             splitContainer1.TabIndex=2;
             // 
             // listBox1
@@ -97,7 +97,7 @@
             listBox1.ItemHeight=17;
             listBox1.Location=new Point(0,0);
             listBox1.Name="listBox1";
-            listBox1.Size=new Size(157,453);
+            listBox1.Size=new Size(101,437);
             listBox1.TabIndex=0;
             // 
             // tabcontrol1
@@ -108,28 +108,8 @@
             tabcontrol1.Location=new Point(0,0);
             tabcontrol1.Name="tabcontrol1";
             tabcontrol1.SelectedIndex=0;
-            tabcontrol1.Size=new Size(862,453);
+            tabcontrol1.Size=new Size(559,437);
             tabcontrol1.TabIndex=1;
-            // 
-            // tabPage1
-            // 
-            tabPage1.Controls.Add(richTextBox2);
-            tabPage1.Location=new Point(4,26);
-            tabPage1.Name="tabPage1";
-            tabPage1.Padding=new Padding(3);
-            tabPage1.Size=new Size(854,423);
-            tabPage1.TabIndex=0;
-            tabPage1.Text="实时连接信息";
-            tabPage1.UseVisualStyleBackColor=true;
-            // 
-            // richTextBox2
-            // 
-            richTextBox2.Dock=DockStyle.Fill;
-            richTextBox2.Location=new Point(3,3);
-            richTextBox2.Name="richTextBox2";
-            richTextBox2.Size=new Size(848,417);
-            richTextBox2.TabIndex=0;
-            richTextBox2.Text="";
             // 
             // tabPage2
             // 
@@ -137,7 +117,7 @@
             tabPage2.Location=new Point(4,26);
             tabPage2.Name="tabPage2";
             tabPage2.Padding=new Padding(3);
-            tabPage2.Size=new Size(854,423);
+            tabPage2.Size=new Size(551,407);
             tabPage2.TabIndex=1;
             tabPage2.Text="异常信息";
             tabPage2.UseVisualStyleBackColor=true;
@@ -147,15 +127,35 @@
             richTextBox1.Dock=DockStyle.Fill;
             richTextBox1.Location=new Point(3,3);
             richTextBox1.Name="richTextBox1";
-            richTextBox1.Size=new Size(848,417);
+            richTextBox1.Size=new Size(545,401);
             richTextBox1.TabIndex=0;
             richTextBox1.Text="";
+            // 
+            // tabPage1
+            // 
+            tabPage1.Controls.Add(richTextBox2);
+            tabPage1.Location=new Point(4,26);
+            tabPage1.Name="tabPage1";
+            tabPage1.Padding=new Padding(3);
+            tabPage1.Size=new Size(551,407);
+            tabPage1.TabIndex=0;
+            tabPage1.Text="实时连接信息";
+            tabPage1.UseVisualStyleBackColor=true;
+            // 
+            // richTextBox2
+            // 
+            richTextBox2.Dock=DockStyle.Fill;
+            richTextBox2.Location=new Point(3,3);
+            richTextBox2.Name="richTextBox2";
+            richTextBox2.Size=new Size(545,401);
+            richTextBox2.TabIndex=0;
+            richTextBox2.Text="";
             // 
             // Form1
             // 
             AutoScaleDimensions=new SizeF(7F,17F);
             AutoScaleMode=AutoScaleMode.Font;
-            ClientSize=new Size(1023,478);
+            ClientSize=new Size(664,462);
             Controls.Add(splitContainer1);
             Controls.Add(menuStrip1);
             MainMenuStrip=menuStrip1;
@@ -169,8 +169,8 @@
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
             tabcontrol1.ResumeLayout(false);
-            tabPage1.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
+            tabPage1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -184,8 +184,8 @@
         private ListBox listBox1;
         private RichTextBox richTextBox1;
         private TabControl tabcontrol1;
+        private TabPage tabPage2;
         private TabPage tabPage1;
         private RichTextBox richTextBox2;
-        private TabPage tabPage2;
     }
 }
