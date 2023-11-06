@@ -145,9 +145,9 @@ namespace NetworkWatchDog
 
                     if(reportvalue!="")
                     {
-                        //SendReportToDingDing(reportvalue);
+                        SendReportToDingDing(reportvalue);
 
-                        MessageBox.Show(reportvalue);
+                        //MessageBox.Show(reportvalue);
                     }
                 }
 
@@ -161,7 +161,7 @@ namespace NetworkWatchDog
                         {
                             richTextBox1.AppendText(showvalue+Environment.NewLine);
 
-                            var path = Directory.GetCurrentDirectory()+$"/{DateTime.Now:MM-dd}";
+                            var path = Directory.GetCurrentDirectory()+$"/error/{DateTime.Now:MM-dd}";
                             if(!Directory.Exists(path))
                             {
                                 Directory.CreateDirectory(path);
