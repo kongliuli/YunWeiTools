@@ -41,6 +41,6 @@
                 </Style>
             </ListBox.ItemContainerStyle>
         </ListBox>
-        <TabControl Grid.Row="1" Grid.Column="1" ItemsSource="{Binding TabItem}"/>
+        <TabControl Grid.Row="1" Grid.Column="1" Loaded="TabControl_Loaded"  ItemsSource="{Binding TabItem}"/>
     </Grid>
 </Window>

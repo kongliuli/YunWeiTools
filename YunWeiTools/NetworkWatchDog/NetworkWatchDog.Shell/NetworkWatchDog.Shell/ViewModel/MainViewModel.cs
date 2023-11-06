@@ -77,6 +77,7 @@ namespace NetworkWatchDog.Shell.ViewModel
         }
 
 
+
         #endregion
         /// <summary>
         /// 绑定所有事件

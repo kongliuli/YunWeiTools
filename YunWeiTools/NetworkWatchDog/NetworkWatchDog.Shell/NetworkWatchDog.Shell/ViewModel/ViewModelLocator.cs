@@ -19,6 +19,8 @@ namespace NetworkWatchDog.Shell.ViewModel
 
             //注册到容器中
             _container.Register<MainViewModel>();
+            //注册到容器中
+            _container.Register<IpSnifferViewModel>();
         }
 
         /// <summary>
@@ -30,6 +32,15 @@ namespace NetworkWatchDog.Shell.ViewModel
             {
                 //通过容器获取实例对象
                 return _container.Resolve<MainViewModel>();
+            }
+        }
+
+        public IpSnifferViewModel IpSniffer
+        {
+            get
+            {
+                //通过容器获取实例对象
+                return _container.Resolve<IpSnifferViewModel>();
             }
         }
 
