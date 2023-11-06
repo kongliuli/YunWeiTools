@@ -623,23 +623,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Administrator\\.nuget\\packages\\": {},
-    "H:\\VS\\SDK\\NuGetPackages": {}
+    "C:\\Users\\HP\\.nuget\\packages\\": {},
+    "D:\\软件\\vssdk\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "H:\\codes\\github\\YunWeiTools\\YunWeiTools\\NetworkWatchDog\\NetworkWatchDog\\NetworkWatchDog.csproj",
+      "projectUniqueName": "D:\\codes\\YunWeiTools\\YunWeiTools\\NetworkWatchDog\\NetworkWatchDog\\NetworkWatchDog.csproj",
       "projectName": "NetworkWatchDog",
-      "projectPath": "H:\\codes\\github\\YunWeiTools\\YunWeiTools\\NetworkWatchDog\\NetworkWatchDog\\NetworkWatchDog.csproj",
-      "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-      "outputPath": "H:\\codes\\github\\YunWeiTools\\YunWeiTools\\NetworkWatchDog\\NetworkWatchDog\\obj\\",
+      "projectPath": "D:\\codes\\YunWeiTools\\YunWeiTools\\NetworkWatchDog\\NetworkWatchDog\\NetworkWatchDog.csproj",
+      "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
+      "outputPath": "D:\\codes\\YunWeiTools\\YunWeiTools\\NetworkWatchDog\\NetworkWatchDog\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "H:\\VS\\SDK\\NuGetPackages"
+        "D:\\软件\\vssdk\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -699,7 +699,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
       }
     }
   }

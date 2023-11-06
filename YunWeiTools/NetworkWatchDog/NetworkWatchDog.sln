@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34009.444
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkWatchDog", "NetworkWatchDog\NetworkWatchDog.csproj", "{4BC5DCEE-AE5A-48FD-B881-E38B3680F1CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetworkWatchDog", "NetworkWatchDog\NetworkWatchDog.csproj", "{4BC5DCEE-AE5A-48FD-B881-E38B3680F1CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkWatchDog.Shell", "NetworkWatchDog.Shell\NetworkWatchDog.Shell\NetworkWatchDog.Shell.csproj", "{9835C2EF-3AA4-44D8-984F-9CAAD981525C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{4BC5DCEE-AE5A-48FD-B881-E38B3680F1CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4BC5DCEE-AE5A-48FD-B881-E38B3680F1CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4BC5DCEE-AE5A-48FD-B881-E38B3680F1CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9835C2EF-3AA4-44D8-984F-9CAAD981525C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9835C2EF-3AA4-44D8-984F-9CAAD981525C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9835C2EF-3AA4-44D8-984F-9CAAD981525C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9835C2EF-3AA4-44D8-984F-9CAAD981525C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
