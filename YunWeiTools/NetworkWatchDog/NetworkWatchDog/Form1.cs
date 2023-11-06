@@ -4,6 +4,9 @@ using Newtonsoft.Json;
 
 namespace NetworkWatchDog
 {
+    //屏蔽报警时段
+    //wpf重构
+    //mtr功能
     public partial class Form1:Form
     {
         public Configuration configura = new();
@@ -76,7 +79,7 @@ namespace NetworkWatchDog
                 listBox1.Items.Add(ip.Ipconfig+"  "+ip.IpName);
             }
 
-            this.Text=$"网络连接监视器 --内/外网ip延迟 --{configura.baseSetting.IntranettripTime}/{configura.baseSetting.ExternaltripTime}ms";
+            this.Text=$"网络连接监视器 --内/外网ip延迟 --{configura.baseSetting.IntranettripTime}/{configura.baseSetting.ExternaltripTime}ms  --报警规则启用 {configura.errorReport.isReportError}";
 
             pingConnecting();
 
@@ -161,7 +164,7 @@ namespace NetworkWatchDog
                         {
                             richTextBox1.AppendText(showvalue+Environment.NewLine);
 
-                            var path = Directory.GetCurrentDirectory()+$"/{DateTime.Now:MM-dd}";
+                            var path = Directory.GetCurrentDirectory()+$"/error/{DateTime.Now:MM-dd}";
                             if(!Directory.Exists(path))
                             {
                                 Directory.CreateDirectory(path);
