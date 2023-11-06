@@ -1,21 +1,19 @@
-﻿using System.Net.NetworkInformation;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.NetworkInformation;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace NetworkWatchDog
+namespace NetworkWatchDog.Shell.Model
 {
-    public class Configuration
+    public class IpSnifferConfig
     {
-        public BaseSetting baseSetting
+        public BaseSetting BaseSetting
         {
-            get; set;
-        } = new();
-
-        public ErrorReport errorReport
-        {
-            get; set;
-        } = new();
-
+            get; set; 
+        }
     }
-
     public class BaseSetting
     {
         public int IntranettripTime
@@ -166,36 +164,5 @@ namespace NetworkWatchDog
             get; set;
         } = "";
     }
-    public class ErrorReport
-    {
-        public bool isReportError
-        {
-            get; set;
-        }
 
-        public int ReportMinTimes
-        {
-            get; set;
-        }
-        public int SkipTime
-        {
-            get; set;
-        }
-    }
-
-    public class ReportRule
-    {
-        public string reportGroup
-        {
-            get; set;
-        } = "";
-        public string reportUser
-        {
-            get; set;
-        } = "";
-        public string reportUri
-        {
-            get; set;
-        } = "";
-    }
 }
