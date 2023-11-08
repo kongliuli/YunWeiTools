@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Windows;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -34,7 +33,7 @@ namespace NetworkWatchDog.Shell.ViewModel
         #region 核心方法
         public void GetIpStart()
         {
-            
+
         }
 
 

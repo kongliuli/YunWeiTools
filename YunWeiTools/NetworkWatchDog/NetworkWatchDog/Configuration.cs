@@ -136,12 +136,15 @@ namespace NetworkWatchDog
 
         public bool TryReport(out string reportvalue,int reporttimes = 5,int timespan = 20)
         {
-            if(this.infos.Count>=reporttimes&&ErrorReportTime<DateTime.Now.AddMinutes(-timespan)&&isMachine)
+            if((DateTime.Now.Hour>=7&&DateTime.Now.Minute>=30)||(DateTime.Now.Hour<=23&&DateTime.Now.Minute<=30))
             {
-                ErrorReportTime=DateTime.Now;
-                infos=new();
-                reportvalue=$"测试信息  {IpName} ap连接故障报警：\r\n\r\nip：{Ipconfig}\r\n型号：{MachineInfo}\r\n位置：{MachineLocation}\r\n信息：此ap一分钟内出现了{reporttimes}次连接故障。请登录向日葵查看详情\r\n";
-                return true;
+                if(this.infos.Count>=reporttimes&&ErrorReportTime<DateTime.Now.AddMinutes(-timespan)&&isMachine)
+                {
+                    ErrorReportTime=DateTime.Now;
+                    infos=new();
+                    reportvalue=$"测试信息  {IpName} ap连接故障报警：\r\n\r\nip：{Ipconfig}\r\n型号：{MachineInfo}\r\n位置：{MachineLocation}\r\n信息：此ap一分钟内出现了{reporttimes}次连接故障。请登录向日葵查看详情\r\n";
+                    return true;
+                }
             }
             reportvalue="";
             return false;

@@ -87,7 +87,7 @@ namespace NetworkWatchDog
 
         private void Ping_PingCompleted(object ip)
         {
-            while(DateTime.Now.Hour!=4&DateTime.Now.Hour!=5&DateTime.Now.Hour!=6)
+            while(true)
             {
                 string ipconfig = (string)ip;
                 IpGroup ipGroup = configura.baseSetting.NetworkGroup.FindLast(x => x.Ipconfig==ipconfig);
