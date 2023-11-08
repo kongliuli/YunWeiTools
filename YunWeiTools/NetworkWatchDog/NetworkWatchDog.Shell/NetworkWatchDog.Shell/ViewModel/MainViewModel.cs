@@ -131,6 +131,7 @@ namespace NetworkWatchDog.Shell.ViewModel
         {
             InitUiFromConfig();
             InitCommand();
+            UpdateTabContents();
         }
 
     }
