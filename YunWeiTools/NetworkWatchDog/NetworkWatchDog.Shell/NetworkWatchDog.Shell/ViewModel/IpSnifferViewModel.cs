@@ -1,6 +1,4 @@
-﻿using System.Windows;
-
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
 
 namespace NetworkWatchDog.Shell.ViewModel
@@ -9,7 +7,7 @@ namespace NetworkWatchDog.Shell.ViewModel
     {
         public IpSnifferViewModel()
         {
-            MessageBox.Show("ipsniffer");
+            //MessageBox.Show("ipsniffer");
         }
     }
 }

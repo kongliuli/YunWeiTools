@@ -8,6 +8,11 @@
              DataContext="{Binding Source={StaticResource Locator},Path=IpSniffer}"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
     </Grid>
 </UserControl>
