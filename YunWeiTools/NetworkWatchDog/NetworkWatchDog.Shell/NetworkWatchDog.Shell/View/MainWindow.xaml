@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NetworkWatchDog.Shell.ViewModel"
+        xmlns:model="clr-namespace:NetworkWatchDog.Shell.Model"
         mc:Ignorable="d"
         Title="MainView" Height="300" Width="500" WindowStartupLocation="CenterScreen"
         DataContext="{Binding Source={StaticResource Locator},Path=Main}" 
@@ -25,7 +26,7 @@
                 </Style>
             </Menu.ItemContainerStyle>
         </Menu>
-        <ListBox Grid.Row="1" ItemsSource="{Binding ListItem}">
+        <ListBox Grid.Row="1" ItemsSource="{Binding ListItem.NetworkGroup}">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="Template">
@@ -40,7 +41,25 @@
                     </Setter>
                 </Style>
             </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Ipconfig}"></TextBlock>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
         </ListBox>
-        <TabControl Grid.Row="1" Grid.Column="1" Loaded="TabControl_Loaded"  ItemsSource="{Binding TabItem}"/>
+        <TabControl Grid.Row="1" Grid.Column="1" Loaded="TabControl_Loaded" ItemsSource="{Binding TabItem}">
+            <TabControl.ItemContainerStyle>
+                <Style TargetType="{x:Type TabItem}">
+                    <Setter Property="Header" Value="{Binding}" />
+                    <Setter Property="ContentTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <Grid/>
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.ItemContainerStyle>
+        </TabControl>
     </Grid>
 </Window>

@@ -1,5 +1,7 @@
 ﻿using System.Windows.Controls;
 
+using NetworkWatchDog.Shell.ViewModel;
+
 namespace NetworkWatchDog.Shell.View
 {
     /// <summary>
@@ -10,7 +12,12 @@ namespace NetworkWatchDog.Shell.View
         public IpSniffer()
         {
             InitializeComponent();
-            this.DataContext=new IpSniffer();
+            this.DataContext=new IpSnifferViewModel();
+        }
+
+        private void TabControl_Loaded(object sender,System.Windows.RoutedEventArgs e)
+        {
+            ((this.DataContext) as IpSnifferViewModel).GetIpStart();
         }
     }
 }

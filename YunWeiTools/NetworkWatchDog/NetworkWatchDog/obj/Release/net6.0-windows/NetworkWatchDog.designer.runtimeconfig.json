@@ -12,9 +12,9 @@
       }
     ],
     "additionalProbingPaths": [
-      "C:\\Users\\HP\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\HP\\.nuget\\packages",
-      "D:\\软件\\vssdk\\NuGetPackages"
+      "C:\\Users\\Administrator\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\Administrator\\.nuget\\packages",
+      "H:\\VS\\SDK\\NuGetPackages"
     ],
     "configProperties": {
       "System.Reflection.Metadata.MetadataUpdater.IsSupported": false,

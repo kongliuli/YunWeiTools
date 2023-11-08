@@ -26,8 +26,10 @@ namespace NetworkWatchDog.Shell.View
             // 获取TabControl
             TabControl tabControl = sender as TabControl;
 
+            var a = (tabControl.Items[0] as TabItem);
+
             // 将用户控件添加到相应的容器中
-            (tabControl.Items[0] as TabItem).Content=new IpSniffer();
+            //a.Content=new IpSniffer();
 
         }
     }

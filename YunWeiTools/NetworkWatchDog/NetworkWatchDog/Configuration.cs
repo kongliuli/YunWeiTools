@@ -150,22 +150,6 @@ namespace NetworkWatchDog
         public ErrorInfo GetDoneInfo() => doneInfo;
     }
 
-    public class ErrorReport
-    {
-        public bool isReportError
-        {
-            get; set;
-        }
-
-        public int ReportMinTimes
-        {
-            get; set;
-        }
-        public int SkipTime
-        {
-            get; set;
-        }
-    }
 
     public class ErrorInfo
     {
@@ -181,6 +165,22 @@ namespace NetworkWatchDog
         {
             get; set;
         } = "";
+    }
+    public class ErrorReport
+    {
+        public bool isReportError
+        {
+            get; set;
+        }
+
+        public int ReportMinTimes
+        {
+            get; set;
+        }
+        public int SkipTime
+        {
+            get; set;
+        }
     }
 
     public class ReportRule

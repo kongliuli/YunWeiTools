@@ -7,19 +7,23 @@ using CommunityToolkit.Mvvm.Input;
 
 using Microsoft.Extensions.Configuration;
 
+using NetworkWatchDog.Shell.Model;
+
 namespace NetworkWatchDog.Shell.ViewModel
 {
     public class MainViewModel:ObservableObject
     {
+        IConfigurationRoot builder;
+
         #region 界面绑定
         //顶部功能菜单栏
         //tabcontrol填充
         //listbox填充
         private ObservableCollection<string>? _menuItem;
         private ObservableCollection<string>? _tabItem;
-        private ObservableCollection<string>? _listItem;
+        private BaseSetting? _listItem;
 
-        public ObservableCollection<string>? ListItem
+        public BaseSetting? ListItem
         {
             get => _listItem; set => SetProperty(ref _listItem,value);
         }
@@ -34,11 +38,13 @@ namespace NetworkWatchDog.Shell.ViewModel
 
         private void InitUiFromConfig()
         {
-            var builder = new ConfigurationBuilder()
-                                .AddJsonFile("Configuartions/UiConfig.json",optional: true,reloadOnChange: true).Build();
+            builder = new ConfigurationBuilder()
+                         .AddJsonFile("Configuartions/UiConfig.json",optional: true,reloadOnChange: true)
+                         .AddJsonFile("Configuartions/IpSnifferConfig.json",optional: true,reloadOnChange: true)
+                         .Build();
 #nullable disable
             MenuItem=new ObservableCollection<string>(builder.GetSection("UiConfig:MainPage:Menu:Names").Get<string[]>());
-            ListItem=new ObservableCollection<string>(builder.GetSection("UiConfig:MainPage:ListBox:Names").Get<string[]>());
+            ListItem=(builder.GetSection("IpSnifferConfig:BaseSetting").Get<BaseSetting>());
             TabItem=new ObservableCollection<string>(builder.GetSection("UiConfig:MainPage:TabControl:Names").Get<string[]>());
 #nullable enable
 
