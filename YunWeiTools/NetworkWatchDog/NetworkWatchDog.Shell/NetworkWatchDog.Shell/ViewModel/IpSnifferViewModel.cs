@@ -97,7 +97,7 @@ namespace NetworkWatchDog.Shell.ViewModel
 
             InitUiFromConfig();
 
-            _config=builder.GetSection("IpSnifferConfig:baseSetting").Get<IpSnifferConfig>();
+            _config=builder.GetSection("IpSnifferConfig").Get<IpSnifferConfig>();
         }
     }
 }

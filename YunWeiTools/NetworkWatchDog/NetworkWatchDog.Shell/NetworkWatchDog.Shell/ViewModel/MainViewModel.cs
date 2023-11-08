@@ -33,7 +33,7 @@ namespace NetworkWatchDog.Shell.ViewModel
             {
                 _tabContents=value;
                 OnPropertyChanged(nameof(TabContents));
-                UpdateTabContents();
+                //UpdateTabContents();
             }
         }
         public BaseSetting? ListItem
@@ -131,7 +131,7 @@ namespace NetworkWatchDog.Shell.ViewModel
         {
             InitUiFromConfig();
             InitCommand();
-            UpdateTabContents();
+            //UpdateTabContents();
         }
 
     }
