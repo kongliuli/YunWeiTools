@@ -136,7 +136,7 @@ namespace NetworkWatchDog
 
         public bool TryReport(out string reportvalue,int reporttimes = 5,int timespan = 20)
         {
-            if((DateTime.Now.Hour>=7&&DateTime.Now.Minute>=30)||(DateTime.Now.Hour<=23&&DateTime.Now.Minute<=30))
+            if((DateTime.Now.Hour>=7&&DateTime.Now.Minute>=30)&&(DateTime.Now.Hour<=23&&DateTime.Now.Minute<=30))
             {
                 if(this.infos.Count>=reporttimes&&ErrorReportTime<DateTime.Now.AddMinutes(-timespan)&&isMachine)
                 {

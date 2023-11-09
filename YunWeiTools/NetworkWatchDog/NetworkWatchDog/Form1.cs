@@ -40,18 +40,25 @@ namespace NetworkWatchDog
                 //报警信息
                 new KeyValuePair<string, string>("message", msg)
             });
-
-            // 发送POST请求
-            HttpResponseMessage response = await client.PostAsync("https://www.kujiang.com/Tool/dingding",postData);
-
-            if(response.IsSuccessStatusCode)
+            try
             {
-                // 获取响应内容
-                string responseContent = await response.Content.ReadAsStringAsync();
+                // 发送POST请求
+                HttpResponseMessage response = await client.PostAsync("https://www.kujiang.com/Tool/dingding",postData);
+
+                if(response.IsSuccessStatusCode)
+                {
+                    // 获取响应内容
+                    string responseContent = await response.Content.ReadAsStringAsync();
+                }
+                else
+                {
+                }
             }
-            else
+            catch(Exception e)
             {
+
             }
+
         }
 
         private void pingConnecting()
@@ -102,16 +109,9 @@ namespace NetworkWatchDog
 
                         UpdateUi(reply,ipGroup);
                     }
-                    catch
-                    {
-
-                    }
+                    catch { }
                     ping.Dispose();
                     Thread.Sleep(configura.baseSetting.PingTimer); // 等待1秒后再次执行ping命令
-                }
-                else
-                {
-
                 }
             }
         }
