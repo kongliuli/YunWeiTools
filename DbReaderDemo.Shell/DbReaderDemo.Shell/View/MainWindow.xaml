@@ -1,0 +1,33 @@
+﻿<Window x:Class="DbReaderDemo.Shell.View.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DbReaderDemo.Shell.ViewModel"
+        mc:Ignorable="d"
+        Title="文件数据处理系统" Height="300" Width="500" WindowStartupLocation="Manual"
+        DataContext="{Binding Source={StaticResource Locator},Path=Main}" 
+        >
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="2" Grid.ColumnSpan="3" Content="开发ing"/>
+        <Menu Grid.Row="0" Grid.ColumnSpan="3">
+            <MenuItem Header="开始" Height="20"/>
+            <MenuItem Header="占位" Height="20"/>
+            <MenuItem Header="占位" Height="20"/>
+            <MenuItem Header="占位" Height="20"/>
+            <MenuItem Header="关于" Height="20"/>
+        </Menu>
+        <UserControl Grid.Row="1" Grid.ColumnSpan="3" Content="{Binding Done}"/>
+
+    </Grid>
+</Window>
