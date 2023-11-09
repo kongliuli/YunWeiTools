@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Threading;
@@ -19,9 +18,9 @@ namespace NetworkWatchDog.Shell.ViewModel
 
         #region 界面绑定
         //tabcontrol填充
-        private ObservableCollection<string>? _tabItem;
+        private TabControlItemsGroup? _tabItem;
 
-        public ObservableCollection<string>? TabItem
+        public TabControlItemsGroup? TabItem
         {
             get => _tabItem; set => SetProperty(ref _tabItem,value);
         }
@@ -29,9 +28,23 @@ namespace NetworkWatchDog.Shell.ViewModel
         private void InitUiFromConfig()
         {
 #nullable disable
-            TabItem=new ObservableCollection<string>(builder.GetSection("IpSnifferConfig:MainPage:TabControl:Names").Get<string[]>());
+            TabItem=(builder.GetSection("IpSnifferConfig:MainPage:TabControlItemsGroup")
+                            .Get<TabControlItemsGroup>());
+
 #nullable enable
         }
+        private void InitListView()
+        {
+            foreach(var item in _tabItem.Items)
+            {
+                item.Info=new StringStreamInfomation()
+                {
+                    Infos=new List<string>() { "123","123","123","123","123","123","123","123","123","123",}
+                }
+            ;
+            }
+        }
+
         #endregion
 
         private List<string> ListiningIP = new List<string>();
@@ -96,7 +109,7 @@ namespace NetworkWatchDog.Shell.ViewModel
                        .AddJsonFile("Configuartions/IpSnifferConfig.json",optional: true,reloadOnChange: true).Build();
 
             InitUiFromConfig();
-
+            InitListView();
             _config=builder.GetSection("IpSnifferConfig").Get<IpSnifferConfig>();
         }
     }

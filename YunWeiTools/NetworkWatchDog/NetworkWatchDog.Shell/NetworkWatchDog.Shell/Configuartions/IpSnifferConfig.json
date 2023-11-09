@@ -1,11 +1,21 @@
 {
   "IpSnifferConfig": {
     "MainPage": {
-      "TabControl": {
-        "Names": [
-          "实时信息",
-          "错误报告",
-          "配置展示"
+      "TabControlItemsGroup": {
+        "GroupTitle": "Ip监听tab",
+        "Items": [
+          {
+            "Content": "",
+            "Header": "实时信息"
+          },
+          {
+            "Content": "",
+            "Header": "错误报告"
+          },
+          {
+            "Content": "",
+            "Header": "配置展示"
+          }
         ]
       }
     }, 

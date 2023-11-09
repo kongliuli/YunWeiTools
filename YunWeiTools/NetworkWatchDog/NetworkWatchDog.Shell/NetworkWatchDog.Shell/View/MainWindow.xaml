@@ -53,12 +53,13 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <TabControl Grid.Row="1" Grid.Column="1" Loaded="TabControl_Loaded">
-            <!--ItemsSource="{Binding TabItem}"-->
-            <TabItem Header="Ip警戒">
-                <view:IpSniffer/>
-            </TabItem>
+        <TabControl Grid.Row="1" Grid.Column="1" ItemsSource="{Binding TabGroup.Items}">
+            <TabControl.ItemContainerStyle>
+                <Style TargetType="TabItem">
+                    <Setter Property="Header" Value="{Binding Header}"/>
+                    <Setter Property="Content" Value="{Binding Content}"/>
+                </Style>
+            </TabControl.ItemContainerStyle>
         </TabControl>
-
     </Grid>
 </Window>

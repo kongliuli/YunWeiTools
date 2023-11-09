@@ -17,12 +17,13 @@
           "列表04"
         ]
       },
-      "TabControl": {
-        "Names": [
-          "Ip监听",
-          "MTR寻址",
-          "资源守护",
-          "配置及其他"
+      "TabControlItemsGroup": {
+        "GroupTitle": "主界面tab",
+        "Items": [
+          {"Content":"","Header":"Ip监听"},
+          {"Content":"","Header":"MTR寻址"},
+          {"Content":"","Header":"资源守护"},
+          {"Content":"","Header":"配置及其他"}
         ]
       }
     }

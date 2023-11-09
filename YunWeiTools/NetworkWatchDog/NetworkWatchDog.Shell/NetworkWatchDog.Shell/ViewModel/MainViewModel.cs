@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -22,27 +23,21 @@ namespace NetworkWatchDog.Shell.ViewModel
         //tabcontrol填充
         //listbox填充
         private ObservableCollection<string>? _menuItem;
-        private ObservableCollection<string>? _tabItem;
+        private TabControlItemsGroup? _tabGroup;
         private BaseSetting? _listItem;
 
-        private ObservableCollection<UserControl> _tabContents;
         public ObservableCollection<UserControl> TabContents
         {
-            get => _tabContents;
-            set
-            {
-                _tabContents=value;
-                OnPropertyChanged(nameof(TabContents));
-                //UpdateTabContents();
-            }
-        }
+            get;
+            set;
+        } = new ObservableCollection<UserControl>();
         public BaseSetting? ListItem
         {
             get => _listItem; set => SetProperty(ref _listItem,value);
         }
-        public ObservableCollection<string>? TabItem
+        public TabControlItemsGroup? TabGroup
         {
-            get => _tabItem; set => SetProperty(ref _tabItem,value);
+            get => _tabGroup; set => SetProperty(ref _tabGroup,value);
         }
         public ObservableCollection<string>? MenuItem
         {
@@ -56,31 +51,29 @@ namespace NetworkWatchDog.Shell.ViewModel
                          .AddJsonFile("Configuartions/IpSnifferConfig.json",optional: true,reloadOnChange: true)
                          .Build();
 #nullable disable
-            MenuItem=new ObservableCollection<string>(builder.GetSection("UiConfig:MainPage:Menu:Names").Get<string[]>());
-            ListItem=(builder.GetSection("IpSnifferConfig:BaseSetting").Get<BaseSetting>());
+            MenuItem=new ObservableCollection<string>(builder.GetSection("UiConfig:MainPage:Menu:Names")
+                                                             .Get<string[]>());
+            ListItem=builder.GetSection("IpSnifferConfig:BaseSetting")
+                            .Get<BaseSetting>();
 
-            TabItem=new ObservableCollection<string>(builder.GetSection("UiConfig:MainPage:TabControl:Names").Get<string[]>());
+            TabGroup=builder.GetSection("UiConfig:MainPage:TabControlItemsGroup")
+                           .Get<TabControlItemsGroup>();
 #nullable enable
 
 
         }
 
-        // 在ViewModel中根据TabHeaders的选择来更新TabContents集合
-        private void UpdateTabContents()
+        private void InitTabControl()
         {
-            // 根据TabHeaders的选择来更新TabContents集合
-            // 例如：
-            TabContents.Clear();
-            foreach(var header in TabItem)
+            if(_tabGroup!=null)
             {
-                if(header=="Ip监听")
+                var a = _tabGroup.Items.FirstOrDefault(predicate: x => x.Header=="Ip监听");
+                if(a!=null)
                 {
-                    TabContents.Add(new IpSniffer());
+                    a.Content=new IpSniffer();
                 }
             }
         }
-
-
 
         #endregion
 
@@ -127,11 +120,12 @@ namespace NetworkWatchDog.Shell.ViewModel
         }
 
         #endregion
+
         public MainViewModel()
         {
             InitUiFromConfig();
             InitCommand();
-            //UpdateTabContents();
+            InitTabControl();
         }
 
     }

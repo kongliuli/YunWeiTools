@@ -17,6 +17,23 @@
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         <Label Grid.Row="3"/>
-        <TabControl Grid.RowSpan="2" ItemsSource="{Binding TabItem}" Loaded="TabControl_Loaded"/>
+        <TabControl Grid.RowSpan="2" ItemsSource="{Binding TabItem.Items}" Loaded="TabControl_Loaded">
+            <TabControl.ItemContainerStyle>
+                <Style TargetType="TabItem">
+                    <Setter Property="Header" Value="{Binding Header}"/>
+                    <Setter Property="Content">
+                        <Setter.Value>
+                            <ListView ItemsSource="{Binding Info.Infos}">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="123" DisplayMemberBinding="{Binding}"/>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.ItemContainerStyle>
+        </TabControl>
     </Grid>
 </UserControl>
