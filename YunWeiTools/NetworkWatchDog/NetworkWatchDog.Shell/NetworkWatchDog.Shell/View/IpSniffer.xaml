@@ -23,10 +23,10 @@
                     <Setter Property="Header" Value="{Binding Header}"/>
                     <Setter Property="Content">
                         <Setter.Value>
-                            <ListView ItemsSource="{Binding Info.Infos}">
+                            <ListView ItemsSource="{Binding Info.Infos}" Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Grid}}">
                                 <ListView.View>
                                     <GridView>
-                                        <GridViewColumn Header="123" DisplayMemberBinding="{Binding}"/>
+                                        <GridViewColumn DisplayMemberBinding="{Binding}"/>
                                     </GridView>
                                 </ListView.View>
                             </ListView>

@@ -1,13 +1,29 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows;
+using System.Windows.Threading;
 
 namespace NetworkWatchDog.Shell.Model
 {
-    public class StringStreamInfomation
+    public class StringStreamInfomation:INotifyPropertyChanged
     {
-        public List<string> Infos
+        private ObservableCollection<string> _infos;
+
+        public ObservableCollection<string> Infos
         {
-            get; set;
-        } = new();
+            get => _infos;
+            set
+            {
+                _infos=value;
+                OnPropertyChanged(nameof(Infos));
+            }
+        }
+
+        public StringStreamInfomation()
+        {
+            _infos=new ObservableCollection<string>();
+        }
 
         public int Delete1234
         {
@@ -22,9 +38,16 @@ namespace NetworkWatchDog.Shell.Model
         {
             if(Infos.Count>Delete1234)
             {
-                Infos.RemoveRange(0,DeleteCount);
+                Infos.RemoveAt(0);
             }
-            Infos.Add(info);
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background,new Action<string>((x) => { Infos.Add(x); }),info);
+        }
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this,new PropertyChangedEventArgs(propertyName));
         }
     }
 }

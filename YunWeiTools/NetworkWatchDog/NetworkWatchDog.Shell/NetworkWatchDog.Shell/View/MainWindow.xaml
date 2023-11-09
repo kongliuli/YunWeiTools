@@ -8,7 +8,7 @@
         xmlns:model="clr-namespace:NetworkWatchDog.Shell.Model"
         mc:Ignorable="d"
         Title="MainView" Height="300" Width="500" WindowStartupLocation="CenterScreen"
-        DataContext="{Binding Source={StaticResource Locator},Path=Main}" 
+        DataContext="{Binding Source={StaticResource Locator},Path=Main}" Closing="Window_Closing"
         >
     <Window.Resources>
         <DataTemplate x:Key="TabContentTemplate">
