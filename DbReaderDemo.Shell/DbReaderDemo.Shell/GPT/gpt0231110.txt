@@ -1,0 +1,84 @@
+﻿是的，你可以通过两个 ComboBox 控件来选择 DataSet 中的每个表的每一列。
+
+下面是一个简单的示例：
+
+ViewModel 代码：
+
+```csharp
+public class MyViewModel : INotifyPropertyChanged
+{
+    private DataSet _myDataSet;
+    private DataTable _selectedTable;
+    private DataColumn _selectedColumn;
+
+    public DataSet MyDataSet
+    {
+        get { return _myDataSet; }
+        set
+        {
+            _myDataSet = value;
+            OnPropertyChanged("MyDataSet");
+        }
+    }
+
+    public DataTable SelectedTable
+    {
+        get { return _selectedTable; }
+        set
+        {
+            _selectedTable = value;
+            OnPropertyChanged("SelectedTable");
+            OnPropertyChanged("Columns");
+        }
+    }
+
+    public DataColumn SelectedColumn
+    {
+        get { return _selectedColumn; }
+        set
+        {
+            _selectedColumn = value;
+            OnPropertyChanged("SelectedColumn");
+        }
+    }
+
+    public IEnumerable<DataTable> Tables
+    {
+        get { return MyDataSet.Tables.Cast<DataTable>(); }
+    }
+
+    public IEnumerable<DataColumn> Columns
+    {
+        get { return SelectedTable != null ? SelectedTable.Columns.Cast<DataColumn>() : null; }
+    }
+
+    public MyViewModel()
+    {
+        // 从数据库中获取数据并填充到 DataSet 中
+        MyDataSet = GetDataFromDatabase();
+    }
+
+    // 实现 INotifyPropertyChanged 接口
+    public event PropertyChangedEventHandler PropertyChanged;
+    protected virtual void OnPropertyChanged(string propertyName)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+}
+```
+
+在这个示例中，ViewModel 包含一个名为 SelectedTable 的 DataTable 属性和一个名为 SelectedColumn 的 DataColumn 属性。当用户在 ComboBox 中选择表时，SelectedTable 属性会更新为选定的表。当用户在另一个 ComboBox 中选择列时，SelectedColumn 属性会更新为选定的列。
+
+ViewModel 还包含一个名为 Tables 的 IEnumerable<DataTable> 属性和一个名为 Columns 的 IEnumerable<DataColumn> 属性，它们分别返回 DataSet 中的所有表和选定表的所有列。
+
+View 代码：
+
+```xaml
+<StackPanel>
+    <ComboBox ItemsSource="{Binding Tables}" DisplayMemberPath="TableName" SelectedItem="{Binding SelectedTable}" />
+    <ComboBox ItemsSource="{Binding Columns}" DisplayMemberPath="ColumnName" SelectedItem="{Binding SelectedColumn}" />
+    <DataGrid ItemsSource="{Binding SelectedTable}" AutoGenerateColumns="True" />
+</StackPanel>
+```
+
+在这个示例中，View 包含两个 ComboBox 控件和一个 DataGrid 控件。第一个 ComboBox 控件绑定到 ViewModel 中的 Tables 属性，用于选择 DataSet 中的表。第二个 ComboBox 控件绑定到 ViewModel 中的 Columns 属性，用于选择选定表的列。DataGrid 控件绑定到 ViewModel 中的 SelectedTable 属性，用于显示选定表的数据。

@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Data;
 
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
@@ -13,6 +14,21 @@ namespace DbReaderDemo.Shell.ViewModel
             set
             {
                 _dataList=value;
+            }
+        }
+
+        private DataTable _myDataTable;
+
+        public DataTable MyDataTable
+        {
+            get
+            {
+                return _myDataTable;
+            }
+            set
+            {
+                _myDataTable=value;
+                OnPropertyChanged("MyDataTable");
             }
         }
 
@@ -32,6 +48,17 @@ namespace DbReaderDemo.Shell.ViewModel
                 new TempleData() { Age=0 }
             };
         }
+
+        public void LoadExcelFile(string fullpath)
+        {
+
+        }
+
+
+
+
+
+
     }
 
 

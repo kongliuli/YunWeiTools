@@ -41,7 +41,27 @@
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Grid Background="AliceBlue">
+        <Grid Margin="20,0,20,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition MinWidth="60" Width="80"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Button Grid.Row="0" Grid.Column="5" Content="查询"/>
+            <Button Grid.Row="1" Grid.Column="5" Content="导出"/>
+            <Button Grid.Row="2" Grid.Column="5" Content="清除"/>
+            <Button Grid.Row="3" Grid.Column="5" Content="重置"/>
+
+            <hc:ComboBox Grid.Row="1" Grid.RowSpan="1" hc:TitleElement.Title="测试下拉框" 
+                         hc:TitleElement.TitlePlacement="Left" AutoComplete="True" />
         </Grid>
     </Grid>
 </UserControl>
