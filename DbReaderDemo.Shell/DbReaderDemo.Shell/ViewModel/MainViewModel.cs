@@ -12,10 +12,10 @@ namespace DbReaderDemo.Shell.ViewModel
         {
             get; set;
         }
+
         public MainViewModel()
         {
             Done=new DbConnection();
         }
-
     }
 }

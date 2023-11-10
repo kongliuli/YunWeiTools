@@ -1,11 +1,9 @@
-﻿using System.Windows;
-
-namespace DbReaderDemo.Shell.View
+﻿namespace DbReaderDemo.Shell.View
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainView:Window
+    public partial class MainView:HandyControl.Controls.Window
     {
 
         public MainView()

@@ -19,6 +19,7 @@ namespace DbReaderDemo.Shell.ViewModel
 
             //×¢²áµ½ÈÝÆ÷ÖÐ
             _container.Register<MainViewModel>();
+            _container.Register<DbConnectionViewModel>();
         }
 
         /// <summary>
@@ -33,5 +34,12 @@ namespace DbReaderDemo.Shell.ViewModel
             }
         }
 
+        public DbConnectionViewModel Db
+        {
+            get
+            {
+                return _container.Resolve<DbConnectionViewModel>();
+            }
+        }
     }
 }

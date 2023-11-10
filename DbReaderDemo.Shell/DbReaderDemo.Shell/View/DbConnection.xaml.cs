@@ -10,7 +10,6 @@ namespace DbReaderDemo.Shell.View
         public DbConnection()
         {
             InitializeComponent();
-
         }
     }
 }

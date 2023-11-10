@@ -5,10 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              d1p1:Ignorable="d" 
              xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:hc="https://handyorg.github.io/handycontrol"
              StartupUri="View/MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" xmlns:vm="clr-namespace:DbReaderDemo.Shell.ViewModel" />
+            <ResourceDictionary.MergedDictionaries>
+                <hc:ThemeResources/>
+                <hc:Theme/>
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
