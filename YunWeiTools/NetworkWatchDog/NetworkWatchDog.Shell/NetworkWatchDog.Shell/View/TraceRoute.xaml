@@ -5,16 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NetworkWatchDog.Shell.View"
              mc:Ignorable="d" 
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             DataContext="{Binding Source={StaticResource Locator},Path=TraceRoute}"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="100"/>
+            <RowDefinition Height="120"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TabControl Grid.Row="1">
-            <TabItem Header="192.168.0.1">
+        <hc:TabControl Grid.Row="1" ItemsSource="{Binding TabItems}">
+            <ItemContainerTemplate>
                 <DataGrid>
-                    <!--<DataGrid.Columns>
+                    <DataGrid.Columns>
                         <DataGridTextColumn Header="发包序号"/>
                         <DataGridTextColumn Header="路由地址" Width="150"/>
                         <DataGridTextColumn Header="" Width="50"/>
@@ -25,8 +27,8 @@
                         <DataGridTextColumn Header="最佳延迟"/>
                         <DataGridTextColumn Header="最差延迟"/>
                         <DataGridTextColumn Header="延迟偏差"/>
-                    </DataGrid.Columns>-->
-                    <DataGrid.Columns>
+                    </DataGrid.Columns>
+                    <!--<DataGrid.Columns>
                         <DataGridTextColumn Header="HOST:"/>
                         <DataGridTextColumn Header="example" Width="150"/>
                         <DataGridTextColumn Header="" Width="50"/>
@@ -37,11 +39,11 @@
                         <DataGridTextColumn Header="Best"/>
                         <DataGridTextColumn Header="Wrst"/>
                         <DataGridTextColumn Header="StDev"/>
-                    </DataGrid.Columns>
+                    </DataGrid.Columns>-->
                 </DataGrid>
-            </TabItem>
-        </TabControl>
-        <Grid Grid.Row="0">
+            </ItemContainerTemplate>
+        </hc:TabControl>
+        <Grid Grid.Row="0" Margin="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -56,12 +58,14 @@
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            <hc:ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" hc:TitleElement.Title="选择ip" hc:TitleElement.TitlePlacement="Left">
                 <ComboBoxItem>
                     <TextBlock Text="192.168.0.1"/>
                 </ComboBoxItem>
-            </ComboBox>
-            <Button Grid.Row="0" Grid.Column="2" Content="选中项重置"/>
+            </hc:ComboBox>
+            <Button Grid.Row="0" Grid.Column="3" Content="选中项重置" HorizontalAlignment="Stretch"/>
+            <Button Grid.Row="1" Grid.Column="3" Content="取消" HorizontalAlignment="Stretch"/>
+            <Button Grid.Row="2" Grid.Column="3" Content="保存" HorizontalAlignment="Stretch"/>
         </Grid>
     </Grid>
 </UserControl>

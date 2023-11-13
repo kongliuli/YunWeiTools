@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -103,7 +102,7 @@ namespace NetworkWatchDog.Shell.ViewModel
             string? menuItem = param as string;
             if(menuItem!=null)
             {
-                MessageBox.Show(menuItem);
+
             }
         }
 

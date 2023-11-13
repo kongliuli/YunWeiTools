@@ -32,7 +32,7 @@
                 </Style>
             </Menu.ItemContainerStyle>
         </Menu>
-        <ListBox Grid.Row="1" ItemsSource="{Binding ListItem.NetworkGroup}">
+        <ListBox Grid.Row="1" ItemsSource="{Binding ListItem.NetworkGroup}" >
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="Template">
