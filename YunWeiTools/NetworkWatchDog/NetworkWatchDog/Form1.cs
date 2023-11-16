@@ -148,9 +148,9 @@ namespace NetworkWatchDog
 
                     if(reportvalue!="")
                     {
-                        //SendReportToDingDing(reportvalue);
+                        SendReportToDingDing(reportvalue);
 
-                        MessageBox.Show(reportvalue);
+                        //MessageBox.Show(reportvalue);
                     }
                 }
 
