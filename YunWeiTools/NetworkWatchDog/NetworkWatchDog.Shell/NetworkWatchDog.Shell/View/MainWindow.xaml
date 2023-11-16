@@ -32,13 +32,14 @@
                 </Style>
             </Menu.ItemContainerStyle>
         </Menu>
-        <ListBox Grid.Row="1" ItemsSource="{Binding ListItem.NetworkGroup}" >
+        <ListBox Grid.Row="1" ItemsSource="{Binding ListItem.NetworkGroup}">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="ListBoxItem">
-                                <Button Command="{Binding DataContext.ListItemCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                <Button Command="{Binding DataContext.ListItemCommand, 
+                                    RelativeSource={RelativeSource AncestorType=ListBox}}"
                                 CommandParameter="{Binding}">
                                     <ContentPresenter />
                                 </Button>
@@ -53,13 +54,21 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <TabControl Grid.Row="1" Grid.Column="1" ItemsSource="{Binding TabGroup.Items}">
+        <!--<TabControl Grid.Row="1" Grid.Column="1" x:Name="tabcontrol" ItemsSource="{Binding TabGroup.Items}">
             <TabControl.ItemContainerStyle>
                 <Style TargetType="TabItem">
                     <Setter Property="Header" Value="{Binding Header}"/>
                     <Setter Property="Content" Value="{Binding Content}"/>
                 </Style>
             </TabControl.ItemContainerStyle>
+        </TabControl>-->
+        <TabControl Grid.Row="1" Grid.Column="1" x:Name="tabcontrol1" DataContext="{Binding TabGroup.Items}">
+            <TabItem Header="{Binding [0].Header}">
+                <view:IpSniffer/>
+            </TabItem>
+            <TabItem Header="{Binding [1].Header}">
+                <view:RouteTrain/>
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

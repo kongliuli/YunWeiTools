@@ -1,28 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows.Controls;
+
+using NetworkWatchDog.Shell.ViewModel;
 
 namespace NetworkWatchDog.Shell.View
 {
     /// <summary>
     /// RouteTrain.xaml 的交互逻辑
     /// </summary>
-    public partial class RouteTrain : UserControl
+    public partial class RouteTrain:UserControl
     {
         public RouteTrain()
         {
             InitializeComponent();
+
+            this.DataContext=new TraceRouteViewModel();
         }
     }
 }

@@ -42,7 +42,6 @@ namespace NetworkWatchDog.Shell.ViewModel
         {
             foreach(var item in TabItem.Items)
             {
-                item.Info.ADDInfo("test");
             }
         }
 

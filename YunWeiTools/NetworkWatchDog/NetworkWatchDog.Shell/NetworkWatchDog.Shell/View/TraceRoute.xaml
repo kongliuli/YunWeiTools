@@ -14,34 +14,45 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <hc:TabControl Grid.Row="1" ItemsSource="{Binding TabItems}">
-            <ItemContainerTemplate>
-                <DataGrid>
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="发包序号"/>
-                        <DataGridTextColumn Header="路由地址" Width="150"/>
-                        <DataGridTextColumn Header="" Width="50"/>
-                        <DataGridTextColumn Header="丢包率"/>
-                        <DataGridTextColumn Header="数据包数"/>
-                        <DataGridTextColumn Header="最后延迟"/>
-                        <DataGridTextColumn Header="平均延迟"/>
-                        <DataGridTextColumn Header="最佳延迟"/>
-                        <DataGridTextColumn Header="最差延迟"/>
-                        <DataGridTextColumn Header="延迟偏差"/>
-                    </DataGrid.Columns>
-                    <!--<DataGrid.Columns>
-                        <DataGridTextColumn Header="HOST:"/>
-                        <DataGridTextColumn Header="example" Width="150"/>
-                        <DataGridTextColumn Header="" Width="50"/>
-                        <DataGridTextColumn Header="Loss%"/>
-                        <DataGridTextColumn Header="Snt"/>
-                        <DataGridTextColumn Header="Last"/>
-                        <DataGridTextColumn Header="Avg"/>
-                        <DataGridTextColumn Header="Best"/>
-                        <DataGridTextColumn Header="Wrst"/>
-                        <DataGridTextColumn Header="StDev"/>
-                    </DataGrid.Columns>-->
-                </DataGrid>
-            </ItemContainerTemplate>
+            <TabControl.ItemContainerStyle>
+                <Style TargetType="hc:TabItem">
+                    <Setter Property="Header" Value="{Binding Header}"/>
+                    <Setter Property="Content">
+                        <Setter.Value>
+                            <DataGrid>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="发包序号"/>
+                                    <DataGridTextColumn Header="路由地址" Width="150"/>
+                                    <DataGridTextColumn Header="" Width="50"/>
+                                    <DataGridTextColumn Header="丢包率"/>
+                                    <DataGridTextColumn Header="数据包数"/>
+                                    <DataGridTextColumn Header="最后延迟"/>
+                                    <DataGridTextColumn Header="平均延迟"/>
+                                    <DataGridTextColumn Header="最佳延迟"/>
+                                    <DataGridTextColumn Header="最差延迟"/>
+                                    <DataGridTextColumn Header="延迟偏差"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <!--<DataGrid.Columns>
+        <DataGridTextColumn Header="HOST:"/>
+        <DataGridTextColumn Header="example" Width="150"/>
+        <DataGridTextColumn Header="" Width="50"/>
+        <DataGridTextColumn Header="Loss%"/>
+        <DataGridTextColumn Header="Snt"/>
+        <DataGridTextColumn Header="Last"/>
+        <DataGridTextColumn Header="Avg"/>
+        <DataGridTextColumn Header="Best"/>
+        <DataGridTextColumn Header="Wrst"/>
+        <DataGridTextColumn Header="StDev"/>
+    </DataGrid.Columns>-->
+
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.ItemContainerStyle>
+            <hc:TabItem Header="192.168.0.1"/>
+            <hc:TabItem Header="127.0.0.1"/>
         </hc:TabControl>
         <Grid Grid.Row="0" Margin="10">
             <Grid.ColumnDefinitions>
@@ -52,7 +63,6 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>

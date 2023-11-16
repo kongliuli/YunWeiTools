@@ -11,12 +11,17 @@ using Microsoft.Extensions.Configuration;
 using NetworkWatchDog.Shell.Model;
 using NetworkWatchDog.Shell.View;
 
+using Window = System.Windows.Window;
+
 namespace NetworkWatchDog.Shell.ViewModel
 {
     public class MainViewModel:ObservableObject
     {
         IConfigurationRoot builder;
-
+        public Window? View
+        {
+            get; set;
+        }
         #region 界面绑定
         //顶部功能菜单栏
         //tabcontrol填充
@@ -93,7 +98,23 @@ namespace NetworkWatchDog.Shell.ViewModel
             string? menuItem = param as string;
             if(menuItem!=null)
             {
+                if(menuItem=="测试TraceRoute")
+                {
+                    var tabs = (View as MainView).tabcontrol1;
+                    tabs.SelectedIndex=1;
 
+
+                    var a = tabs.Items[1];
+                    var b = a as System.Windows.Controls.TabItem;
+
+                    var cc = b.Content as RouteTrain;
+                    var dd = cc.DataContext as TraceRouteViewModel;
+
+
+
+
+                    dd.AddTraceRoute("192.168.0.5");
+                }
             }
         }
 
@@ -122,6 +143,7 @@ namespace NetworkWatchDog.Shell.ViewModel
 
         public MainViewModel()
         {
+
             InitUiFromConfig();
             InitCommand();
             InitTabControl();

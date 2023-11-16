@@ -26,7 +26,7 @@
                             <ListView ItemsSource="{Binding Info.Infos}" Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Grid}}">
                                 <ListView.View>
                                     <GridView>
-                                        <GridViewColumn DisplayMemberBinding="{Binding}"/>
+                                        <GridViewColumn DisplayMemberBinding="{Binding}" Width="600"/>
                                     </GridView>
                                 </ListView.View>
                             </ListView>
