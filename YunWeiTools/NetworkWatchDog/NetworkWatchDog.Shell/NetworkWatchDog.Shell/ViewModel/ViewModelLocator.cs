@@ -21,6 +21,7 @@ namespace NetworkWatchDog.Shell.ViewModel
             _container.Register<MainViewModel>();
             //×¢²áµ½ÈÝÆ÷ÖÐ
             _container.Register<IpSnifferViewModel>();
+            _container.Register<TraceRouteViewModel>();
         }
 
         /// <summary>
@@ -44,5 +45,12 @@ namespace NetworkWatchDog.Shell.ViewModel
             }
         }
 
+        public TraceRouteViewModel TraceRoute
+        {
+            get
+            {
+                return _container.Resolve<TraceRouteViewModel>();
+            }
+        }
     }
 }

@@ -14,17 +14,17 @@ namespace NetworkWatchDog.Shell.View
         {
             InitializeComponent();
 
-            this.DataContext=new MainViewModel();
+
+            var main = new MainViewModel();
+            main.View=this;
+            this.DataContext=main;
+
 
             this.MaxHeight=SystemParameters.PrimaryScreenHeight;
 
             this.WindowState=WindowState.Maximized;
         }
 
-        public void TabControl_Loaded(object sender,RoutedEventArgs e)
-        {
-
-        }
 
         private void Window_Closing(object sender,System.ComponentModel.CancelEventArgs e)
         {
@@ -34,5 +34,7 @@ namespace NetworkWatchDog.Shell.View
                 process.Kill();
             }
         }
+
+
     }
 }
