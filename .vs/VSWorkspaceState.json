@@ -3,8 +3,11 @@
     "",
     "\\YunWeiTools",
     "\\YunWeiTools\\NetworkWatchDog",
-    "\\YunWeiTools\\NetworkWatchDog\\NetworkWatchDog"
+    "\\YunWeiTools\\NetworkWatchDog\\NetworkWatchDog",
+    "\\YunWeiTools\\NetworkWatchDog\\NetworkWatchDog.Shell",
+    "\\YunWeiTools\\NetworkWatchDog\\NetworkWatchDog.Shell\\NetworkWatchDog.Shell",
+    "\\YunWeiTools\\NetworkWatchDog\\NetworkWatchDog.Shell\\NetworkWatchDog.Shell\\View"
   ],
-  "SelectedNode": "\\YunWeiTools\\NetworkWatchDog\\NetworkWatchDog\\Form1.cs",
+  "SelectedNode": "\\YunWeiTools\\NetworkWatchDog\\NetworkWatchDog.Shell\\NetworkWatchDog.Shell\\View\\IpSniffer.xaml",
   "PreviewInSolutionExplorer": false
 }
