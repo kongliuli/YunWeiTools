@@ -5,6 +5,8 @@ using System.Threading;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
+using DryIoc.ImTools;
+
 using Microsoft.Extensions.Configuration;
 
 using NetworkWatchDog.Shell.Model;
@@ -47,10 +49,15 @@ namespace NetworkWatchDog.Shell.ViewModel
 
         #endregion
 
-        private List<string> ListiningIP = new List<string>();
-
-
-
+        private Dictionary<string,bool> _listiningIp = new Dictionary<string,bool>();
+        public Dictionary<string,bool> ListiningIP
+        {
+            get => _listiningIp;
+            set
+            {
+                SetProperty(ref _listiningIp,value);
+            }
+        }
 
         #region 核心方法
         public void GetIpStart()
@@ -59,10 +66,10 @@ namespace NetworkWatchDog.Shell.ViewModel
         }
         private void pingConnecting()
         {
-            foreach(var ipAddress in _ipsnifferconfig.BaseSetting.NetworkGroup.Where(ip => !ListiningIP.Contains(ip.Ipconfig)))
+            foreach(var ipAddress in _ipsnifferconfig.BaseSetting.NetworkGroup.Where(ip => !ListiningIP.Keys.Contains(ip.Ipconfig)))
             {
                 // 启动ping线程
-                ListiningIP.Add(ipAddress.Ipconfig);
+                ListiningIP.Add(ipAddress.Ipconfig,false);
                 new Thread(() => Ping_PingCompleted(ipAddress.Ipconfig)).Start();
             }
         }
@@ -106,6 +113,9 @@ namespace NetworkWatchDog.Shell.ViewModel
             {
                 group.GetReply(reply,timespan).TryReport(out string reportvalue,_reportConfig.errorReport.ReportMinTimes,_reportConfig.errorReport.SkipTime);
 
+                var keypair = _listiningIp.FindFirst(x => x.Key==group.Ipconfig);
+                keypair=new KeyValuePair<string,bool>(group.Ipconfig,group.GetDoneInfo().isSuccess);
+
                 if(reportvalue!="")
                 {
                     //SendReportToDingDing(reportvalue);
@@ -118,11 +128,9 @@ namespace NetworkWatchDog.Shell.ViewModel
             {
                 foreach(var item in _tabItem.Items)
                 {
-                    Thread.Sleep(1);
                     bool b = false;
                     switch(item.Header)
                     {
-
                         case "实时信息":
                         b=true;
                         item.Info.ADDInfo(showvalue);
@@ -139,6 +147,7 @@ namespace NetworkWatchDog.Shell.ViewModel
                 }
 
             }
+            Thread.Sleep(1);
         }
 
         #endregion

@@ -1,0 +1,17 @@
+{
+  "ReportConfig": {
+    "errorReport": {
+      //是否启用错误报告
+      "isReportError": true,
+      //报警触发最小次数
+      "ReportMinTimes": 10,
+      //触发报警后缓冲时间(分钟)
+      "SkipTime": 20
+    },
+    "reportRule": {
+      "reportGroup": "xitongzu",
+      "reportUser": "18751936236,17361914131",
+      "reportUri": "https://www.kujiang.com/Tool/dingding"
+    }
+  }
+}

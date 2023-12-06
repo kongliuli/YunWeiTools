@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NetworkWatchDog.Shell.Model
 {
@@ -11,7 +8,7 @@ namespace NetworkWatchDog.Shell.Model
     {
         public BaseSetting BaseSetting
         {
-            get; set; 
+            get; set;
         }
     }
     public class BaseSetting
@@ -43,7 +40,6 @@ namespace NetworkWatchDog.Shell.Model
             get; set;
         } = 10000;
     }
-
     public class IpGroup
     {
         #region 基础信息
@@ -147,8 +143,6 @@ namespace NetworkWatchDog.Shell.Model
 
         public ErrorInfo GetDoneInfo() => doneInfo;
     }
-
-
     public class ErrorInfo
     {
         public DateTime ErrorTime
@@ -164,5 +158,4 @@ namespace NetworkWatchDog.Shell.Model
             get; set;
         } = "";
     }
-
 }

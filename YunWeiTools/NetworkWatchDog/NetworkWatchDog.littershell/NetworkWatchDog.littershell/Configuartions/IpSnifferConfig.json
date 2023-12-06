@@ -1,0 +1,176 @@
+{
+  "IpSnifferConfig": {
+    "MainPage": {
+      "TabControlItemsGroup": {
+        "GroupTitle": "Ip监听tab",
+        "Items": [
+          {
+            "Content": "",
+            "Header": "实时信息"
+          },
+          {
+            "Content": "",
+            "Header": "错误报告"
+          },
+          {
+            "Content": "",
+            "Header": "配置展示"
+          }
+        ]
+      }
+    }, 
+    //基础设置
+    "baseSetting": {
+      //ip组 key value 是否为ap,ap属性[名称,型号,位置备注]
+      "NetworkGroup": [
+        {
+          "Ipconfig": "192.168.0.1",
+          "isMachine": true,
+          "IpName": "网关",
+          "MachineInfo": "",
+          "MachineLocation": "",
+          //内外网标识
+          "isintra": true
+        },
+        {
+          "Ipconfig": "192.168.0.14",
+          "isMachine": true,
+          "IpName": "35-1",
+          "MachineInfo": "913",
+          "MachineLocation": "",
+          "isintra": true
+        },
+        {
+          "Ipconfig": "192.168.0.15",
+          "isMachine": true,
+          "IpName": "35-2",
+          "MachineInfo": "913",
+          "MachineLocation": "",
+          "isintra": true
+        },
+        {
+          "Ipconfig": "192.168.0.16",
+          "isMachine": true,
+          "IpName": "35-3",
+          "MachineInfo": "913",
+          "MachineLocation": "",
+          "isintra": true
+        },
+        {
+          "Ipconfig": "192.168.0.17",
+          "isMachine": true,
+          "IpName": "35-4",
+          "MachineInfo": "913",
+          "MachineLocation": "",
+          "isintra": true
+        },
+        {
+          "Ipconfig": "192.168.0.18",
+          "isMachine": true,
+          "IpName": "35-5",
+          "MachineInfo": "913",
+          "MachineLocation": "",
+          "isintra": true
+        },
+        {
+          "Ipconfig": "192.168.0.19",
+          "isMachine": true,
+          "IpName": "35-6",
+          "MachineInfo": "913",
+          "MachineLocation": "",
+          "isintra": true
+        },
+        {
+          "Ipconfig": "192.168.0.20",
+          "isMachine": true,
+          "IpName": "35-7",
+          "MachineInfo": "913",
+          "MachineLocation": "",
+          "isintra": true
+        },
+        {
+          "Ipconfig": "192.168.0.21",
+          "isMachine": true,
+          "IpName": "35-8",
+          "MachineInfo": "6223",
+          "MachineLocation": "",
+          "isintra": true
+        },
+        {
+          "Ipconfig": "192.168.0.22",
+          "isMachine": true,
+          "IpName": "35-9",
+          "MachineInfo": "6223",
+          "MachineLocation": "",
+          "isintra": true
+        },
+        {
+          "Ipconfig": "192.168.0.23",
+          "isMachine": true,
+          "IpName": "35-10",
+          "MachineInfo": "6223",
+          "MachineLocation": "",
+          "isintra": true
+        },
+        {
+          "Ipconfig": "192.168.0.24",
+          "isMachine": true,
+          "IpName": "35-11",
+          "MachineInfo": "6223",
+          "MachineLocation": "",
+          "isintra": true
+        },
+        {
+          "Ipconfig": "192.168.0.25",
+          "isMachine": true,
+          "IpName": "35-12",
+          "MachineInfo": "913",
+          "MachineLocation": "",
+          "isintra": true
+        },
+        {
+          "Ipconfig": "192.168.0.26",
+          "isMachine": true,
+          "IpName": "35-13",
+          "MachineInfo": "6223",
+          "MachineLocation": "",
+          "isintra": true
+        },
+        {
+          "Ipconfig": "192.168.0.27",
+          "isMachine": true,
+          "IpName": "35-6A",
+          "MachineInfo": "6223",
+          "MachineLocation": "",
+          "isintra": true
+        },
+        {
+          "Ipconfig": "192.168.0.28",
+          "isMachine": true,
+          "IpName": "35-6B",
+          "MachineInfo": "6223",
+          "MachineLocation": "",
+          "isintra": true
+        },
+        {
+          "Ipconfig": "www.baidu.com",
+          "isMachine": false,
+          "IpName": "百度官网",
+          "MachineInfo": "",
+          "MachineLocation": "",
+          "isintra": false
+        }
+      ],
+      //内网延迟/ms
+      "IntranettripTime": 500,
+      //外网延迟/ms
+      "ExternaltripTime": 1000,
+      //访问超时判断条件 默认值为5000ms
+      "TimeOut": 4000,
+      //重复ping命令间隔时间 ,默认值为1000ms
+      "PingTimer": 1000,
+      //展示界面超过指定行数,则每次增加删除最早100行,默认值为10000条
+      "BuffurMaxLine": 10000
+    }
+  }
+}

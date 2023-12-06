@@ -160,6 +160,36 @@ namespace NetworkWatchDog
             reportvalue="";
             return false;
         }
+        public bool TryReportMarkdownTable(out string reportvalue,int reporttimes = 5,int timespan = 20)
+        {
+            if(DateTime.Now>=new DateTime(DateTime.Now.Year,
+                                          DateTime.Now.Month,
+                                          DateTime.Now.Day,
+                                          7,
+                                          30,
+                                          0)
+                &&DateTime.Now<=new DateTime(DateTime.Now.Year,
+                                             DateTime.Now.Month,
+                                             DateTime.Now.Day,
+                                             23,
+                                             30,
+                                             0))
+            {
+                if(this.infos.Count>=reporttimes&&ErrorReportTime<DateTime.Now.AddMinutes(-timespan)&&isMachine)
+                {
+                    reportvalue="";
+                    ErrorReportTime=DateTime.Now;
+                    foreach(var a in infos)
+                    {
+                        reportvalue+=$"| {a.ErrorTime:HH:mm:ss} | {a.ErrorReportContent.Split(' ')[3]} |\n";
+                    }
+                    infos=new();
+                    return true;
+                }
+            }
+            reportvalue="";
+            return false;
+        }
 
         public ErrorInfo GetDoneInfo() => doneInfo;
     }

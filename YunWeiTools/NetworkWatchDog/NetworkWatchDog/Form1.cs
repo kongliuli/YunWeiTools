@@ -9,6 +9,7 @@ namespace NetworkWatchDog
     //mtr功能
     public partial class Form1:Form
     {
+        DingTalkLib.MarkDownDingTalkClient _client;
         public Configuration configura = new();
 
         private List<string> ListiningIP;
@@ -20,6 +21,7 @@ namespace NetworkWatchDog
             ListiningIP=new();
 
             InitReport();
+
         }
 
         private void InitReport()
@@ -29,6 +31,7 @@ namespace NetworkWatchDog
 
         private async void SendReportToDingDing(string msg)
         {
+
             using HttpClient client = new();
             // 构造POST请求的内容
             var postData = new FormUrlEncodedContent(new[]
@@ -144,13 +147,33 @@ namespace NetworkWatchDog
 
                 if(configura.errorReport.isReportError)
                 {
-                    group.GetReply(reply,timespan).TryReport(out string reportvalue,configura.errorReport.ReportMinTimes,configura.errorReport.SkipTime);
+                    group.GetReply(reply,timespan).TryReportMarkdownTable(out string reportvalue,configura.errorReport.ReportMinTimes,configura.errorReport.SkipTime);
 
                     if(reportvalue!="")
                     {
-                        SendReportToDingDing(reportvalue);
+                        //SendReportToDingDing(reportvalue);
 
-                        //MessageBox.Show(reportvalue);
+                        var at = new DingTalkLib.DingTalkAtSetting()
+                        {
+                            AtMoblies=new string[] { "18751936236" },
+                            AtUsers=new string[] { "18751936236" },
+                            IsAtAll=false
+                        };
+
+                        var markdown = new DingTalkLib.MessageContent()
+                        {
+                            title="网络监控报警",
+                            text=$"#### 网络监控报警\n\n> **{group.IpName}** ap连接故障报警\n> \n> ip：{group.Ipconfig}\n> 型号：{group.MachineLocation}\n> 位置：\n> 信息：此ap一分钟内出现了{configura.errorReport.ReportMinTimes}次连接故障。请登录向日葵查看详情\n\n| 时间 | 错误信息 |\n| --- | --- | --- |\n{reportvalue}"
+                        };
+
+
+                        _client=new(markdown,
+                                                   "https://oapi.dingtalk.com/robot/send",
+                                                   "cf48aae08bb3cf2bf88a79b349c38ade78348d8571d70b21b56113df2fb74897",
+                                                   "SECac5f99d07087195fecc94ac270bbf5d76b8da57a5e4499c047474b851e71fcc2",
+                                                   at);
+                        _client.IGetPostUri().SendMessageAsync();
+                        var respone = _client.Response.Result;
                     }
                 }
 

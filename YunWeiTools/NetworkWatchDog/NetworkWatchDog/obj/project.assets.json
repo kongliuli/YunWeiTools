@@ -235,6 +235,16 @@
         "build": {
           "buildTransitive/net6.0/System.Text.Json.targets": {}
         }
+      },
+      "DingTalkLib/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/DingTalkLib.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/DingTalkLib.dll": {}
+        }
       }
     }
   },
@@ -613,10 +623,16 @@
         "system.text.json.nuspec",
         "useSharedDesignerContext.txt"
       ]
+    },
+    "DingTalkLib/1.0.0": {
+      "type": "project",
+      "path": "../../../DingTalkLib/DingTalkLib.csproj",
+      "msbuildProject": "../../../DingTalkLib/DingTalkLib.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0-windows7.0": [
+      "DingTalkLib >= 1.0.0",
       "Microsoft.Extensions.Configuration >= 7.0.0",
       "Microsoft.Extensions.Configuration.Json >= 7.0.0",
       "Newtonsoft.Json >= 13.0.3"
@@ -654,7 +670,11 @@
       "frameworks": {
         "net6.0-windows7.0": {
           "targetAlias": "net6.0-windows",
-          "projectReferences": {}
+          "projectReferences": {
+            "D:\\codes\\YunWeiTools\\DingTalkLib\\DingTalkLib.csproj": {
+              "projectPath": "D:\\codes\\YunWeiTools\\DingTalkLib\\DingTalkLib.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

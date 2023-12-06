@@ -12,12 +12,13 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"/>
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         <Label Grid.Row="3"/>
-        <TabControl Grid.RowSpan="2" ItemsSource="{Binding TabItem.Items}" Loaded="TabControl_Loaded">
+        <TabControl Grid.Row="1" Grid.RowSpan="2" ItemsSource="{Binding TabItem.Items}" Loaded="TabControl_Loaded">
             <TabControl.ItemContainerStyle>
                 <Style TargetType="TabItem">
                     <Setter Property="Header" Value="{Binding Header}"/>
@@ -35,5 +36,43 @@
                 </Style>
             </TabControl.ItemContainerStyle>
         </TabControl>
+        <ListView Grid.Row="0" Grid.RowSpan="1" Grid.Column="0" ItemsSource="{Binding ListiningIP}">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Height" Value="100"/>
+                    <!-- 设置固定的大小 -->
+                    <Setter Property="Width" Value="100"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListViewItem">
+                                <Grid>
+                                    <TextBlock Text="{Binding key}" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Foreground" Value="Red"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding value}" Value="True">
+                                                        <Setter Property="Foreground" Value="Green"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                    <!--<Image Source="{Binding YourImage}" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal"/>
+                    <!-- 使用WrapPanel来实现瀑布流布局 -->
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+        </ListView>
     </Grid>
 </UserControl>

@@ -76,3 +76,5 @@ H:\codes\github\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\obj\Debu
 H:\codes\github\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\obj\Debug\net6.0-windows\ref\NetworkWatchDog.dll
 D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\bin\Debug\net6.0-windows\Newtonsoft.Json.dll
 H:\codes\github\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\bin\Debug\net6.0-windows\Newtonsoft.Json.dll
+D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\bin\Debug\net6.0-windows\DingTalkLib.dll
+D:\codes\YunWeiTools\YunWeiTools\NetworkWatchDog\NetworkWatchDog\bin\Debug\net6.0-windows\DingTalkLib.pdb

@@ -300,7 +300,7 @@ namespace GetPayMessageByALi
                 }
 
                 // 保存Excel文件
-                FileInfo excelFile = new FileInfo($"{path}第{comboBox1.SelectedItem}周原始数据.xlsx");
+                FileInfo excelFile = new FileInfo($"{path}\\第{comboBox1.SelectedItem}周原始数据.xlsx");
                 excelPackage.SaveAs(excelFile);
             }
         }
