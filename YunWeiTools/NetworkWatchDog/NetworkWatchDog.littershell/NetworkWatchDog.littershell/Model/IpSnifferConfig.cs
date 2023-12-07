@@ -156,6 +156,33 @@ namespace NetworkWatchDog.Shell.Model
             reportvalue="";
             return false;
         }
+        public bool TryReportMarkdown(out string reportvalue,int reporttimes = 5,int timespan = 20)
+        {
+            if(this.infos.Count>=reporttimes&&ErrorReportTime<DateTime.Now.AddMinutes(-timespan)&&isMachine)
+            {
+                reportvalue=$@"### 网络连通性报警
+>- 报警设备:无线ap-{IpName}
+>- IP地址:{Ipconfig}
+>- 设备信息:{MachineInfo}
+>- 设备位置:{MachineLocation}
+
+>- 报警内容:{(isintra ? "内网网关(127.0.0.1)" : "外网(以www.baidu.com作为基准)")}测试连通性发生多次异常
+>- 报警阈值:在一分钟内访问基准地址超过失败{reporttimes}次,失败标准为延迟超过{(isintra ? 100 : 150)}ms
+
+失败信息
+";
+                foreach(var info in this.infos)
+                {
+                    reportvalue+=$"{info.ErrorReportContent}\n";
+                }
+
+                ErrorReportTime=DateTime.Now;
+                infos=new();
+                return true;
+            }
+            reportvalue="";
+            return false;
+        }
 
         public ErrorInfo GetDoneInfo() => doneInfo;
 

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:NetworkWatchDog.littershell.ViewModel"
         xmlns:view="clr-namespace:NetworkWatchDog.littershell.View"
         mc:Ignorable="d"
-        Title="MainView" Height="300" Width="500" WindowStartupLocation="CenterScreen"
+        Title="MainView" Height="300" Width="500" WindowStartupLocation="CenterScreen"  Closing="Window_Closing"
         DataContext="{Binding Source={StaticResource Locator},Path=Main}" 
         >
     <Grid>

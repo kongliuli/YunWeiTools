@@ -28,17 +28,17 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Border Margin="5" Padding="5" BorderBrush="Black" BorderThickness="1">
-                        <TextBlock>
-                            <Run Text="{Binding Ipconfig}"/>
+                        <TextBlock> 
+                            <Run Text="{Binding Ipconfig}"/> 
                             <Run Text="{Binding IpName}"/>
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsLastTrue}" Value="True">
-                                            <Setter Property="Background" Value="Green"/>
+                                        <DataTrigger Binding="{Binding Path=islasttrue,Mode=TwoWay}" Value="True">
+                                            <Setter Property="Foreground" Value="Green"/>
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding IsLastTrue}" Value="False">
-                                            <Setter Property="Background" Value="Red"/>
+                                        <DataTrigger Binding="{Binding Path=islasttrue,Mode=TwoWay}" Value="false">
+                                            <Setter Property="Foreground" Value="Red"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
@@ -50,10 +50,14 @@
         </ItemsControl>
         <TabControl Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="3">
             <TabItem Header="实时消息">
-                <TextBox Text="{Binding Info , Mode=TwoWay}"/>
+                <ListView ItemsSource="{Binding Info.Infos,Mode=TwoWay}" Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Grid}}">
+                    
+                </ListView>
             </TabItem>
             <TabItem Header="错误信息">
-                <TextBox Text="{Binding ErrorInfo , Mode=TwoWay}"/>
+                <ListView ItemsSource="{Binding ErrorInfo.Infos,Mode=TwoWay}" Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Grid}}">
+
+                </ListView>
             </TabItem>
         </TabControl>
         <Grid Grid.Row="0" Grid.RowSpan="1" Grid.Column="1" Grid.ColumnSpan="3">

@@ -15,6 +15,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\..\..\..\DingTalkLib\DingTalkLib.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <None Update="Configuartions\IpSnifferConfig.json">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>

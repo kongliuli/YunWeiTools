@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
 
 namespace NetworkWatchDog.littershell.View
 {
@@ -10,7 +11,22 @@ namespace NetworkWatchDog.littershell.View
         public MainView()
         {
             InitializeComponent();
+
+
+
+
+            this.MaxHeight=SystemParameters.PrimaryScreenHeight;
+
+            this.WindowState=WindowState.Maximized;
         }
 
+        private void Window_Closing(object sender,System.ComponentModel.CancelEventArgs e)
+        {
+            Process[] processes = Process.GetProcessesByName("NetworkWatchDog.littershell");
+            foreach(Process process in processes)
+            {
+                process.Kill();
+            }
+        }
     }
 }
