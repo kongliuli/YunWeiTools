@@ -20,6 +20,7 @@ namespace NetworkWatchDog.littershell.ViewModel
             //×¢²áµ½ÈÝÆ÷ÖÐ
             _container.Register<MainViewModel>();
             _container.Register<IpSnifferViewModel>();
+            _container.Register<MTRouterViewModel>();
         }
 
         /// <summary>
@@ -39,6 +40,14 @@ namespace NetworkWatchDog.littershell.ViewModel
             get
             {
                 return _container.Resolve<IpSnifferViewModel>();
+            }
+        }
+
+        public MTRouterViewModel MTR
+        {
+            get
+            {
+                return _container.Resolve<MTRouterViewModel>();
             }
         }
     }

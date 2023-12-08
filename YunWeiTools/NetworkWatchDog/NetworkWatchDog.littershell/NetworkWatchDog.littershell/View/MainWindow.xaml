@@ -23,8 +23,10 @@
             <TabItem Header="ip监听">
                 <view:IpSniffer/>
             </TabItem>
-            <!--<TabItem Header="路由嗅探"/>
-            <TabItem Header="网页托管"/>
+            <TabItem Header="路由嗅探">
+                <view:MTRouter/>
+            </TabItem>
+            <!--TabItem Header="网页托管"/>
             <TabItem Header="定时控制"/>-->
         </TabControl>
         <Menu Grid.Row="0" Grid.ColumnSpan="2">
