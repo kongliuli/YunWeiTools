@@ -75,7 +75,7 @@ namespace NetworkWatchDog.Shell.Model
             get; set;
         } = true;
         private bool _isLastTrue = false;
-        public bool islasttrue
+        public bool IsLastTrue
         {
             get => _isLastTrue;
             set
@@ -112,10 +112,10 @@ namespace NetworkWatchDog.Shell.Model
                 if(pr.Status==IPStatus.Success)
                 {
                     info.isSuccess=true;
-                    islasttrue=true;
+                    IsLastTrue=true;
                     if(pr.RoundtripTime>=timespan)
                     {
-                        islasttrue=false;
+                        IsLastTrue=false;
                         info.isSuccess=false;
                     }
                     message+=$": 字节={pr.Buffer.Length} 时间={pr.RoundtripTime}ms TTL={pr.Options?.Ttl}";
@@ -123,7 +123,7 @@ namespace NetworkWatchDog.Shell.Model
                 else
                 {
                     info.isSuccess=false;
-                    islasttrue=false;
+                    IsLastTrue=false;
                     message+=$" {pr.Status}";
                 }
             }
@@ -166,7 +166,7 @@ namespace NetworkWatchDog.Shell.Model
 >- 设备信息:{MachineInfo}
 >- 设备位置:{MachineLocation}
 
->- 报警内容:{(isintra ? "内网网关(127.0.0.1)" : "外网(以www.baidu.com作为基准)")}测试连通性发生多次异常
+>- 报警内容:{(isintra ? "内网" : "外网")}测试连通性发生多次异常
 >- 报警阈值:在一分钟内访问基准地址超过失败{reporttimes}次,失败标准为延迟超过{(isintra ? 100 : 150)}ms
 
 失败信息

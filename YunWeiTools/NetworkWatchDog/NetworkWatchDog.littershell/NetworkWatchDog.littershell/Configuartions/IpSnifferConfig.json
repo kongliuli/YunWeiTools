@@ -33,38 +33,6 @@
           "isintra": true
         },
         {
-          "Ipconfig": "192.168.0.14",
-          "isMachine": true,
-          "IpName": "35-1",
-          "MachineInfo": "913",
-          "MachineLocation": "",
-          "isintra": true
-        },
-        {
-          "Ipconfig": "192.168.0.15",
-          "isMachine": true,
-          "IpName": "35-2",
-          "MachineInfo": "913",
-          "MachineLocation": "",
-          "isintra": true
-        },
-        {
-          "Ipconfig": "192.168.0.16",
-          "isMachine": true,
-          "IpName": "35-3",
-          "MachineInfo": "913",
-          "MachineLocation": "",
-          "isintra": true
-        },
-        {
-          "Ipconfig": "192.168.0.17",
-          "isMachine": true,
-          "IpName": "35-4",
-          "MachineInfo": "913",
-          "MachineLocation": "",
-          "isintra": true
-        },
-        {
           "Ipconfig": "192.168.0.18",
           "isMachine": true,
           "IpName": "35-5",

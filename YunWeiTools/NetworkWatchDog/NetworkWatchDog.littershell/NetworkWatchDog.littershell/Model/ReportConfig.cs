@@ -32,15 +32,19 @@
 
     public class ReportRule
     {
-        public string reportGroup
+        public string RetportGroupName
         {
             get; set;
         } = "";
-        public string reportUser
+        public string DingTalkUri
+        {
+            get; set;
+        } = "https://oapi.dingtalk.com/robot/send";
+        public string Token
         {
             get; set;
         } = "";
-        public string reportUri
+        public string SecretInfo
         {
             get; set;
         } = "";

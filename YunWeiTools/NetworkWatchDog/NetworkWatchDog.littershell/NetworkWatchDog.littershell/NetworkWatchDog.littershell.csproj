@@ -5,7 +5,14 @@
 		<TargetFramework>net6.0-windows</TargetFramework>
 		<Nullable>enable</Nullable>
 		<UseWPF>true</UseWPF>
+		<Win32Resource></Win32Resource>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <Resource Include="Res\安防监控.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="DryIoc.dll" Version="4.8.4" />
@@ -24,6 +31,10 @@
 	  </None>
 	  <None Update="Configuartions\ReportConfig.json">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Res\安防监控.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
 	  </None>
 	</ItemGroup>
 

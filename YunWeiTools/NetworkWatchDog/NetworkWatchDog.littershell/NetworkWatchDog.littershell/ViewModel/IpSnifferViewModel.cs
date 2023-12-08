@@ -2,11 +2,13 @@
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Threading;
+using System.Windows.Input;
 
 using DingTalkLib;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 
 using NetworkWatchDog.Shell.Model;
 
@@ -14,10 +16,13 @@ namespace NetworkWatchDog.littershell.ViewModel
 {
     public class IpSnifferViewModel:ObservableObject
     {
-        private IpSnifferConfig _ipsnifferconfig;
+        private IpSnifferConfig? _ipsnifferconfig;
         private IConfigurationRoot builder;
-        private ReportConfig _reportConfig;
+        private ReportConfig? _reportConfig;
 
+
+
+        #region 初始化属性
         private ObservableCollection<IpGroup> _listiningIp = new();
         public ObservableCollection<IpGroup> ListiningIp
         {
@@ -47,8 +52,64 @@ namespace NetworkWatchDog.littershell.ViewModel
             }
         }
 
+        private bool _IsAutoRefalsh = true;
+        public bool IsAutoRefalsh
+        {
+            get => _IsAutoRefalsh;
+            set
+            {
+                SetProperty(ref _IsAutoRefalsh,value);
+            }
+        }
+        #endregion
+
         public IpSnifferViewModel()
         {
+            ConfigInit();
+
+
+            GetIpStart();
+        }
+
+        #region 方法绑定
+        public ICommand ClearCommand
+        {
+            get
+            {
+                return new RelayCommand(ClearClick);
+            }
+        }
+
+        public ICommand ReloadCommand
+        {
+            get
+            {
+                return new RelayCommand(ConfigInit);
+            }
+        }
+
+        public ICommand ReportCommand
+        {
+            get
+            {
+                return new RelayCommand(TryReport);
+            }
+        }
+        #endregion
+        private void TryReport()
+        {
+            SendReportToDingDing($"### 网络连通性报警\r\n>- 报警设备:无线ap-35-6\r\n>- IP地址:192.168.0.19\r\n>- 设备信息:913\r\n>- 设备位置:\r\n\r\n>- 报警内容:内网测试连通性发生多次异常\r\n>- 报警阈值:在一分钟内访问基准地址超过失败10次,失败标准为延迟超过100ms\r\n\r\n失败信息\r\n2023-12-08 14:36:29 192.168.0.19 DestinationHostUnreachable\r\n2023-12-08 14:36:33 192.168.0.19 DestinationHostUnreachable\r\n2023-12-08 14:36:37 192.168.0.19 DestinationHostUnreachable\r\n2023-12-08 14:36:41 192.168.0.19 DestinationHostUnreachable\r\n2023-12-08 14:36:45 192.168.0.19 DestinationHostUnreachable\r\n2023-12-08 14:36:49 192.168.0.19 DestinationHostUnreachable\r\n2023-12-08 14:36:53 192.168.0.19 DestinationHostUnreachable\r\n2023-12-08 14:36:57 192.168.0.19 DestinationHostUnreachable\r\n2023-12-08 14:37:01 192.168.0.19 DestinationHostUnreachable\r\n2023-12-08 14:37:05 192.168.0.19 DestinationHostUnreachable\r\n\r\n","测试报警");
+        }
+
+
+        private void ClearClick()
+        {
+            Info.Infos=new();
+            ErrorInfo.Infos=new();
+        }
+        private void ConfigInit()
+        {
+            //配置文件读取
             builder=new ConfigurationBuilder()
                        .AddJsonFile("Configuartions/IpSnifferConfig.json",optional: true,reloadOnChange: true)
                        .AddJsonFile("Configuartions/ReportConfig.json",optional: true,reloadOnChange: true)
@@ -56,15 +117,22 @@ namespace NetworkWatchDog.littershell.ViewModel
 
             _ipsnifferconfig=builder.GetSection("IpSnifferConfig").Get<IpSnifferConfig>();
             _reportConfig=builder.GetSection("ReportConfig").Get<ReportConfig>();
-            GetIpStart();
+        }
+        private void ClearCommand_CanExecuteChanged(object? sender,System.EventArgs e)
+        {
+            Info.Infos=new ObservableCollection<string>();
+            ErrorInfo.Infos=new ObservableCollection<string>();
         }
 
-
         #region 核心方法
+        /// <summary>
+        /// 启动方法
+        /// </summary>
         public void GetIpStart()
         {
             pingConnecting();
         }
+
         private void pingConnecting()
         {
             foreach(var ipAddress in _ipsnifferconfig.BaseSetting.NetworkGroup.Where(ip => !ListiningIp.Contains(ip)))
@@ -103,7 +171,11 @@ namespace NetworkWatchDog.littershell.ViewModel
                 }
             }
         }
-
+        /// <summary>
+        /// ui更新
+        /// </summary>
+        /// <param name="reply"></param>
+        /// <param name="group"></param>
         private void UpdateUi(PingReply reply,IpGroup group)
         {
             int timespan = group.isintra ? _ipsnifferconfig.BaseSetting.IntranettripTime : _ipsnifferconfig.BaseSetting.ExternaltripTime;
@@ -114,7 +186,7 @@ namespace NetworkWatchDog.littershell.ViewModel
 
                 if(reportvalue!="")
                 {
-                    SendReportToDingDing(reportvalue,"测试markdown");
+                    //SendReportToDingDing(reportvalue,"测试markdown");
                 }
             }
 
@@ -131,7 +203,11 @@ namespace NetworkWatchDog.littershell.ViewModel
             }
             Thread.Sleep(1);
         }
-
+        /// <summary>
+        /// 钉钉报警
+        /// </summary>
+        /// <param name="reportvalue"></param>
+        /// <param name="msgtitle"></param>
         private void SendReportToDingDing(string reportvalue,string msgtitle)
         {
             MessageContent markdown = new()
@@ -142,16 +218,12 @@ namespace NetworkWatchDog.littershell.ViewModel
 
             MarkDownDingTalkClient md = new(
                 markdown,
-                "https://oapi.dingtalk.com/robot/send",
-                "cf48aae08bb3cf2bf88a79b349c38ade78348d8571d70b21b56113df2fb74897",
-                "SECac5f99d07087195fecc94ac270bbf5d76b8da57a5e4499c047474b851e71fcc2",
-                null);
+                _reportConfig.reportRule.DingTalkUri,
+                _reportConfig.reportRule.Token,
+                _reportConfig.reportRule.SecretInfo,
+                new DingTalkAtSetting() { IsAtAll=true });
 
-            var repo = md.IGetPostUri()
-                                  .SendMessageAsync()
-                                  .Response
-                                  .Result
-                                  .Content;
+            md.IGetPostUri().SendMessageAsync();
         }
 
         #endregion

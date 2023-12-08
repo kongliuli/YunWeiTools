@@ -9,9 +9,10 @@
       "SkipTime": 20
     },
     "reportRule": {
-      "reportGroup": "xitongzu",
-      "reportUser": "18751936236,17361914131",
-      "reportUri": "https://www.kujiang.com/Tool/dingding"
+      "RetportGroupName": "xitongzu",
+      "DingTalkUri": "https://oapi.dingtalk.com/robot/send",
+      "Token": "cf48aae08bb3cf2bf88a79b349c38ade78348d8571d70b21b56113df2fb74897",
+      "SecretInfo": "SECac5f99d07087195fecc94ac270bbf5d76b8da57a5e4499c047474b851e71fcc2"
     }
   }
 }

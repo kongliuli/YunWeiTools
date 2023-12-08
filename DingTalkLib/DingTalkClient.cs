@@ -113,7 +113,7 @@ namespace DingTalkLib
             var client = new HttpClient();
             var value = new
             {
-                msgtype = msgtype,
+                msgtype = "markdown",
                 markdown = MarkDown,
                 at = at
             };
