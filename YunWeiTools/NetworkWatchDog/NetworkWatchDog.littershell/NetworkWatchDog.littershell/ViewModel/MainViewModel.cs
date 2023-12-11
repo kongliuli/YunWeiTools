@@ -1,64 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
+
+using NetworkWatchDog.Shell.Model;
 
 namespace NetworkWatchDog.littershell.ViewModel
 {
     public class MainViewModel:ObservableObject
     {
-        #region 属性字段
-        private string? _userName;
+        private IpSnifferConfig? _ipsnifferconfig;
+        private IConfigurationRoot builder;
+        private ReportConfig? _reportConfig;
 
-        public string? UserName
-        {
-            get => _userName;
-            set => SetProperty(ref _userName,value);
-        }
 
-        private int _age;
-
-        public int Age
-        {
-            get => _age;
-
-            set => SetProperty(ref _age,value);
-        }
-        #endregion
-
-        /// <summary>
-        /// 按钮点击命令
-        /// </summary>
-        public ICommand BtnClick
-        {
-            get; set;
-        }
 
         public MainViewModel()
         {
-            BtnClick=new RelayCommand<string>((obj) => DoRun(obj));
+            //配置文件读取
+            builder=new ConfigurationBuilder()
+                       .AddJsonFile("Configuartions/IpSnifferConfig.json",optional: true,reloadOnChange: true)
+                       .AddJsonFile("Configuartions/ReportConfig.json",optional: true,reloadOnChange: true)
+                       .Build();
+
+            _ipsnifferconfig=builder.GetSection("IpSnifferConfig").Get<IpSnifferConfig>();
+            _reportConfig=builder.GetSection("ReportConfig").Get<ReportConfig>();
+
+            //配置传递
+            ViewModelLocator._ipsnifferconfig=_ipsnifferconfig;
+            ViewModelLocator._reportConfig=_reportConfig;
         }
-
-        private void DoRun(string? obj)
-        {
-            Task.Run(() =>
-            {
-                int i = 0;
-                while(true)
-                {
-                    i++;
-                    Task.Delay(1000).GetAwaiter().GetResult();
-                    Age=i;
-                }
-            });
-        }
-
-
-
     }
 }

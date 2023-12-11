@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetworkWatchDog.Shell", "Ne
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DingTalkLib", "..\..\DingTalkLib\DingTalkLib.csproj", "{DBED6970-AB85-4BCE-B23A-979CF61D342D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkWatchDog.littershell", "NetworkWatchDog.littershell\NetworkWatchDog.littershell\NetworkWatchDog.littershell.csproj", "{F968811C-8F14-489A-9D36-198EB3D29D55}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetworkWatchDog.littershell", "NetworkWatchDog.littershell\NetworkWatchDog.littershell\NetworkWatchDog.littershell.csproj", "{F968811C-8F14-489A-9D36-198EB3D29D55}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{F4E19E40-03C1-48FF-9AA7-83BF802E8327}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{F968811C-8F14-489A-9D36-198EB3D29D55}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F968811C-8F14-489A-9D36-198EB3D29D55}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F968811C-8F14-489A-9D36-198EB3D29D55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4E19E40-03C1-48FF-9AA7-83BF802E8327}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4E19E40-03C1-48FF-9AA7-83BF802E8327}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4E19E40-03C1-48FF-9AA7-83BF802E8327}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4E19E40-03C1-48FF-9AA7-83BF802E8327}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

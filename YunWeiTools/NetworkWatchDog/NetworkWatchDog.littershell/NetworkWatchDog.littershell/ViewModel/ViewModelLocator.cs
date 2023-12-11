@@ -1,5 +1,7 @@
 using DryIoc;
 
+using NetworkWatchDog.Shell.Model;
+
 namespace NetworkWatchDog.littershell.ViewModel
 {
     /// <summary>
@@ -8,7 +10,8 @@ namespace NetworkWatchDog.littershell.ViewModel
     public class ViewModelLocator
     {
         Container _container;
-
+        public static IpSnifferConfig? _ipsnifferconfig;
+        public static ReportConfig? _reportConfig;
         /// <summary>
         /// ¹¹Ôìº¯Êý
         /// </summary>

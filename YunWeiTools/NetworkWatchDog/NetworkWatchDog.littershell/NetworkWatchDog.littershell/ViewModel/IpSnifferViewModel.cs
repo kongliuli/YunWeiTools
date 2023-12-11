@@ -109,14 +109,8 @@ namespace NetworkWatchDog.littershell.ViewModel
         }
         private void ConfigInit()
         {
-            //配置文件读取
-            builder=new ConfigurationBuilder()
-                       .AddJsonFile("Configuartions/IpSnifferConfig.json",optional: true,reloadOnChange: true)
-                       .AddJsonFile("Configuartions/ReportConfig.json",optional: true,reloadOnChange: true)
-                       .Build();
-
-            _ipsnifferconfig=builder.GetSection("IpSnifferConfig").Get<IpSnifferConfig>();
-            _reportConfig=builder.GetSection("ReportConfig").Get<ReportConfig>();
+            _ipsnifferconfig=ViewModelLocator._ipsnifferconfig;
+            _reportConfig=ViewModelLocator._reportConfig;
         }
         private void ClearCommand_CanExecuteChanged(object? sender,System.EventArgs e)
         {
