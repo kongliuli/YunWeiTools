@@ -87,6 +87,21 @@ namespace NetworkWatchDog.Shell.Model
                 }
             }
         }
+
+
+        private bool _isPingEnable = false;
+        public bool IsPingEnabled
+        {
+            get => _isPingEnable;
+            set
+            {
+                if(_isPingEnable!=value)
+                {
+                    _isLastTrue=value;
+                    OnPropertyChanged("_isPingEnable");
+                }
+            }
+        }
         #endregion
 
         public DateTime ErrorReportTime

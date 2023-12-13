@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:NetworkWatchDog.littershell.ViewModel"
         xmlns:view="clr-namespace:NetworkWatchDog.littershell.View"
         mc:Ignorable="d" Icon="/Res/安防监控.png"
-        Title="NetworkWatchDog" Height="330" Width="680" WindowStartupLocation="CenterScreen"  Closing="Window_Closing"
+        Title="运维工具合集" Height="665" Width="900" WindowStartupLocation="CenterScreen"  Closing="Window_Closing"
         DataContext="{Binding Source={StaticResource Locator},Path=Main}" 
         >
     <Grid>
@@ -23,9 +23,9 @@
             <TabItem Header="ip监听">
                 <view:IpSniffer/>
             </TabItem>
-            <!--<TabItem Header="路由嗅探">
+            <TabItem Header="路由嗅探">
                 <view:MTRouter/>
-            </TabItem>-->
+            </TabItem>
             <!--TabItem Header="网页托管"/>
             <TabItem Header="定时控制"/>-->
         </TabControl>

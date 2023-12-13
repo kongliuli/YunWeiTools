@@ -8,6 +8,7 @@ using System.Windows.Input;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 
+using NetworkWatchDog.littershell.Model;
 using NetworkWatchDog.Shell.Model;
 
 namespace NetworkWatchDog.littershell.ViewModel
@@ -16,7 +17,7 @@ namespace NetworkWatchDog.littershell.ViewModel
     {
         private IpSnifferConfig? _ipsnifferconfig;
         private ReportConfig? _reportConfig;
-        static byte[] PING_BUFFER = new byte[] { 0 };
+        static byte[] PING_BUFFER = new byte[] { 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20 };
 
         static int g_nHops = 30;
         static int g_nTimeout = 3000;
@@ -38,8 +39,8 @@ namespace NetworkWatchDog.littershell.ViewModel
             }
         }
 
-        private ObservableCollection<string[]> taroutes = new ObservableCollection<string[]>();
-        public ObservableCollection<string[]> _taroutes
+        private ObservableCollection<TarouteModel> taroutes = new();
+        public ObservableCollection<TarouteModel> _taroutes
         {
             get => taroutes;
             set
@@ -77,10 +78,10 @@ namespace NetworkWatchDog.littershell.ViewModel
         }
         private void StartTracerouteButton_Click()
         {
-            taroutes=new ObservableCollection<string[]>();
+            taroutes=new();
             string szDomain = "www.baidu.com";
 
-            ICMP_PARAM param = new ICMP_PARAM();
+            ICMP_PARAM param = new();
             param.m_PingOptions=new PingOptions(1,false);
             if(!IPAddress.TryParse(szDomain,out param.m_IPAddress))
             {
@@ -124,16 +125,12 @@ namespace NetworkWatchDog.littershell.ViewModel
             _messagetext=($"{param.m_PingOptions.Ttl}:\t{((e.Reply.Status==IPStatus.TimedOut) ? "*" : nDeltaMS.ToString())} ms\t{e.Reply.Address}");
 
 
-            taroutes.Add(new string[]
+            taroutes.Add(new()
             {
-                param.m_PingOptions.Ttl.ToString(),
-                param.m_IPAddress.ToString(),
-                "",
-                "丢包率",
-                PING_BUFFER.Length.ToString(),
-                nDeltaMS.ToString()
+                ttl=param.m_PingOptions.Ttl,
+                IpAddress=param.m_IPAddress.ToString(),
+                nDeltaMs=nDeltaMS.ToString()
             });
-
 
             if(param.m_IPAddress.Equals(e.Reply.Address))
             {
