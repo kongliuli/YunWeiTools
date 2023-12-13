@@ -29,15 +29,16 @@
                 <DataTemplate>
                     <Border Margin="5" Padding="5" BorderBrush="Black" BorderThickness="1">
                         <TextBlock> 
-                            <Run Text="{Binding Ipconfig}"/> 
-                            <Run Text="{Binding IpName}"/>
+                            <Run Text="{Binding Ipconfig,Mode=TwoWay}"/> 
+                            <Run Text="{Binding IpName,Mode=TwoWay}"/>
+                            <Run Text="{Binding IsLastTrue,Mode=TwoWay}"/>
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Path=IsLastTrue}" Value="True">
+                                        <DataTrigger Binding="{Binding Path=IsLastTrue,Mode=TwoWay}" Value="True">
                                             <Setter Property="Foreground" Value="Green"/>
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding Path=IsLastTrue}" Value="false">
+                                        <DataTrigger Binding="{Binding Path=IsLastTrue,Mode=TwoWay}" Value="false">
                                             <Setter Property="Foreground" Value="Red"/>
                                         </DataTrigger>
                                     </Style.Triggers>
@@ -73,14 +74,14 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Button Grid.Row="2" Grid.Column="5" Command="{Binding ClearCommand}">清空</Button>
-            <Button Grid.Row="2" Grid.Column="4" Command="{Binding ReloadCommand}" >读取配置文件</Button>
+            <Button Grid.Row="2" Grid.Column="4" Command="{Binding ReloadCommand}">读取配置文件</Button>
             <CheckBox Grid.Row="2" Grid.ColumnSpan="2" IsChecked="{Binding IsAutoRefalsh}">
                 是否自动刷新
             </CheckBox>
             <CheckBox Grid.Row="1" Grid.ColumnSpan="2" IsChecked="{Binding IsAutoRefalsh}" Visibility="Hidden">
                 是否触发报警
             </CheckBox>
-            <Button Grid.Row="0" Grid.Column="5" Command="{Binding ReportCommand}" >触发一次报警</Button>
+            <!--<Button Grid.Row="0" Grid.Column="5" Command="{Binding ReportCommand}" >触发一次报警</Button>-->
         </Grid>
     </Grid>
 </UserControl>

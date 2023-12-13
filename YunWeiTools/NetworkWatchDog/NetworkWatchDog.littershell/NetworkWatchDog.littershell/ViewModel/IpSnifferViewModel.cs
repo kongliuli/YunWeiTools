@@ -217,6 +217,7 @@ namespace NetworkWatchDog.littershell.ViewModel
                 _reportConfig.reportRule.SecretInfo,
                 new DingTalkAtSetting() { IsAtAll=true });
 
+            //MessageBox.Show(md.MarkDown.text);
             md.IGetPostUri().SendMessageAsync();
         }
 

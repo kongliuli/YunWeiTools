@@ -80,7 +80,11 @@ namespace NetworkWatchDog.Shell.Model
             get => _isLastTrue;
             set
             {
-                SetProperty(ref _isLastTrue,value);
+                if(_isLastTrue!=value)
+                {
+                    _isLastTrue=value;
+                    OnPropertyChanged("IsLastTrue");
+                }
             }
         }
         #endregion
@@ -112,10 +116,8 @@ namespace NetworkWatchDog.Shell.Model
                 if(pr.Status==IPStatus.Success)
                 {
                     info.isSuccess=true;
-                    IsLastTrue=true;
                     if(pr.RoundtripTime>=timespan)
                     {
-                        IsLastTrue=false;
                         info.isSuccess=false;
                     }
                     message+=$": 字节={pr.Buffer.Length} 时间={pr.RoundtripTime}ms TTL={pr.Options?.Ttl}";
@@ -123,7 +125,6 @@ namespace NetworkWatchDog.Shell.Model
                 else
                 {
                     info.isSuccess=false;
-                    IsLastTrue=false;
                     message+=$" {pr.Status}";
                 }
             }
@@ -132,9 +133,15 @@ namespace NetworkWatchDog.Shell.Model
 
             return this.AddError(info.isSuccess);
         }
-
+        /// <summary>
+        /// 添加错误日志,并且规制错误日志数量
+        /// </summary>
+        /// <param name="issuccess">是否失败</param>
+        /// <param name="Min">限制错误日志有效时间</param>
+        /// <returns></returns>
         private IpGroup AddError(bool issuccess,int Min = 1)
         {
+            IsLastTrue=issuccess;
             DateTime Mintime = DateTime.Now.AddMinutes(-Min);
             if(!issuccess)
             {

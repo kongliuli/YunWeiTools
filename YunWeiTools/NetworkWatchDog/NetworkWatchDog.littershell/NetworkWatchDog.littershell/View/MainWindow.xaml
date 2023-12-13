@@ -20,18 +20,20 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <TabControl Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2">
-            <!--<TabItem Header="ip监听">
+            <TabItem Header="ip监听">
                 <view:IpSniffer/>
-            </TabItem>-->
-            <TabItem Header="路由嗅探">
-                <view:MTRouter/>
             </TabItem>
+            <!--<TabItem Header="路由嗅探">
+                <view:MTRouter/>
+            </TabItem>-->
             <!--TabItem Header="网页托管"/>
             <TabItem Header="定时控制"/>-->
         </TabControl>
         <Menu Grid.Row="0" Grid.ColumnSpan="2">
             <MenuItem Header="开始"/>
-            <MenuItem Header="设置"/>
+            <MenuItem Header="设置">
+                <MenuItem Header="重新读取配置文件" Command="{Binding RefalshCommand}"/>
+            </MenuItem>
             <MenuItem Header="工具"/>
             <MenuItem Header="帮助"/>
         </Menu>
