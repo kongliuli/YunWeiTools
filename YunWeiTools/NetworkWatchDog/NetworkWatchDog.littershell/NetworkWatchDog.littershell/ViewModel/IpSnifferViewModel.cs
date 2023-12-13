@@ -15,9 +15,19 @@ namespace NetworkWatchDog.littershell.ViewModel
 {
     public class IpSnifferViewModel:ObservableObject
     {
-        private IpSnifferConfig? _ipsnifferconfig;
-        private ReportConfig? _reportConfig;
+        public IpSnifferConfig IpSnifferConfig
+        {
+            get => _ipsnifferconfig;
+            set
+            {
+                SetProperty(ref _ipsnifferconfig,value);
+            }
+        }
+        private IpSnifferConfig _ipsnifferconfig;
+        private ReportConfig _reportConfig;
 
+        public bool isSnifferContiue = false;
+        public Thread SnifferDog;
         #region 初始化属性
         private ObservableCollection<IpGroup> _listiningIp = new();
         public ObservableCollection<IpGroup> ListiningIp
@@ -95,7 +105,21 @@ namespace NetworkWatchDog.littershell.ViewModel
         {
             get
             {
-                return new RelayCommand(SwichPing);
+                return new RelayCommand<object>(SwichPing);
+            }
+        }
+        public ICommand SelectAllIpGroup
+        {
+            get
+            {
+                return new RelayCommand(() => ChangeIpGroupSelect(false));
+            }
+        }
+        public ICommand UnSelectAllIpGroup
+        {
+            get
+            {
+                return new RelayCommand(() => ChangeIpGroupSelect(true));
             }
         }
         #endregion
@@ -104,9 +128,20 @@ namespace NetworkWatchDog.littershell.ViewModel
             SendReportToDingDing($"### 网络连通性报警\r\n>- 报警设备:无线ap-35-6\r\n>- IP地址:192.168.0.19\r\n>- 设备信息:913\r\n>- 设备位置:\r\n\r\n>- 报警内容:内网测试连通性发生多次异常\r\n>- 报警阈值:在一分钟内访问基准地址超过失败10次,失败标准为延迟超过100ms\r\n\r\n失败信息\r\n2023-12-08 14:36:29 192.168.0.19 DestinationHostUnreachable\r\n2023-12-08 14:36:33 192.168.0.19 DestinationHostUnreachable\r\n2023-12-08 14:36:37 192.168.0.19 DestinationHostUnreachable\r\n2023-12-08 14:36:41 192.168.0.19 DestinationHostUnreachable\r\n2023-12-08 14:36:45 192.168.0.19 DestinationHostUnreachable\r\n2023-12-08 14:36:49 192.168.0.19 DestinationHostUnreachable\r\n2023-12-08 14:36:53 192.168.0.19 DestinationHostUnreachable\r\n2023-12-08 14:36:57 192.168.0.19 DestinationHostUnreachable\r\n2023-12-08 14:37:01 192.168.0.19 DestinationHostUnreachable\r\n2023-12-08 14:37:05 192.168.0.19 DestinationHostUnreachable\r\n\r\n","测试报警");
         }
 
-        private void SwichPing()
+        private void SwichPing(object param)
         {
-
+            if(param is IpGroup)
+            {
+                var gr = (IpGroup)param;
+                if(gr.IsPingEnabled)
+                {
+                    ListiningIp.Add(gr);
+                }
+                else
+                {
+                    ListiningIp.Remove(ListiningIp.First(x => x.Ipconfig==gr.Ipconfig));
+                }
+            }
         }
         private void ClearClick()
         {
@@ -115,63 +150,88 @@ namespace NetworkWatchDog.littershell.ViewModel
         }
         private void ConfigInit()
         {
-            _ipsnifferconfig=ViewModelLocator._ipsnifferconfig;
-            _reportConfig=ViewModelLocator._reportConfig;
+            _ipsnifferconfig=ViewModelLocator._ipsnifferconfig??new();
+            _reportConfig=ViewModelLocator._reportConfig??new();
         }
         private void ClearCommand_CanExecuteChanged(object? sender,System.EventArgs e)
         {
             Info.Infos=new ObservableCollection<string>();
             ErrorInfo.Infos=new ObservableCollection<string>();
         }
+        private void ChangeIpGroupSelect(bool isSelect)
+        {
+            if(isSelect)
+            {
+                foreach(var i in _ipsnifferconfig.BaseSetting.NetworkGroup)
+                {
+                    i.IsPingEnabled=false;
+                }
+            }
+            else
+            {
+                foreach(var i in _ipsnifferconfig.BaseSetting.NetworkGroup)
+                {
+                    i.IsPingEnabled=true;
+                }
+            }
+            ReflashListenIp();
+        }
 
+        private void ReflashListenIp()
+        {
+            ListiningIp=new();
+            foreach(var ip in _ipsnifferconfig.BaseSetting.NetworkGroup.Where(x => x.IsPingEnabled))
+            {
+                ListiningIp.Add(ip);
+            }
+        }
         #region 核心方法
         /// <summary>
         /// 启动方法
         /// </summary>
         public void GetIpStart()
         {
-            pingConnecting();
-        }
-
-        private void pingConnecting()
-        {
-            foreach(var ipAddress in _ipsnifferconfig.BaseSetting.NetworkGroup.Where(ip => !ListiningIp.Contains(ip)))
+            ReflashListenIp();
+            if(!isSnifferContiue)
             {
-                ListiningIp.Add(ipAddress);
-                new Thread(() => Ping_PingCompleted(ipAddress.Ipconfig)).Start();
+                isSnifferContiue=true;
+                SnifferDog=new Thread(() => PingConnecting());
+                SnifferDog.Start();
             }
         }
 
-        private void Ping_PingCompleted(object ip)
+        private void PingConnecting()
         {
             while(true)
             {
-                string ipconfig = (string)ip;
-                IpGroup ipGroup = _ipsnifferconfig.BaseSetting.NetworkGroup.FindLast(x => x.Ipconfig==ipconfig);
-                if(ipGroup!=null)
+                foreach(var ipgroup in ListiningIp)
                 {
-                    Ping ping = new();
-
-                    try
-                    {
-                        PingReply reply = ping.SendPingAsync(ipGroup.Ipconfig,
-                             _ipsnifferconfig.BaseSetting.TimeOut-_ipsnifferconfig.BaseSetting.PingTimer).Result;
-
-                        UpdateUi(reply,ipGroup);
-                    }
-                    catch
-                    {
-
-                    }
-                    ping.Dispose();
-                    Thread.Sleep(_ipsnifferconfig.BaseSetting.PingTimer); // 等待1秒后再次执行ping命令
+                    new Thread(() => PingPingCompleted(ipgroup.Ipconfig)).Start();
                 }
-                else
-                {
-
-                }
+                Thread.Sleep(_ipsnifferconfig.BaseSetting.PingTimer); // 等待1秒后再次执行ping命令
             }
         }
+
+        private void PingPingCompleted(object ip)
+        {
+            IpGroup? ipGroup = _ipsnifferconfig.BaseSetting.NetworkGroup.FindLast(x => x.Ipconfig==(string)ip);
+            if(ipGroup!=null)
+            {
+                using Ping ping = new();
+
+                try
+                {
+                    UpdateUi(
+                        reply: ping.SendPingAsync(
+                            hostNameOrAddress: ipGroup.Ipconfig,
+                            timeout: _ipsnifferconfig.BaseSetting.TimeOut-_ipsnifferconfig.BaseSetting.PingTimer).Result,
+                        group: ipGroup);
+                }
+                catch { }
+                ping.Dispose();
+            }
+        }
+
         /// <summary>
         /// ui更新
         /// </summary>
@@ -180,7 +240,6 @@ namespace NetworkWatchDog.littershell.ViewModel
         private void UpdateUi(PingReply reply,IpGroup group)
         {
             int timespan = group.isintra ? _ipsnifferconfig.BaseSetting.IntranettripTime : _ipsnifferconfig.BaseSetting.ExternaltripTime;
-
             if(_reportConfig.errorReport.isReportError)
             {
                 group.GetReply(reply,timespan).TryReportMarkdown(out string reportvalue,_reportConfig.errorReport.ReportMinTimes,_reportConfig.errorReport.SkipTime);
@@ -192,7 +251,6 @@ namespace NetworkWatchDog.littershell.ViewModel
             }
 
             string showvalue = group.GetDoneInfo().ErrorReportContent;
-
             if(showvalue.Length>0)
             {
                 Info.ADDInfo(showvalue);
@@ -204,6 +262,7 @@ namespace NetworkWatchDog.littershell.ViewModel
             }
             Thread.Sleep(1);
         }
+
         /// <summary>
         /// 钉钉报警
         /// </summary>

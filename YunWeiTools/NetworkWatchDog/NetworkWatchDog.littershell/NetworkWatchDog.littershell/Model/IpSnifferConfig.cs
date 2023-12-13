@@ -83,13 +83,13 @@ namespace NetworkWatchDog.Shell.Model
                 if(_isLastTrue!=value)
                 {
                     _isLastTrue=value;
-                    OnPropertyChanged("IsLastTrue");
+                    OnPropertyChanged(nameof(IsLastTrue));
                 }
             }
         }
 
 
-        private bool _isPingEnable = false;
+        private bool _isPingEnable = true;
         public bool IsPingEnabled
         {
             get => _isPingEnable;
@@ -97,8 +97,8 @@ namespace NetworkWatchDog.Shell.Model
             {
                 if(_isPingEnable!=value)
                 {
-                    _isLastTrue=value;
-                    OnPropertyChanged("_isPingEnable");
+                    _isPingEnable=value;
+                    OnPropertyChanged(nameof(IsPingEnabled));
                 }
             }
         }
@@ -117,7 +117,6 @@ namespace NetworkWatchDog.Shell.Model
         {
             get; set;
         } = new();
-
         public IpGroup GetReply(PingReply pr,int timespan)
         {
             ErrorInfo info = new()
@@ -139,7 +138,6 @@ namespace NetworkWatchDog.Shell.Model
                 }
                 else
                 {
-                    info.isSuccess=false;
                     message+=$" {pr.Status}";
                 }
             }
@@ -208,8 +206,8 @@ namespace NetworkWatchDog.Shell.Model
 
         public ErrorInfo GetDoneInfo() => doneInfo;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)
+        public new event PropertyChangedEventHandler? PropertyChanged;
+        protected new void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this,new PropertyChangedEventArgs(propertyName));
         }
