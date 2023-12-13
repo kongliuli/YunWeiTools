@@ -141,6 +141,7 @@ namespace NetworkWatchDog.littershell.ViewModel
                 new Thread(() => Ping_PingCompleted(ipAddress.Ipconfig)).Start();
             }
         }
+
         private void Ping_PingCompleted(object ip)
         {
             while(true)
