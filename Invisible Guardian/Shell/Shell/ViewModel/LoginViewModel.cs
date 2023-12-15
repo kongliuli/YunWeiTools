@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 
+using Shell.Model;
 using Shell.View;
 
 namespace Shell.ViewModel
@@ -15,6 +16,8 @@ namespace Shell.ViewModel
         }
 
         #region 初始化字段
+
+        LoginUtil loginUtil = new LoginUtil();
         private string _password = string.Empty;
         public string Password
         {
@@ -53,6 +56,7 @@ namespace Shell.ViewModel
         }
         private void Login()
         {
+
             if(true)
             {
                 var a = new MainView();
