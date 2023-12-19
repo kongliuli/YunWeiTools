@@ -23,7 +23,9 @@
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Grid.Column="0" Text="选择账号:" 
                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <ComboBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Margin="10" ItemsSource="{Binding UserID}"/>
+        <ComboBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Margin="10" ItemsSource="{Binding LoginUtil.UserID}">
+            
+        </ComboBox>
         <TextBlock Grid.Row="1" Grid.Column="0" Text="输入密码:" 
                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
         <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Margin="10" Text="{Binding Password}"/>

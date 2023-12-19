@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34221.43
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_wpfmvvm", "Shell\Shell\_wpfmvvm.csproj", "{5128F80B-F1B3-4802-9B24-178F098A83EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AWCForm", "Form\AWCForm.csproj", "{C3D99EC0-32EE-4E5F-9D34-0DDDB7729850}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5128F80B-F1B3-4802-9B24-178F098A83EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5128F80B-F1B3-4802-9B24-178F098A83EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5128F80B-F1B3-4802-9B24-178F098A83EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5128F80B-F1B3-4802-9B24-178F098A83EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3D99EC0-32EE-4E5F-9D34-0DDDB7729850}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3D99EC0-32EE-4E5F-9D34-0DDDB7729850}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3D99EC0-32EE-4E5F-9D34-0DDDB7729850}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3D99EC0-32EE-4E5F-9D34-0DDDB7729850}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {62C18BAB-C391-4CD5-A227-9E74BF55A9FD}
+	EndGlobalSection
+EndGlobal

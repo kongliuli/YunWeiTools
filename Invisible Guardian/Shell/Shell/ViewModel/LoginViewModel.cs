@@ -11,13 +11,14 @@ namespace Shell.ViewModel
 {
     public class LoginViewModel:ObservableObject
     {
+        public LoginUtil LoginUtil = new();
         public LoginViewModel()
         {
+            UserID=LoginUtil.GetUserId().UserID;
         }
 
         #region 初始化字段
 
-        LoginUtil loginUtil = new LoginUtil();
         private string _password = string.Empty;
         public string Password
         {

@@ -21,29 +21,27 @@ namespace Shell.Model
         #region 属性
         public ObservableCollection<string> UserID
         {
-            get => _userid;
-            set
+            get => _userid; set
             {
-                SetProperty(ref _userid,value);
+                SetProperty(ref _userid,value,nameof(UserID));
             }
         }
 
         public ObservableCollection<string> IpAddress
         {
-            get => _ipAddress;
-            set
+            get => _ipAddress; set
             {
-                SetProperty(ref _ipAddress,value);
+                SetProperty(ref _ipAddress,value,nameof(IpAddress));
             }
         }
         public ObservableCollection<string> MacAddress
         {
-            get => _macAddress;
-            set
+            get => _macAddress; set
             {
-                SetProperty(ref _macAddress,value);
+                SetProperty(ref _macAddress,value,nameof(MacAddress));
             }
         }
+
         #endregion
 
         #region 方法
