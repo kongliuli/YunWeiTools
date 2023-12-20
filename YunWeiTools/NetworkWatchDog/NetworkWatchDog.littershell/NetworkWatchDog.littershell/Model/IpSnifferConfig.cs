@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Net.NetworkInformation;
 
@@ -14,13 +15,13 @@ namespace NetworkWatchDog.Shell.Model
             get; set;
         }
     }
-    public class BaseSetting
+    public class BaseSetting:ObservableObject
     {
         public int IntranettripTime
         {
             get; set;
         }
-        public List<IpGroup> NetworkGroup
+        public ObservableCollection<IpGroup> NetworkGroup
         {
             get; set;
         }
@@ -124,7 +125,7 @@ namespace NetworkWatchDog.Shell.Model
                 ErrorTime=DateTime.Now
             };
 
-            string message = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} {Ipconfig}";
+            string message = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} {Ipconfig} {IpName}";
             if(pr!=null)
             {
                 if(pr.Status==IPStatus.Success)

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Threading;
+using System.Windows;
 using System.Windows.Input;
 
 using DingTalkLib;
@@ -67,6 +68,16 @@ namespace NetworkWatchDog.littershell.ViewModel
                 SetProperty(ref _IsAutoRefalsh,value);
             }
         }
+
+        private string _addipcontent = "请输入ip";
+        public string AddIpContent
+        {
+            get => _addipcontent;
+            set
+            {
+                SetProperty(ref _addipcontent,value);
+            }
+        }
         #endregion
 
         public IpSnifferViewModel()
@@ -120,6 +131,13 @@ namespace NetworkWatchDog.littershell.ViewModel
             get
             {
                 return new RelayCommand(() => ChangeIpGroupSelect(true));
+            }
+        }
+        public ICommand AddIpInGroupCommand
+        {
+            get
+            {
+                return new RelayCommand(AddIpInGroup);
             }
         }
         #endregion
@@ -185,6 +203,27 @@ namespace NetworkWatchDog.littershell.ViewModel
                 ListiningIp.Add(ip);
             }
         }
+
+        private void AddIpInGroup()
+        {
+            if(!_ipsnifferconfig.BaseSetting.NetworkGroup.Any(x => x.Ipconfig==AddIpContent))
+            {
+                try
+                {
+                    using Ping p = new Ping();
+                    p.Send(AddIpContent);
+
+                    _ipsnifferconfig.BaseSetting.NetworkGroup.Add(new IpGroup() { Ipconfig=AddIpContent });
+                }
+                catch
+                {
+                    MessageBox.Show("ip格式不合法");
+                }
+            }
+
+
+
+        }
         #region 核心方法
         /// <summary>
         /// 启动方法
@@ -214,7 +253,7 @@ namespace NetworkWatchDog.littershell.ViewModel
 
         private void PingPingCompleted(object ip)
         {
-            IpGroup? ipGroup = _ipsnifferconfig.BaseSetting.NetworkGroup.FindLast(x => x.Ipconfig==(string)ip);
+            IpGroup? ipGroup = _ipsnifferconfig.BaseSetting.NetworkGroup.First(x => x.Ipconfig==(string)ip);
             if(ipGroup!=null)
             {
                 using Ping ping = new();
