@@ -17,7 +17,7 @@ namespace NetworkWatchDog.Shell.Model
         {
             string dirPath = $"{Path}/{time:yyyy}/{LogName}";
             string filename = $"{dirPath}/{time:MMdd}.log";
-            Log=Log+"\r\n";
+            Log+="\r\n";
             if(!Directory.Exists(dirPath))
             {
                 Directory.CreateDirectory(dirPath);
@@ -26,7 +26,7 @@ namespace NetworkWatchDog.Shell.Model
             {
                 File.Create(filename);
             }
-            File.WriteAllText(filename,Log);
+            File.WriteAllLines(filename,new string[] { Log });
         }
     }
 }

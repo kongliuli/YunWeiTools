@@ -51,25 +51,25 @@ namespace NetworkWatchDog.Shell.Model
         public string Ipconfig
         {
             get; set;
-        }
+        } = string.Empty;
         public bool isMachine
         {
             get; set;
-        }
+        } = false;
         public string IpName
         {
             get; set;
-        }
+        } = string.Empty;
 
         public string MachineInfo
         {
             get; set;
-        }
+        } = string.Empty;
 
         public string MachineLocation
         {
             get; set;
-        }
+        } = string.Empty;
 
         public bool isintra
         {
@@ -195,7 +195,7 @@ namespace NetworkWatchDog.Shell.Model
 ";
                 foreach(var info in this.infos)
                 {
-                    reportvalue+=$"{info.ErrorReportContent}\n";
+                    reportvalue+=$"{info.ErrorReportContent.GetContext()}\n";
                 }
 
                 ErrorReportTime=DateTime.Now;

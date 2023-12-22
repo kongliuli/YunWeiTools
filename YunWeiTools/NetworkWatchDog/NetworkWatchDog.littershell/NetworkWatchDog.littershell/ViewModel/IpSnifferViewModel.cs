@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Threading;
@@ -212,7 +213,7 @@ namespace NetworkWatchDog.littershell.ViewModel
                 {
                     using Ping p = new Ping();
                     p.Send(AddIpContent);
-
+                    p.Dispose();
                     _ipsnifferconfig.BaseSetting.NetworkGroup.Add(new IpGroup() { Ipconfig=AddIpContent });
                 }
                 catch
@@ -266,7 +267,10 @@ namespace NetworkWatchDog.littershell.ViewModel
                             timeout: _ipsnifferconfig.BaseSetting.TimeOut-_ipsnifferconfig.BaseSetting.PingTimer).Result,
                         group: ipGroup);
                 }
-                catch { }
+                catch(Exception e)
+                {
+                    LogManager.WriteLog(e.Message,"error");
+                }
                 ping.Dispose();
             }
         }
@@ -278,6 +282,11 @@ namespace NetworkWatchDog.littershell.ViewModel
         /// <param name="group"></param>
         private void UpdateUi(PingReply reply,IpGroup group)
         {
+            if(reply.Address.ToString()=="0.0.0.0")
+            {
+                return;
+            }
+
             int timespan = group.isintra ? _ipsnifferconfig.BaseSetting.IntranettripTime : _ipsnifferconfig.BaseSetting.ExternaltripTime;
             if(_reportConfig.errorReport.isReportError)
             {
