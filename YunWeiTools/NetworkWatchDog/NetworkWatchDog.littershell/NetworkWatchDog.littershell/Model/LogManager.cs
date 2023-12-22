@@ -26,7 +26,11 @@ namespace NetworkWatchDog.Shell.Model
             {
                 File.Create(filename);
             }
-            File.WriteAllLines(filename,new string[] { Log });
+
+            using(StreamWriter sw = File.AppendText(filename))
+            {
+                sw.WriteLine(Log);
+            }
         }
     }
 }

@@ -149,18 +149,27 @@ namespace NetworkWatchDog.littershell.ViewModel
 
         private void SwichPing(object param)
         {
-            if(param is IpGroup)
+            try
             {
-                var gr = (IpGroup)param;
-                if(gr.IsPingEnabled)
+                if(param is IpGroup gr)
                 {
-                    ListiningIp.Add(gr);
-                }
-                else
-                {
-                    ListiningIp.Remove(ListiningIp.First(x => x.Ipconfig==gr.Ipconfig));
+                    if(gr.IsPingEnabled)
+                    {
+                        ListiningIp.Add(gr);
+                    }
+                    else
+                    {
+                        var addingip = ListiningIp.FirstOrDefault(x => x.Ipconfig==gr.Ipconfig);
+                        if(addingip!=null)
+                            ListiningIp.Remove(addingip);
+                    }
                 }
             }
+            catch(Exception ex)
+            {
+                LogManager.WriteLog(ex.Message,"error");
+            }
+
         }
         private void ClearClick()
         {
@@ -211,19 +220,17 @@ namespace NetworkWatchDog.littershell.ViewModel
             {
                 try
                 {
-                    using Ping p = new Ping();
+                    using Ping p = new();
                     p.Send(AddIpContent);
                     p.Dispose();
                     _ipsnifferconfig.BaseSetting.NetworkGroup.Add(new IpGroup() { Ipconfig=AddIpContent });
+                    ReflashListenIp();
                 }
                 catch
                 {
                     MessageBox.Show("ip格式不合法");
                 }
             }
-
-
-
         }
         #region 核心方法
         /// <summary>
@@ -301,12 +308,16 @@ namespace NetworkWatchDog.littershell.ViewModel
             var showvalue = group.GetDoneInfo().ErrorReportContent;
             if(showvalue is not null)
             {
-                Info.ADDInfo(showvalue);
-                if(!group.GetDoneInfo().isSuccess)
+                System.Windows.Application.Current.Dispatcher.Invoke((Action)(() =>
                 {
-                    ErrorInfo.ADDInfo(showvalue);
-                    LogManager.WriteLog(showvalue.GetContext(),"IpSniffer");
-                }
+                    Info.ADDInfo(showvalue);
+                    if(!group.GetDoneInfo().isSuccess)
+                    {
+                        ErrorInfo.ADDInfo(showvalue);
+                        LogManager.WriteLog(showvalue.GetContext(),"IpSniffer");
+                    }
+                }));
+
             }
             Thread.Sleep(1);
         }

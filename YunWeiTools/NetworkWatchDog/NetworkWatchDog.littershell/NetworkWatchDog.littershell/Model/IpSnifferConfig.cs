@@ -183,13 +183,13 @@ namespace NetworkWatchDog.Shell.Model
             if(this.infos.Count>=reporttimes&&ErrorReportTime<DateTime.Now.AddMinutes(-timespan)&&isMachine)
             {
                 reportvalue=$@"### 网络连通性报警
->- 报警设备:无线ap-{IpName}
+>- 报警设备:无线ap:{IpName}
 >- IP地址:{Ipconfig}
 >- 设备信息:{MachineInfo}
 >- 设备位置:{MachineLocation}
 
 >- 报警内容:{(isintra ? "内网" : "外网")}测试连通性发生多次异常
->- 报警阈值:在一分钟内访问基准地址超过失败{reporttimes}次,失败标准为延迟超过{(isintra ? 100 : 150)}ms
+>- 报警阈值:在一分钟内访问IP地址失败超过{reporttimes}次,失败标准为延迟超过{(isintra ? 100 : 150)}ms
 
 失败信息
 ";
