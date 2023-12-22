@@ -285,7 +285,7 @@ namespace NetworkWatchDog.littershell.ViewModel
 
                 if(reportvalue!="")
                 {
-                    //SendReportToDingDing(reportvalue,"测试markdown");
+                    SendReportToDingDing(reportvalue,"测试markdown");
                 }
             }
 
@@ -322,8 +322,8 @@ namespace NetworkWatchDog.littershell.ViewModel
                 _reportConfig.reportRule.SecretInfo,
                 new DingTalkAtSetting() { IsAtAll=true });
 
-            //MessageBox.Show(md.MarkDown.text);
-            md.IGetPostUri().SendMessageAsync();
+            MessageBox.Show(md.MarkDown.text);
+            //md.IGetPostUri().SendMessageAsync();
         }
 
         #endregion
