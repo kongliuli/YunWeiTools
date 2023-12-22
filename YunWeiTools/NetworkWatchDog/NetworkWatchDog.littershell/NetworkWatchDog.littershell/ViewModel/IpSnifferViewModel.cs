@@ -173,8 +173,8 @@ namespace NetworkWatchDog.littershell.ViewModel
         }
         private void ClearCommand_CanExecuteChanged(object? sender,System.EventArgs e)
         {
-            Info.Infos=new ObservableCollection<string>();
-            ErrorInfo.Infos=new ObservableCollection<string>();
+            Info.Infos=new ObservableCollection<PingRelayInfo>();
+            ErrorInfo.Infos=new ObservableCollection<PingRelayInfo>();
         }
         private void ChangeIpGroupSelect(bool isSelect)
         {
@@ -289,14 +289,14 @@ namespace NetworkWatchDog.littershell.ViewModel
                 }
             }
 
-            string showvalue = group.GetDoneInfo().ErrorReportContent;
-            if(showvalue.Length>0)
+            var showvalue = group.GetDoneInfo().ErrorReportContent;
+            if(showvalue is not null)
             {
                 Info.ADDInfo(showvalue);
                 if(!group.GetDoneInfo().isSuccess)
                 {
                     ErrorInfo.ADDInfo(showvalue);
-                    LogManager.WriteLog(showvalue,"IpSniffer");
+                    LogManager.WriteLog(showvalue.GetContext(),"IpSniffer");
                 }
             }
             Thread.Sleep(1);

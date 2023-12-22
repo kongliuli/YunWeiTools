@@ -1,3 +1,5 @@
+using AWCForm.WebUsercontrols;
+
 using CefSharp;
 using CefSharp.WinForms;
 
@@ -11,35 +13,45 @@ namespace AWCForm
         {
             InitializeComponent();
 
-            WebbrowserInit();
-        }
-
-        private void WebbrowserInit()
-        {
-            CefSettings settings = new CefSettings
+            CefSettings settings = new()
             {
                 CachePath="C:\\Users\\HP\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\Default\\Cache"
             };
             Cef.Initialize(settings);
 
-            // 创建WebBrowser控件并指定使用Microsoft Edge浏览器内核
-            var webBrowser = new CefSharp.WinForms.ChromiumWebBrowser();
-            //webBrowser.LoadUrl("https://ie.icoa.cn/");
-            webBrowser.LoadUrl("https://account.aliyun.com/login/login.htm?oauth_callback=https%3A%2F%2Fusercenter2.aliyun.com%2Fri%2Fsummary%3Fspm%3D5176.9843921.content.12.62374882fJfxy9%26commodityCode%3D");
 
-
-            webBrowser.Dock=DockStyle.Fill;
-            webBrowser.LoadingStateChanged+=(sender,args) =>
-            {
-                if(args.IsLoading==false)
-                {
-                    // 页面加载完成
-                }
-            };
-            //login kujiang:YO@JQM!lsiS&ILo$
-
-
-            this.Controls.Add(webBrowser);
+            TabInit();
         }
+
+        private void TabInit()
+        {
+            //酷匠地平线加载5个阿里云aws界面 kujiang 花苼书城 花苼书城2 红豆书城1 红豆书城2
+            tabControl1.TabPages.Clear();
+            TabPage T1 = new()
+            {
+                Text="kujiang"
+            };
+            T1.Controls.Add(new alibabaWebControl("kujiang","YO@JQM!lsiS&ILo$") { Dock=DockStyle.Fill });
+            tabControl1.TabPages.Add(T1);
+            //TabPage T2 = new();
+            //T2.Text="花苼书城";
+            //T2.Controls.Add(new alibabaWebControl() { Dock=DockStyle.Fill });
+            //tabControl1.TabPages.Add(T2);
+            //TabPage T3 = new();
+            //T3.Text="花苼书城2";
+            //T3.Controls.Add(new alibabaWebControl() { Dock=DockStyle.Fill });
+            //tabControl1.TabPages.Add(T3);
+            //TabPage T4 = new();
+            //T4.Text="红豆书城1";
+            //T4.Controls.Add(new alibabaWebControl() { Dock=DockStyle.Fill });
+            //tabControl1.TabPages.Add(T4);
+            //TabPage T5 = new();
+            //T5.Text="红豆书城2";
+            //T5.Controls.Add(new alibabaWebControl() { Dock=DockStyle.Fill });
+            //tabControl1.TabPages.Add(T5);
+        }
+
+
+
     }
 }

@@ -8,9 +8,9 @@ namespace NetworkWatchDog.Shell.Model
 {
     public class StringStreamInfomation:INotifyPropertyChanged
     {
-        private ObservableCollection<string> _infos;
+        private ObservableCollection<PingRelayInfo> _infos;
 
-        public ObservableCollection<string> Infos
+        public ObservableCollection<PingRelayInfo> Infos
         {
             get => _infos;
             set
@@ -22,7 +22,7 @@ namespace NetworkWatchDog.Shell.Model
 
         public StringStreamInfomation()
         {
-            _infos=new ObservableCollection<string>();
+            _infos=new ObservableCollection<PingRelayInfo>();
         }
 
         public int Delete1234
@@ -34,13 +34,13 @@ namespace NetworkWatchDog.Shell.Model
             get; set;
         } = 100;
 
-        public void ADDInfo(string info)
+        public void ADDInfo(PingRelayInfo info)
         {
             if(Infos.Count>Delete1234)
             {
                 Infos.RemoveAt(0);
             }
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background,new Action<string>((x) => { Infos.Add(x); }),info);
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background,new Action<PingRelayInfo>((x) => { Infos.Add(x); }),info);
         }
 
 
@@ -49,5 +49,35 @@ namespace NetworkWatchDog.Shell.Model
         {
             PropertyChanged?.Invoke(this,new PropertyChangedEventArgs(propertyName));
         }
+    }
+    public class PingRelayInfo
+    {
+        public PingRelayInfo(string ip)
+        {
+            this.IPConfig=ip;
+        }
+        public string GetContext()
+        {
+            return $"{DateTime:yyyy-MM-dd HH:mm:ss}  {IPConfig}  {IPName} : {Infomation}";
+        }
+        public DateTime DateTime
+        {
+            get; set;
+        } = DateTime.Now;
+
+        public string IPName
+        {
+            get; set;
+        } = string.Empty;
+
+        public string IPConfig
+        {
+            get; set;
+        }
+
+        public string Infomation
+        {
+            get; set;
+        } = string.Empty;
     }
 }

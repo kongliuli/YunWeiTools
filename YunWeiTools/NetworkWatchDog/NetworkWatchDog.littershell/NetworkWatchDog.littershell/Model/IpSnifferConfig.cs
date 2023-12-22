@@ -125,7 +125,8 @@ namespace NetworkWatchDog.Shell.Model
                 ErrorTime=DateTime.Now
             };
 
-            string message = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} {Ipconfig} {IpName}";
+            PingRelayInfo msg = new(Ipconfig);
+            msg.IPName=IpName;
             if(pr!=null)
             {
                 if(pr.Status==IPStatus.Success)
@@ -135,14 +136,14 @@ namespace NetworkWatchDog.Shell.Model
                     {
                         info.isSuccess=false;
                     }
-                    message+=$": 字节={pr.Buffer.Length} 时间={pr.RoundtripTime}ms TTL={pr.Options?.Ttl}";
+                    msg.Infomation=$"字节={pr.Buffer.Length} 时间={pr.RoundtripTime}ms TTL={pr.Options?.Ttl}";
                 }
                 else
                 {
-                    message+=$" {pr.Status}";
+                    msg.Infomation=$" {pr.Status}";
                 }
             }
-            info.ErrorReportContent=message;
+            info.ErrorReportContent=msg;
             doneInfo=info;
 
             return this.AddError(info.isSuccess);
@@ -225,10 +226,10 @@ namespace NetworkWatchDog.Shell.Model
         {
             get; set;
         } = false;
-        public string ErrorReportContent
+        public PingRelayInfo ErrorReportContent
         {
             get; set;
-        } = "";
+        }
     }
 
 }

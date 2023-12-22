@@ -66,12 +66,30 @@
         </ItemsControl>
         <TabControl Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="3">
             <TabItem Header="实时消息">
-                <controls:ScrollingListView ItemsSource="{Binding Info.Infos,Mode=TwoWay}" AutoRefresh="{Binding IsAutoRefalsh}"
-                          Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Grid}}"/>
+                <controls:ScrollingListView ItemsSource="{Binding Info.Infos, Mode=TwoWay}" AutoRefresh="{Binding IsAutoRefalsh}"
+                    Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Grid}}">
+                    <controls:ScrollingListView.View>
+                        <GridView>
+                            <GridViewColumn Header="时间" DisplayMemberBinding="{Binding DateTime, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}" Width="140"/>
+                            <GridViewColumn Header="地址" DisplayMemberBinding="{Binding IPConfig}" Width="120"/>
+                            <GridViewColumn Header="别称" DisplayMemberBinding="{Binding IPName}" Width="80"/>
+                            <GridViewColumn Header="连接信息" DisplayMemberBinding="{Binding Infomation}" Width="300"/>
+                        </GridView>
+                    </controls:ScrollingListView.View>
+                </controls:ScrollingListView>
             </TabItem>
             <TabItem Header="错误信息">
-                <controls:ScrollingListView ItemsSource="{Binding ErrorInfo.Infos,Mode=TwoWay}" AutoRefresh="{Binding IsAutoRefalsh}"
-                          Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Grid}}"/>
+                <controls:ScrollingListView ItemsSource="{Binding ErrorInfo.Infos, Mode=TwoWay}" AutoRefresh="{Binding IsAutoRefalsh}"
+                    Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Grid}}">
+                    <controls:ScrollingListView.View>
+                        <GridView>
+                            <GridViewColumn Header="时间" DisplayMemberBinding="{Binding DateTime, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}" Width="140"/>
+                            <GridViewColumn Header="地址" DisplayMemberBinding="{Binding IPConfig}" Width="120"/>
+                            <GridViewColumn Header="别称" DisplayMemberBinding="{Binding IPName}" Width="80"/>
+                            <GridViewColumn Header="连接信息" DisplayMemberBinding="{Binding Infomation}" Width="300"/>
+                        </GridView>
+                    </controls:ScrollingListView.View>
+                </controls:ScrollingListView>
             </TabItem>
         </TabControl>
         <Grid Grid.Row="0" Grid.RowSpan="1" Grid.Column="1" Grid.ColumnSpan="3">
