@@ -118,6 +118,8 @@ namespace NetworkWatchDog.Shell.Model
         {
             get; set;
         } = new();
+
+        private string pingFormat = "字节={0} 时间={1}ms TTL={2}";
         public IpGroup GetReply(PingReply pr,int timespan)
         {
             ErrorInfo info = new()
@@ -125,8 +127,10 @@ namespace NetworkWatchDog.Shell.Model
                 ErrorTime=DateTime.Now
             };
 
-            PingRelayInfo msg = new(Ipconfig);
-            msg.IPName=IpName;
+            PingRelayInfo msg = new(Ipconfig)
+            {
+                IPName=IpName
+            };
             if(pr!=null)
             {
                 if(pr.Status==IPStatus.Success)
@@ -136,11 +140,18 @@ namespace NetworkWatchDog.Shell.Model
                     {
                         info.isSuccess=false;
                     }
-                    msg.Infomation=$"字节={pr.Buffer.Length} 时间={pr.RoundtripTime}ms TTL={pr.Options?.Ttl}";
+                    msg.Infomation=string.Format(pingFormat,pr.Buffer.Length,pr.RoundtripTime,pr.Options?.Ttl);
                 }
                 else
                 {
-                    msg.Infomation=$" {pr.Status}";
+                    if(pr.Status==IPStatus.DestinationHostUnreachable)
+                    {
+                        msg.Infomation=$"主机不可达";
+                    }
+                    else
+                    {
+                        msg.Infomation=$" {pr.Status}";
+                    }
                 }
             }
             info.ErrorReportContent=msg;
@@ -162,7 +173,14 @@ namespace NetworkWatchDog.Shell.Model
             {
                 infos.Add(doneInfo);
             }
-            infos.RemoveAll(x => x.ErrorTime<Mintime);
+            try
+            {
+                infos.RemoveAll(x => x.ErrorTime<Mintime);
+            }
+            catch
+            {
+
+            }
             return this;
         }
 
@@ -221,7 +239,7 @@ namespace NetworkWatchDog.Shell.Model
         public DateTime ErrorTime
         {
             get; set;
-        }
+        } = DateTime.Now;
         public bool isSuccess
         {
             get; set;

@@ -40,10 +40,10 @@
 
 	<ItemGroup>
 	  <None Update="Configuartions\IpSnifferConfig.json">
-	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="Configuartions\ReportConfig.json">
-	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="Res\安防监控.png">
 	    <Pack>True</Pack>

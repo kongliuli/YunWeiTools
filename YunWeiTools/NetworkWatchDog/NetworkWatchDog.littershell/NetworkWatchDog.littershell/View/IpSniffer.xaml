@@ -67,8 +67,14 @@
         </ItemsControl>
         <TabControl Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="3">
             <TabItem Header="实时消息">
-                <controls:ScrollingListView ItemsSource="{Binding Info.Infos, Mode=TwoWay}" AutoRefresh="{Binding IsAutoRefalsh}"
-                    Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Grid}}">
+                <controls:ScrollingListView ItemsSource="{Binding Info.Infos, Mode=TwoWay}"
+                            AutoRefresh="{Binding IsAutoRefalsh}"
+                            Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Grid}}">
+                    <controls:ScrollingListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </controls:ScrollingListView.ItemsPanel>
                     <controls:ScrollingListView.View>
                         <GridView>
                             <GridViewColumn Header="时间" DisplayMemberBinding="{Binding DateTime, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}" Width="140"/>
@@ -80,8 +86,14 @@
                 </controls:ScrollingListView>
             </TabItem>
             <TabItem Header="错误信息">
-                <controls:ScrollingListView ItemsSource="{Binding ErrorInfo.Infos, Mode=TwoWay}" AutoRefresh="{Binding IsAutoRefalsh}"
-                    Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Grid}}">
+                <controls:ScrollingListView ItemsSource="{Binding ErrorInfo.Infos, Mode=TwoWay}"
+            AutoRefresh="{Binding IsAutoRefalsh}"
+            Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Grid}}">
+                    <controls:ScrollingListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </controls:ScrollingListView.ItemsPanel>
                     <controls:ScrollingListView.View>
                         <GridView>
                             <GridViewColumn Header="时间" DisplayMemberBinding="{Binding DateTime, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}" Width="140"/>
@@ -111,8 +123,8 @@
             <Button Grid.Row="2" Grid.Column="4" Command="{Binding ReloadCommand}" Content="读取配置文件"/>
             <CheckBox Grid.Row="2" IsChecked="{Binding IsAutoRefalsh}" Content="是否自动刷新"
                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <CheckBox Grid.Row="1" IsChecked="{Binding IsAutoRefalsh}" Content="是否触发报警"
-                      Visibility="Hidden" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <!--<CheckBox Grid.Row="1" IsChecked="{Binding IsAutoRefalsh}" Content="是否触发报警"
+                      Visibility="Hidden" HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
             <!--<Button Grid.Row="1" Grid.Column="5" Command="{Binding ReportCommand}" Content="触发一次报警"/>-->
             <Button Grid.Row="0" Grid.Column="0" Command="{Binding SelectAllIpGroup}" Content="选中全部"/>
             <Button Grid.Row="1" Grid.Column="0" Command="{Binding UnSelectAllIpGroup}" Content="全部取消"/>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -25,7 +26,7 @@ namespace NetworkWatchDog.Shell.Model
             _infos=new ObservableCollection<PingRelayInfo>();
         }
 
-        public int Delete1234
+        public int InfoMaxLenth
         {
             get; set;
         } = 10000;
@@ -36,11 +37,21 @@ namespace NetworkWatchDog.Shell.Model
 
         public void ADDInfo(PingRelayInfo info)
         {
-            if(Infos.Count>Delete1234)
+            if(Infos.Count>InfoMaxLenth)
             {
-                Infos.RemoveAt(0);
+                var DeleteItem = this.Infos.Take(DeleteCount);
+                foreach(var item in DeleteItem)
+                {
+                    this.Infos.Remove(item);
+                }
             }
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background,new Action<PingRelayInfo>((x) => { Infos.Add(x); }),info);
+            Application.Current.Dispatcher.BeginInvoke(
+                DispatcherPriority.Background,
+                new Action<PingRelayInfo>((x) =>
+                    {
+                        Infos.Add(x);
+                    }),
+                info);
         }
 
 

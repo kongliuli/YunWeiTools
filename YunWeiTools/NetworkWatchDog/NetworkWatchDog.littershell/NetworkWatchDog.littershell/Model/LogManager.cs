@@ -10,25 +10,36 @@ namespace NetworkWatchDog.Shell.Model
         static LogManager()
         {
 
-
         }
 
         public static void WriteLog(string Log,string LogName = "info")
         {
             string dirPath = $"{Path}/{time:yyyy}/{LogName}";
             string filename = $"{dirPath}/{time:MMdd}.log";
-            Log+="\r\n";
+
             if(!Directory.Exists(dirPath))
             {
                 Directory.CreateDirectory(dirPath);
             }
-            if(!File.Exists(filename))
+
+            bool fileCreated = false;
+            FileStream fileStream = null;
+            try
             {
-                File.Create(filename);
+                if(!File.Exists(filename))
+                {
+                    fileStream=File.Create(filename);
+                    fileCreated=true;
+                }
+            }
+            finally
+            {
+                fileStream?.Close();
             }
 
-            using(StreamWriter sw = File.AppendText(filename))
+            if(fileCreated)
             {
+                using StreamWriter sw = File.AppendText(filename);
                 sw.WriteLine(Log);
             }
         }
