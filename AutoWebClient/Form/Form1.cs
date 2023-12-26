@@ -31,7 +31,7 @@ namespace AWCForm
             {
                 Text="kujiang"
             };
-            T1.Controls.Add(new alibabaWebControl("kujiang","YO@JQM!lsiS&ILo$") { Dock=DockStyle.Fill });
+            T1.Controls.Add(new alibabaWebControl("zh@kujiang.com","YO@JQM!lsiS&ILo$") { Dock=DockStyle.Fill });
             tabControl1.TabPages.Add(T1);
             //TabPage T2 = new();
             //T2.Text="ª®∆Å È≥«";
