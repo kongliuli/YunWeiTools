@@ -28,30 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            chromiumWebBrowser1=new CefSharp.WinForms.ChromiumWebBrowser();
             SuspendLayout();
-            // 
-            // chromiumWebBrowser1
-            // 
-            chromiumWebBrowser1.ActivateBrowserOnCreation=false;
-            chromiumWebBrowser1.Dock=DockStyle.Fill;
-            chromiumWebBrowser1.Location=new Point(0,0);
-            chromiumWebBrowser1.Name="chromiumWebBrowser1";
-            chromiumWebBrowser1.Size=new Size(1070,633);
-            chromiumWebBrowser1.TabIndex=0;
             // 
             // alibabaWebControl
             // 
             AutoScaleDimensions=new SizeF(7F,17F);
             AutoScaleMode=AutoScaleMode.Font;
-            Controls.Add(chromiumWebBrowser1);
             Name="alibabaWebControl";
             Size=new Size(1070,633);
             ResumeLayout(false);
         }
 
         #endregion
-
-        private CefSharp.WinForms.ChromiumWebBrowser chromiumWebBrowser1;
     }
 }

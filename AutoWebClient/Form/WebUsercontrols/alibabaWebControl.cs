@@ -1,5 +1,7 @@
-﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
+﻿using AWCForm.Model;
+using AWCForm.Utils;
+
+using CefSharp;
 
 namespace AWCForm.WebUsercontrols
 {
@@ -8,17 +10,19 @@ namespace AWCForm.WebUsercontrols
         private readonly string alibabaLoginUrl = "https://account.aliyun.com/login/login.htm?oauth_callback=https%3A%2F%2Fusercenter2.aliyun.com%2Fri%2Fsummary%3Fspm%3D5176.9843921.content.12.62374882fJfxy9%26commodityCode%3D";
         private string loginid = string.Empty;
         private string password = string.Empty;
+        WebBrowserByCefSharp browserByCefSharp = new WebBrowserByCefSharp();
         public alibabaWebControl(string id,string psd)
         {
             InitializeComponent();
             this.loginid=id;
             this.password=psd;
             this.Dock=DockStyle.Fill;
+            browserByCefSharp.Dock=DockStyle.Fill;
+            browserByCefSharp.Load(alibabaLoginUrl);
+            this.Controls.Add(browserByCefSharp);
 
-            //chromiumWebBrowser1.LoadUrl(alibabaLoginUrl);
-            //WebBrowserInit();
 
-            GrabUrlByKeyWord();
+            BrowserInit();
         }
         #region chromiumWebBrowser1
         //private void WebBrowserInit()
@@ -42,17 +46,7 @@ namespace AWCForm.WebUsercontrols
         //    passwordInput.value='"+password+@"';
         //}";
 
-        //    var FramesName = chromiumWebBrowser1.GetBrowser().GetFrameNames();
-        //    List<IFrame> Frames = new();
-        //    for(int i = 0;i<FramesName.Count;i++)
-        //    {
-        //        Frames.Add((IFrame?)chromiumWebBrowser1.GetBrowser().GetFrame(FramesName[i]));
-        //    }
 
-        //    foreach(var frame in Frames)
-        //    {
-        //        var response = await frame.EvaluateScriptAsync(script);
-        //        if(response.Result!=null)
         //        {
         //            string tag = "fm-btn";
         //            string script1 = "(function(){";
@@ -88,53 +82,54 @@ namespace AWCForm.WebUsercontrols
         //}
         #endregion
 
-        public void GrabUrlByKeyWord()
+
+        private void BrowserInit()
         {
-            ChromeOptions options = new ChromeOptions();
-            //创建chrome驱动程序
-            IWebDriver webDriver = new ChromeDriver(options);
-            //跳至百度
-            webDriver.Navigate().GoToUrl(alibabaLoginUrl);
-            //找到页面上的搜索框 输入关键字
-            webDriver.FindElement(By.Id("Account")).SendKeys(loginid);
-            webDriver.FindElement(By.Id("Password")).SendKeys(password);
-            //点击搜索按钮
-            webDriver.FindElement(By.Id("btnWebUser")).Click();
-
-            webDriver.Url=alibabaLoginUrl;
-
-            while(true)
+            browserByCefSharp.FrameLoadEnd+=(sender,args) =>
             {
-                var isHaveNext = DoNext(webDriver);
-
-                if(isHaveNext==false)
+                if(args.Frame.IsMain)
                 {
-                    break;
+                    Dosomething();
+                }
+            };
+            browserByCefSharp.ConsoleMessage+=(sender,e) =>
+            {
+                MessageBox.Show(e.Message);
+            };
+        }
+
+        private async void Dosomething()
+        {
+            #region Login
+            string writeidandpsd = @"var usernameInput = document.getElementById('fm-login-id');
+var passwordInput = document.getElementById('fm-login-password');
+if (usernameInput && passwordInput) {
+usernameInput.value = '"+loginid+@"';
+passwordInput.value='"
+            +password+@"';
+}";
+
+            var FramesName = browserByCefSharp.GetBrowser().GetFrameNames();
+            List<IFrame> Frames = new();
+            for(int i = 0;i<FramesName.Count;i++)
+            {
+                Frames.Add((IFrame?)browserByCefSharp.GetBrowser().GetFrame(FramesName[i]));
+            }
+
+            foreach(var frame in Frames)
+            {
+                var response = await frame.EvaluateScriptAsync(writeidandpsd);
+                if(response.Result!=null)
+                {
+                    var bc = WebbrowserUtil.GetBoundingClientRect(frame.Browser,".fm-button");
+                    if(bc!=null)
+                    {
+                        WebbrowserUtil.ClickElement(frame.Browser,bc.x,bc.y);
+                    }
                 }
             }
-            webDriver.Close();
-        }
-
-    }
-    [Serializable]
-    public class BoundingClientRect
-    {
-
-        public double? x
-        {
-            get; set;
-        }
-        public double? y
-        {
-            get; set;
-        }
-        public double? r
-        {
-            get; set;
-        }
-        public double? b
-        {
-            get; set;
+            #endregion
         }
     }
+
 }

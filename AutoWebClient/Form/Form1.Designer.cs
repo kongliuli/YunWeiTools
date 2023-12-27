@@ -38,10 +38,10 @@
             // 
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Dock=DockStyle.Right;
-            tabControl1.Location=new Point(395,0);
+            tabControl1.Location=new Point(87,0);
             tabControl1.Name="tabControl1";
             tabControl1.SelectedIndex=0;
-            tabControl1.Size=new Size(789,588);
+            tabControl1.Size=new Size(1097,588);
             tabControl1.TabIndex=0;
             // 
             // tabPage1
@@ -49,7 +49,7 @@
             tabPage1.Location=new Point(4,26);
             tabPage1.Name="tabPage1";
             tabPage1.Padding=new Padding(3);
-            tabPage1.Size=new Size(781,558);
+            tabPage1.Size=new Size(1089,558);
             tabPage1.TabIndex=0;
             tabPage1.Text="tabPage1";
             tabPage1.UseVisualStyleBackColor=true;
@@ -59,7 +59,7 @@
             panel1.Dock=DockStyle.Fill;
             panel1.Location=new Point(0,0);
             panel1.Name="panel1";
-            panel1.Size=new Size(395,588);
+            panel1.Size=new Size(87,588);
             panel1.TabIndex=1;
             // 
             // Form1
