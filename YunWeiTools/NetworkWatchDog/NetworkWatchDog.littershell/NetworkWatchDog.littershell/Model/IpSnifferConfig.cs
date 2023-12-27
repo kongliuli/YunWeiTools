@@ -205,15 +205,15 @@ namespace NetworkWatchDog.Shell.Model
 >- IP地址:{Ipconfig}
 >- 设备信息:{MachineInfo}
 >- 设备位置:{MachineLocation}
-
+ 
 >- 报警内容:{(isintra ? "内网" : "外网")}测试连通性发生多次异常
 >- 报警阈值:在一分钟内访问IP地址失败超过{reporttimes}次,失败标准为延迟超过{(isintra ? 100 : 150)}ms
-
+ 
 失败信息
-";
+ ";
                 foreach(var info in this.infos)
                 {
-                    reportvalue+=$"{info.ErrorReportContent.GetContext()}\n";
+                    reportvalue+=$"{info.ErrorReportContent.GetContext()}"+Environment.NewLine;
                 }
 
                 ErrorReportTime=DateTime.Now;

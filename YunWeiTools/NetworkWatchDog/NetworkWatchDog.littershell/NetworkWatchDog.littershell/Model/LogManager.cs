@@ -29,12 +29,12 @@ namespace NetworkWatchDog.Shell.Model
                 if(!File.Exists(filename))
                 {
                     fileStream=File.Create(filename);
-                    fileCreated=true;
                 }
             }
             finally
             {
                 fileStream?.Close();
+                fileCreated=true;
             }
 
             if(fileCreated)

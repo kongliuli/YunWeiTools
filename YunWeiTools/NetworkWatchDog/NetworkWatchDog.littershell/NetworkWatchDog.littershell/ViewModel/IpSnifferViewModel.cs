@@ -161,7 +161,7 @@ namespace NetworkWatchDog.littershell.ViewModel
             }
             catch(Exception ex)
             {
-                LogManager.WriteLog(ex.Message,"error");
+                LogManager.WriteLog(ex.Message,"switcherror");
             }
 
         }
@@ -294,6 +294,8 @@ namespace NetworkWatchDog.littershell.ViewModel
         {
             if(reply.Status!=IPStatus.Success)
             {
+                var log = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} -回溯地址:{reply.Address} -ip源头{group.Ipconfig} -通信状态{reply.Status}";
+                LogManager.WriteLog(log,"replyInfo");
                 if(reply.Address.ToString()=="0.0.0.0")
                 {
                     return;
@@ -314,7 +316,7 @@ namespace NetworkWatchDog.littershell.ViewModel
             var showvalue = group.GetDoneInfo().ErrorReportContent;
             if(showvalue is not null)
             {
-                System.Windows.Application.Current.Dispatcher.Invoke((Action)(() =>
+                Application.Current.Dispatcher.Invoke(() =>
                 {
                     Info.ADDInfo(showvalue);
                     if(!group.GetDoneInfo().isSuccess)
@@ -322,7 +324,7 @@ namespace NetworkWatchDog.littershell.ViewModel
                         ErrorInfo.ADDInfo(showvalue);
                         LogManager.WriteLog(showvalue.GetContext(),"IpSniffer");
                     }
-                }));
+                });
 
             }
             Thread.Sleep(1);
