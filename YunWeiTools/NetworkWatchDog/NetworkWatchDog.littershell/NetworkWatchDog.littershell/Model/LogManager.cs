@@ -22,26 +22,14 @@ namespace NetworkWatchDog.Shell.Model
                 Directory.CreateDirectory(dirPath);
             }
 
-            bool fileCreated = false;
-            FileStream fileStream = null;
             try
             {
-                if(!File.Exists(filename))
+                using(StreamWriter sw = new(filename,true))
                 {
-                    fileStream=File.Create(filename);
+                    sw.WriteLine(Log);
                 }
             }
-            finally
-            {
-                fileStream?.Close();
-                fileCreated=true;
-            }
-
-            if(fileCreated)
-            {
-                using StreamWriter sw = File.AppendText(filename);
-                sw.WriteLine(Log);
-            }
+            catch { }
         }
     }
 }
